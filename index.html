@@ -3,51 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Expediente Jurídico</title>
+    <title>Consulta de Expediente | Ejidoforma</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .bg-ejido { background-color: #002855; } /* */
+        .text-ejido { color: #002855; }
+        .accent-gold { border-color: #d4af37; } /*  */
+    </style>
 </head>
-<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-50 min-h-screen flex flex-col items-center p-0 md:p-4">
 
-    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full border-t-8 border-blue-600">
+    <nav class="w-full bg-white shadow-md p-4 mb-8 border-b-4 border-yellow-600">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <img src="logo.png" alt="Ejidoforma" class="h-14 md:h-16">
+            <div class="text-right">
+                <h2 class="text-ejido font-black text-lg md:text-xl uppercase">Ejidoforma</h2>
+                <p class="text-gray-400 text-[10px] tracking-widest uppercase">Servicio Jurídico</p>
+            </div>
+        </div>
+    </nav>
+
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full border border-slate-100 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 bg-ejido"></div>
+        
         <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-slate-800">Servicio Jurídico</h1>
-            <p class="text-slate-500 text-sm">Consulta el estado de tu expediente</p>
+            <h1 class="text-2xl font-bold text-slate-800">Consulta de Estado</h1>
+            <p class="text-slate-500 text-sm mt-2">Introduce tus datos para conocer el progreso de tu expediente</p>
         </div>
 
         <div class="space-y-4">
             <div>
-                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nº Expediente o Pasaporte</label>
-                <input type="text" id="userInput" placeholder="Ej: EXP-100" 
-                    class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Nº Expediente o Pasaporte</label>
+                <input type="text" id="userInput" placeholder="Ej: EXP-100 / P123456" 
+                    class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all uppercase font-bold text-center text-lg">
             </div>
             
             <button onclick="buscarExpediente()" id="btnMain"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-transform active:scale-95">
-                BUSCAR AHORA
+                class="w-full bg-ejido hover:bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                <i class="fas fa-search"></i> BUSCAR AHORA
             </button>
         </div>
 
-        <div id="loader" class="hidden mt-6 text-center text-blue-600 animate-pulse">Buscando en el sistema...</div>
+        <div id="loader" class="hidden mt-8 text-center text-blue-600">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
+            <p class="mt-2 text-sm font-medium">Conectando con el sistema...</p>
+        </div>
         
-        <div id="resultBox" class="hidden mt-8 p-6 rounded-xl border-2 transition-all">
-            <h2 class="text-sm text-slate-500 uppercase font-bold mb-2">Estado Actual:</h2>
-            <div id="statusText" class="text-2xl font-black italic"></div>
-            <div id="clientName" class="mt-2 text-slate-700 text-sm border-t pt-2"></div>
+        <div id="resultBox" class="hidden mt-8 p-6 rounded-2xl border-2 transition-all shadow-inner">
+            <h2 class="text-[10px] text-slate-400 uppercase font-black mb-3 tracking-widest">Estado Actual del Trámite:</h2>
+            <div id="statusText" class="text-3xl font-black uppercase mb-4"></div>
+            <div id="clientName" class="mt-2 text-slate-600 text-sm font-bold border-t pt-3 flex items-center gap-2">
+                <i class="fas fa-user-circle text-slate-400"></i>
+                <span id="namePlaceholder"></span>
+            </div>
         </div>
     </div>
 
+    <a href="https://wa.me/34621188515" target="_blank" 
+       class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all transform hover:scale-110 flex items-center justify-center z-50">
+        <i class="fab fa-whatsapp text-3xl"></i>
+        <span class="ml-2 font-bold hidden md:inline">¿Dudas? Escríbenos</span>
+    </a>
+
+    <footer class="mt-12 text-slate-400 text-[10px] uppercase tracking-widest p-4 text-center">
+        © 2024 Ejidoforma - Madrid, España
+    </footer>
+
     <script>
-// بدلي السطر ديال MI_API_URL وزيدي هاد اللعيبة فالاخير:
-        const MI_API_URL = "https://script.google.com/macros/s/AKfycbzi-egiSzkJKvQ6l8NMXJ8wOpEmoRj3qZT90_nhhzPTJ7bmo9FLcqKC2obQBra0cYM/exec?callback=1";
+        const MI_API_URL = "https://script.google.com/macros/s/AKfycbzi-egiSzkJKvQ6l8NMXJ8wOpEmoRj3qZT90_nhhzPTJ7bmo9FLcqKC2obQBra0cYM/exec";
+
         async function buscarExpediente() {
             const val = document.getElementById('userInput').value.trim().toUpperCase();
             const resultBox = document.getElementById('resultBox');
             const statusText = document.getElementById('statusText');
-            const clientName = document.getElementById('clientName');
+            const namePlaceholder = document.getElementById('namePlaceholder');
             const loader = document.getElementById('loader');
 
             if (!val) {
-                alert("Por favor, introduce tu número de expediente.");
+                alert("Por favor, introduce un dato válido.");
                 return;
             }
 
@@ -68,19 +102,19 @@
                 if (encontrado) {
                     resultBox.classList.remove('hidden');
                     statusText.innerText = encontrado.estado;
-                    clientName.innerHTML = `<b>Cliente:</b> ${encontrado.nombre}`;
+                    namePlaceholder.innerText = encontrado.nombre;
                     
-                    if(encontrado.estado.includes("TRAMITADO")) {
-                        resultBox.className = "mt-8 p-6 rounded-xl border-2 bg-green-50 border-green-200 text-green-700";
+                    if(encontrado.estado.includes("TRAMITADO") || encontrado.estado.includes("LISTO")) {
+                        resultBox.className = "mt-8 p-6 rounded-2xl border-2 bg-green-50 border-green-200 text-green-700 shadow-inner scale-105 transition-transform";
                     } else {
-                        resultBox.className = "mt-8 p-6 rounded-xl border-2 bg-blue-50 border-blue-200 text-blue-700";
+                        resultBox.className = "mt-8 p-6 rounded-2xl border-2 bg-blue-50 border-blue-200 text-blue-800 shadow-inner";
                     }
                 } else {
-                    alert("Lo sentimos, no encontramos ese expediente.");
+                    alert("Lo sentimos, no encontramos ese expediente en nuestra base de datos.");
                 }
             } catch (error) {
                 loader.classList.add('hidden');
-                alert("Error de conexión. Inténtalo de nuevo.");
+                alert("Error de conexión. Verifica tu internet.");
             }
         }
     </script>
