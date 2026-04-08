@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Expediente Jurídico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full border-t-8 border-blue-600">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-slate-800">Servicio Jurídico</h1>
+            <p class="text-slate-500 text-sm">Consulta el estado de tu expediente</p>
+        </div>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nº Expediente o Pasaporte</label>
+                <input type="text" id="userInput" placeholder="Ej: EXP-100" 
+                    class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+            </div>
+            
+            <button onclick="buscarExpediente()" id="btnMain"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-transform active:scale-95">
+                BUSCAR AHORA
+            </button>
+        </div>
+
+        <div id="loader" class="hidden mt-6 text-center text-blue-600 animate-pulse">Buscando en el sistema...</div>
+        
+        <div id="resultBox" class="hidden mt-8 p-6 rounded-xl border-2 transition-all">
+            <h2 class="text-sm text-slate-500 uppercase font-bold mb-2">Estado Actual:</h2>
+            <div id="statusText" class="text-2xl font-black italic"></div>
+            <div id="clientName" class="mt-2 text-slate-700 text-sm border-t pt-2"></div>
+        </div>
+    </div>
+
+    <script>
+// بدلي السطر ديال MI_API_URL وزيدي هاد اللعيبة فالاخير:
+        const MI_API_URL = "https://script.google.com/macros/s/AKfycbzi-egiSzkJKvQ6l8NMXJ8wOpEmoRj3qZT90_nhhzPTJ7bmo9FLcqKC2obQBra0cYM/exec?callback=1";
+        async function buscarExpediente() {
+            const val = document.getElementById('userInput').value.trim().toUpperCase();
+            const resultBox = document.getElementById('resultBox');
+            const statusText = document.getElementById('statusText');
+            const clientName = document.getElementById('clientName');
+            const loader = document.getElementById('loader');
+
+            if (!val) {
+                alert("Por favor, introduce tu número de expediente.");
+                return;
+            }
+
+            loader.classList.remove('hidden');
+            resultBox.classList.add('hidden');
+
+            try {
+                const response = await fetch(MI_API_URL);
+                const data = await response.json();
+                
+                const encontrado = data.find(item => 
+                    String(item.n_exp).toUpperCase() === val || 
+                    String(item.pasaporte).toUpperCase() === val
+                );
+
+                loader.classList.add('hidden');
+
+                if (encontrado) {
+                    resultBox.classList.remove('hidden');
+                    statusText.innerText = encontrado.estado;
+                    clientName.innerHTML = `<b>Cliente:</b> ${encontrado.nombre}`;
+                    
+                    if(encontrado.estado.includes("TRAMITADO")) {
+                        resultBox.className = "mt-8 p-6 rounded-xl border-2 bg-green-50 border-green-200 text-green-700";
+                    } else {
+                        resultBox.className = "mt-8 p-6 rounded-xl border-2 bg-blue-50 border-blue-200 text-blue-700";
+                    }
+                } else {
+                    alert("Lo sentimos, no encontramos ese expediente.");
+                }
+            } catch (error) {
+                loader.classList.add('hidden');
+                alert("Error de conexión. Inténtalo de nuevo.");
+            }
+        }
+    </script>
+</body>
+</html>
