@@ -3,81 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Jurídico | Ejidoforma</title>
+    <title>Lexilias Jurídicos | Estado de Expediente</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .bg-ejido { background-color: #002855; }
-        .text-ejido { color: #002855; }
-        @keyframes pulse-red {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-        .animate-incident { animation: pulse-red 2s infinite; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
         
-        /* Estilo para el botón de WhatsApp */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25d366;
-            color: white;
-            border-radius: 50px;
-            padding: 12px 20px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: flex;
-            items-center: center;
-            gap: 8px;
-            transition: transform 0.3s;
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        
+        .bg-lexilias-dark { background-color: #000000; }
+        .border-gold { border-color: #d4af37; } /* Un toque dorado sutil para elegancia */
+
+        @keyframes pulse-red-neon {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); transform: scale(1); }
+            70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); transform: scale(1.05); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); transform: scale(1); }
         }
-        .whatsapp-btn:hover { transform: scale(1.1); color: white; }
+        .incident-active { animation: pulse-red-neon 2s infinite; background-color: #ef4444 !important; border-color: #f87171 !important; }
+
+        .whatsapp-float {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #25d366; color: white;
+            padding: 15px 25px; border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+            z-index: 1000; text-decoration: none;
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 900; font-size: 14px; transition: 0.3s;
+        }
+        .whatsapp-float:hover { transform: translateY(-5px); filter: brightness(1.1); }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans">
+<body class="min-h-screen">
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn" target="_blank">
-        <i class="fab fa-whatsapp text-xl"></i>
-        <span>¿Ayuda?</span>
+    <a href="https://wa.me/34621188515" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp text-2xl"></i>
+        <span>CONTACTAR LETRADO</span>
     </a>
 
-    <nav class="bg-white shadow-md border-b-4 border-yellow-600 p-4 mb-6 text-center">
-        <img src="Logo.png" alt="Logo" class="h-14 mx-auto mb-1">
-        <p class="text-[10px] font-black text-ejido uppercase tracking-[0.3em]">Servicio Jurídico</p>
-    </nav>
+    <header class="bg-lexilias-dark py-10 px-4 text-center shadow-2xl">
+        <img src="Logo.png" alt="Lexilias" class="h-28 mx-auto mb-4 drop-shadow-2xl">
+        <div class="h-1 w-20 bg-white mx-auto rounded-full mb-2"></div>
+        <p class="text-white text-[10px] tracking-[0.5em] font-light uppercase opacity-70">Excelencia en Gestión Jurídica</p>
+    </header>
 
-    <div class="max-w-md mx-auto p-4">
-        <div class="bg-white rounded-[2rem] p-8 shadow-xl border border-slate-100 mb-8">
-            <h1 class="text-center font-black text-slate-800 mb-6 uppercase tracking-tight text-sm">Estado del Expediente</h1>
-            <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" 
-                class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-center font-bold text-xl uppercase outline-none focus:border-blue-500 transition-all mb-4">
-            <button onclick="buscarExpediente()" class="w-full bg-ejido text-white font-black py-4 rounded-2xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3">
-                <i class="fas fa-search"></i> CONSULTAR
+    <div class="max-w-md mx-auto px-6 -mt-10 pb-20">
+        
+        <div class="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-slate-100">
+            <div class="text-center mb-6">
+                <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Área de Clientes</span>
+                <h2 class="text-xl font-black text-slate-800 tracking-tight">CONSULTA TU ESTADO</h2>
+            </div>
+            <div class="relative mb-4">
+                <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"></i>
+                <input type="text" id="userInput" placeholder="EXP-000 O PASAPORTE" 
+                    class="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-3xl font-black text-slate-700 text-lg uppercase outline-none focus:border-black transition-all">
+            </div>
+            <button onclick="buscarExpediente()" class="w-full bg-lexilias-dark text-white font-black py-5 rounded-3xl shadow-xl hover:bg-slate-800 transition-all active:scale-95">
+                BUSCAR EXPEDIENTE
             </button>
         </div>
 
-        <div id="resultBox" class="hidden space-y-6">
-            <div class="bg-ejido text-white p-6 rounded-[2rem] shadow-2xl relative overflow-hidden">
+        <div id="resultBox" class="hidden mt-10 space-y-8">
+            
+            <div class="bg-lexilias-dark p-8 rounded-[3rem] shadow-2xl relative overflow-hidden">
                 <div class="relative z-10">
-                    <h3 id="clientName" class="text-2xl font-black uppercase italic"></h3>
-                    <p id="expDetail" class="text-blue-300 text-xs font-bold tracking-widest mt-1"></p>
+                    <span class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Titular del Expediente</span>
+                    <h3 id="clientName" class="text-3xl font-black text-white uppercase italic leading-none mt-2"></h3>
+                    <p id="expDetail" class="text-blue-400 text-xs font-bold mt-4 tracking-tighter"></p>
                 </div>
+                <i class="fas fa-balance-scale absolute -bottom-8 -right-8 text-[12rem] text-white opacity-5"></i>
             </div>
 
-            <div class="bg-white p-6 rounded-[2rem] shadow-lg border border-slate-100">
-                <h4 class="font-black text-slate-400 text-[10px] mb-6 uppercase tracking-widest italic">Documentación Básica</h4>
-                <div id="docList" class="space-y-5"></div>
+            <div class="bg-white p-8 rounded-[3rem] shadow-xl border border-slate-100">
+                <div class="flex items-center gap-3 mb-8">
+                    <i class="fas fa-shield-check text-lexilias-dark text-xl"></i>
+                    <h4 class="font-black text-slate-800 text-xs uppercase tracking-widest">Documentación y Tasas</h4>
+                </div>
+                <div id="docList" class="space-y-6"></div>
             </div>
 
-            <div id="apCard" class="bg-white p-6 rounded-[2rem] shadow-lg border-2 transition-colors duration-500">
-                <h4 class="font-black text-slate-400 text-[10px] mb-6 uppercase tracking-widest italic">Fase Antecedentes Penales</h4>
-                <div id="timelineAP" class="space-y-6 relative before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100"></div>
+            <div id="apCard" class="bg-white p-8 rounded-[3rem] shadow-xl border-2 transition-all duration-700">
+                <div class="flex items-center gap-3 mb-10">
+                    <i class="fas fa-gavel text-lexilias-dark text-xl"></i>
+                    <h4 class="font-black text-slate-800 text-xs uppercase tracking-widest">Seguimiento de Antecedentes</h4>
+                </div>
+                <div id="timelineAP" class="space-y-10 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-1 before:bg-slate-100">
+                    </div>
             </div>
 
-            <div id="notasBox" class="p-6 bg-slate-100 rounded-[2rem] border border-slate-200 text-sm italic text-slate-600">
-                <div id="notasText"></div>
+            <div class="bg-slate-900 p-8 rounded-[3rem] shadow-xl relative text-white">
+                <i class="fas fa-quote-right absolute top-6 right-8 text-4xl opacity-20"></i>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Notas del Letrado</p>
+                <div id="notasText" class="text-sm italic leading-relaxed font-light text-slate-200"></div>
             </div>
         </div>
     </div>
@@ -93,30 +110,30 @@
                 const response = await fetch(MI_API_URL);
                 const data = await response.json();
                 const item = data.find(i => String(i.n_exp).trim().toUpperCase() === val || String(i.pasaporte).trim().toUpperCase() === val);
-                if (item) { renderizar(item); } else { alert("No encontrado"); }
-            } catch (e) { alert("Error de conexión"); }
+                if (item) { renderizar(item); } else { alert("Expediente no encontrado."); }
+            } catch (e) { alert("Error de servidor."); }
         }
 
         function renderizar(item) {
             document.getElementById('resultBox').classList.remove('hidden');
             document.getElementById('clientName').innerText = item.nombre;
-            document.getElementById('expDetail').innerText = "EXPEDIENTE: " + item.n_exp;
-            document.getElementById('notasText').innerHTML = "<strong>Obs:</strong> " + (item.notas || "En trámite");
+            document.getElementById('expDetail').innerText = "EXP: " + item.n_exp;
+            document.getElementById('notasText').innerHTML = item.notas || "Su proceso se encuentra bajo revisión jurídica estándar.";
 
             const docs = [
                 { t: "Pasaporte", v: item.pasaporte, ok: String(item.pasaporte).trim().toUpperCase() === "ESCANEADO" },
-                { t: "Contratos de Trabajo", v: item.contratos, ok: String(item.contratos).trim().toUpperCase() === "TIENE" },
-                { t: "Pago de Tasa AP", v: item.pagado_ap, ok: String(item.pagado_ap).trim().toUpperCase() === "PAGADO" }
+                { t: "Contrato Laboral", v: item.contratos, ok: String(item.contratos).trim().toUpperCase() === "TIENE" },
+                { t: "Tasas AP", v: item.pagado_ap, ok: String(item.pagado_ap).trim().toUpperCase() === "PAGADO" }
             ];
 
             document.getElementById('docList').innerHTML = docs.map(d => `
-                <div class="flex items-center gap-4">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 ${d.ok ? 'bg-green-500 border-green-500 text-white' : 'bg-red-50 border-red-100 text-red-400'}">
-                        <i class="fas ${d.ok ? 'fa-check' : 'fa-times'} text-[10px]"></i>
+                <div class="flex items-center gap-5">
+                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center border-2 ${d.ok ? 'bg-green-500 border-green-500 text-white shadow-lg shadow-green-100' : 'bg-red-50 border-red-100 text-red-500'}">
+                        <i class="fas ${d.ok ? 'fa-check' : 'fa-xmark'}"></i>
                     </div>
                     <div>
-                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">${d.t}</p>
-                        <p class="text-xs font-black ${d.ok ? 'text-green-600' : 'text-red-500'} uppercase">${d.v}</p>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">${d.t}</p>
+                        <p class="text-sm font-black ${d.ok ? 'text-green-700' : 'text-red-600'} uppercase">${d.v}</p>
                     </div>
                 </div>
             `).join('');
@@ -126,31 +143,33 @@
             const apCard = document.getElementById('apCard');
 
             if (estadoActual === "INCIDENCIA") {
-                apCard.classList.add('border-red-500', 'bg-red-50/30');
+                apCard.classList.add('border-red-500', 'bg-red-50');
             } else {
-                apCard.classList.remove('border-red-500', 'bg-red-50/30');
+                apCard.classList.remove('border-red-500', 'bg-red-50');
                 apCard.classList.add('border-slate-100');
             }
 
             document.getElementById('timelineAP').innerHTML = PASOS_AP.map((paso, i) => {
-                const completado = i < indexActual;
-                const esElActual = i === indexActual;
-                const esIncidencia = paso === "INCIDENCIA" && esElActual;
+                const esPasado = i < indexActual;
+                const esActual = i === indexActual;
+                const esIncidencia = paso === "INCIDENCIA" && esActual;
 
-                let puntoColor = "bg-slate-200";
-                if (completado) puntoColor = "bg-green-500";
-                if (esElActual) puntoColor = "bg-green-600";
-                if (esIncidencia) puntoColor = "bg-red-600 animate-incident";
+                let color = "bg-slate-200 text-white";
+                if (esPasado) color = "bg-green-500 text-white shadow-lg shadow-green-100";
+                if (esActual) color = "bg-black text-white shadow-xl scale-110";
+                if (esIncidencia) color = "incident-active text-white";
 
                 return `
-                    <div class="flex items-center gap-5 relative">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center z-10 border-4 border-white ${puntoColor} text-white">
-                            <i class="fas ${esIncidencia ? 'fa-exclamation-triangle' : (completado || esElActual ? 'fa-check' : 'fa-circle')} text-[10px]"></i>
+                    <div class="flex items-center gap-6 relative">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border-4 border-white ${color} transition-all duration-500">
+                            <i class="fas ${esIncidencia ? 'fa-triangle-exclamation' : (esPasado || esActual ? 'fa-check' : 'fa-circle')} text-[12px]"></i>
                         </div>
-                        <span class="text-[10px] font-black uppercase ${esIncidencia ? 'text-red-600' : (esElActual ? 'text-green-700' : 'text-slate-300')}">${paso}</span>
+                        <span class="text-[11px] font-black uppercase tracking-tight ${esIncidencia ? 'text-red-600' : (esActual ? 'text-black' : 'text-slate-300')}">${paso}</span>
                     </div>
                 `;
             }).join('');
+            
+            window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 30, behavior: 'smooth' });
         }
     </script>
 </body>
