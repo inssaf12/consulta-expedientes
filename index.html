@@ -2,8 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lexilias Jurídicos | Área Privada</title>
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -13,12 +16,12 @@
             font-family: 'Montserrat', sans-serif; 
             background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
             color: #fff;
-            min-height: screen;
+            min-height: 100-screen;
+            margin: 0;
         }
 
         .font-cinzel { font-family: 'Cinzel', serif; }
 
-        /* Efecto de cristal esmerilado */
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
@@ -26,76 +29,87 @@
             border-radius: 2rem;
         }
 
-        /* Animación Neón para Incidencias */
+        /* أنيماسيون للحالات المستعجلة */
         @keyframes neon-pulse {
-            0% { box-shadow: 0 0 5px #ff4444, inset 0 0 5px #ff4444; transform: scale(1); }
-            50% { box-shadow: 0 0 20px #ff4444, inset 0 0 10px #ff4444; transform: scale(1.05); }
-            100% { box-shadow: 0 0 5px #ff4444, inset 0 0 5px #ff4444; transform: scale(1); }
+            0% { box-shadow: 0 0 5px #ff4444; transform: scale(1); }
+            50% { box-shadow: 0 0 15px #ff4444; transform: scale(1.02); }
+            100% { box-shadow: 0 0 5px #ff4444; transform: scale(1); }
         }
-        .status-incident { animation: neon-pulse 1.5s infinite; background: #7f1d1d !important; color: #fca5a5 !important; }
+        .status-incident { animation: neon-pulse 1.5s infinite; background: #450a0a !important; color: #fca5a5 !important; border: 1px solid #ef4444 !important; }
 
+        /* زر واتساب المطور للموبايل */
         .whatsapp-lux {
-            position: fixed; bottom: 30px; right: 30px;
+            position: fixed; bottom: 25px; right: 20px;
             background: #25d366; color: white;
-            padding: 16px 28px; border-radius: 100px;
-            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.4);
+            padding: 12px 24px; border-radius: 100px;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
             z-index: 1000; text-decoration: none;
-            display: flex; align-items: center; gap: 12px;
-            font-weight: 900; font-size: 14px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 900; font-size: 12px; transition: 0.4s;
         }
-        .whatsapp-lux:hover { transform: scale(1.1) translateY(-5px); }
+        
+        @media (max-width: 400px) {
+            .whatsapp-lux span { display: none; }
+            .whatsapp-lux { padding: 15px; border-radius: 50%; }
+        }
 
-        input::placeholder { color: rgba(255,255,255,0.3); }
+        input::placeholder { color: rgba(255,255,255,0.2); }
+        
+        /* لودر البحث */
+        .spinner { display: none; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #fff; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="pb-20">
+<body class="pb-32">
 
     <a href="https://wa.me/34621188515" class="whatsapp-lux" target="_blank">
-        <i class="fab fa-whatsapp text-2xl"></i>
+        <i class="fab fa-whatsapp text-xl"></i>
         <span>HABLAR CON LETRADO</span>
     </a>
 
-    <header class="py-12 px-6 text-center">
-        <img src="Logo.png" alt="Lexilias" class="h-32 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+    <header class="py-10 px-6 text-center">
+        <img src="Logo.png" alt="Lexilias" class="h-24 mx-auto mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
         <h1 class="font-cinzel text-2xl tracking-[0.3em] text-white">LEXILIAS</h1>
-        <p class="text-[10px] tracking-[0.6em] text-slate-400 uppercase mt-2">JURÍDICOS</p>
+        <p class="text-[9px] tracking-[0.6em] text-slate-400 uppercase mt-2">JURÍDICOS</p>
     </header>
 
     <div class="max-w-md mx-auto px-6">
         
-        <div class="glass-card p-8 mb-10 shadow-2xl border-t border-white/20">
-            <h2 class="text-center text-[10px] font-black tracking-[0.3em] text-slate-400 mb-6 uppercase">Consulta de Expedientes</h2>
+        <div class="glass-card p-8 mb-8 shadow-2xl border-t border-white/10">
+            <h2 class="text-center text-[9px] font-black tracking-[0.3em] text-slate-500 mb-6 uppercase">Área de Seguimiento</h2>
             <div class="space-y-4">
-                <input type="text" id="userInput" placeholder="EXP-000 O PASAPORTE" 
-                    class="w-full px-6 py-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-white text-center text-xl uppercase outline-none focus:border-white/40 transition-all">
-                <button onclick="buscarExpediente()" class="w-full bg-white text-black font-black py-5 rounded-2xl shadow-xl hover:bg-slate-200 transition-all active:scale-95 uppercase tracking-widest text-sm">
-                    Verificar Estado
+                <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" 
+                    class="w-full px-4 py-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-white text-center text-lg uppercase outline-none focus:border-white/30 transition-all">
+                
+                <button onclick="buscarExpediente()" id="btnSearch" class="w-full bg-white text-black font-black py-5 rounded-2xl shadow-xl hover:bg-slate-100 transition-all active:scale-95 uppercase tracking-widest text-xs flex justify-center items-center">
+                    <span id="btnText">Verificar Estado</span>
+                    <div id="loader" class="spinner"></div>
                 </button>
             </div>
         </div>
 
         <div id="resultBox" class="hidden space-y-8 animate-fade-in">
             
-            <div class="relative p-1 bg-gradient-to-r from-slate-700 via-white to-slate-700 rounded-[2.5rem]">
-                <div class="bg-black rounded-[2.4rem] p-8">
-                    <span class="text-blue-400 text-[9px] font-black uppercase tracking-widest">Cliente Verificado</span>
-                    <h3 id="clientName" class="text-3xl font-black text-white uppercase italic leading-tight mt-1"></h3>
-                    <p id="expDetail" class="text-slate-500 text-[10px] font-bold mt-2 tracking-[0.2em]"></p>
+            <div class="relative p-[1px] bg-gradient-to-r from-slate-800 via-white/40 to-slate-800 rounded-[2.5rem]">
+                <div class="bg-black rounded-[2.4rem] p-7">
+                    <span class="text-blue-400 text-[8px] font-black uppercase tracking-widest">Expediente Localizado</span>
+                    <h3 id="clientName" class="text-2xl font-black text-white uppercase italic leading-tight mt-1"></h3>
+                    <p id="expDetail" class="text-slate-500 text-[9px] font-bold mt-2 tracking-[0.2em]"></p>
                 </div>
             </div>
 
             <div class="glass-card p-8">
-                <h4 class="font-black text-white text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/10 pb-4">Documentación Obligatoria</h4>
+                <h4 class="font-black text-white text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4">Documentación</h4>
                 <div id="docList" class="space-y-6"></div>
             </div>
 
             <div id="apCard" class="glass-card p-8 transition-all duration-700">
-                <h4 class="font-black text-white text-[10px] mb-10 uppercase tracking-[0.3em] border-b border-white/10 pb-4">Evolución Antecedentes</h4>
-                <div id="timelineAP" class="space-y-10 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[1px] before:bg-white/10"></div>
+                <h4 class="font-black text-white text-[10px] mb-10 uppercase tracking-[0.3em] border-b border-white/5 pb-4">Estado del Trámite</h4>
+                <div id="timelineAP" class="space-y-8 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[1px] before:bg-white/5"></div>
             </div>
 
-            <div class="bg-white/5 border border-white/10 p-8 rounded-[2.5rem] italic">
-                <p class="text-[9px] font-black text-slate-500 uppercase mb-3 tracking-widest italic">Observaciones del Bufete</p>
+            <div class="bg-white/5 border border-white/10 p-8 rounded-[2rem] italic">
+                <p class="text-[8px] font-black text-slate-500 uppercase mb-3 tracking-widest">Notas del Abogado</p>
                 <div id="notasText" class="text-sm text-slate-300 leading-relaxed"></div>
             </div>
         </div>
@@ -107,64 +121,100 @@
 
         async function buscarExpediente() {
             const val = document.getElementById('userInput').value.trim().toUpperCase();
+            const btnText = document.getElementById('btnText');
+            const loader = document.getElementById('loader');
+            
             if(!val) return;
+
+            // Start Loading
+            btnText.classList.add('hidden');
+            loader.style.display = 'block';
+
             try {
                 const response = await fetch(MI_API_URL);
                 const data = await response.json();
                 const item = data.find(i => String(i.n_exp).trim().toUpperCase() === val || String(i.pasaporte).trim().toUpperCase() === val);
-                if (item) { renderizar(item); } else { alert("No se encuentra el registro."); }
-            } catch (e) { alert("Error de acceso."); }
+                
+                if (item) { 
+                    renderizar(item); 
+                } else { 
+                    alert("Expediente no encontrado. Verifique los datos."); 
+                }
+            } catch (e) { 
+                alert("Error de conexión con la base de datos."); 
+            } finally {
+                btnText.classList.remove('hidden');
+                loader.style.display = 'none';
+            }
         }
 
         function renderizar(item) {
             document.getElementById('resultBox').classList.remove('hidden');
-            document.getElementById('clientName').innerText = item.nombre;
-            document.getElementById('expDetail').innerText = "Nº REGISTRO: " + item.n_exp;
-            document.getElementById('notasText').innerHTML = item.notas || "Gestión procesal en curso.";
+            
+            // Privacy Masking (M. CHOURAK)
+            const parts = item.nombre.split(' ');
+            document.getElementById('clientName').innerText = parts[0].charAt(0) + ". " + (parts.length > 1 ? parts[parts.length - 1] : "");
+            
+            document.getElementById('expDetail').innerText = "REG: " + item.n_exp;
+            document.getElementById('notasText').innerHTML = item.notas || "Su expediente está siendo procesado por nuestro equipo jurídico.";
 
+            // Documentos con lógica de colores para "NO ESCANEADO"
             const docs = [
-                { t: "Pasaporte", v: item.pasaporte, ok: String(item.pasaporte).trim().toUpperCase() === "ESCANEADO" },
-                { t: "Contrato", v: item.contratos, ok: String(item.contratos).trim().toUpperCase() === "TIENE" },
-                { t: "Tasa Pago", v: item.pagado_ap, ok: String(item.pagado_ap).trim().toUpperCase() === "PAGADO" }
+                { t: "Pasaporte", v: String(item.pasaporte) },
+                { t: "Contrato", v: String(item.contratos) },
+                { t: "Tasa Pago", v: String(item.pagado_ap) }
             ];
 
-            document.getElementById('docList').innerHTML = docs.map(d => `
-                <div class="flex items-center gap-6">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center border ${d.ok ? 'bg-white text-black' : 'border-white/10 text-slate-600'}">
-                        <i class="fas ${d.ok ? 'fa-check' : 'fa-xmark'} text-xs"></i>
-                    </div>
-                    <div>
-                        <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">${d.t}</p>
-                        <p class="text-sm font-black ${d.ok ? 'text-white' : 'text-slate-600'} uppercase">${d.v}</p>
-                    </div>
-                </div>
-            `).join('');
+            document.getElementById('docList').innerHTML = docs.map(d => {
+                const val = d.v.toUpperCase();
+                const esOK = val === "ESCANEADO" || val === "TIENE" || val === "PAGADO";
+                const esMal = val.includes("NO") || val.includes("FALTA");
 
+                let cardStyle = esMal ? "bg-red-500/10 border-red-500/20" : "bg-transparent";
+                let iconStyle = esOK ? "bg-white text-black border-white" : (esMal ? "bg-red-500 text-white border-red-500" : "border-white/10 text-slate-700");
+                let textStyle = esOK ? "text-white" : (esMal ? "text-red-400 font-black" : "text-slate-500");
+
+                return `
+                    <div class="flex items-center gap-5 p-3 rounded-2xl transition-all ${cardStyle}">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center border ${iconStyle}">
+                            <i class="fas ${esOK ? 'fa-check' : (esMal ? 'fa-exclamation-triangle' : 'fa-minus')} text-[10px]"></i>
+                        </div>
+                        <div>
+                            <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">${d.t}</p>
+                            <p class="text-sm ${textStyle} uppercase">${d.v}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Timeline Evolution
             const estadoActual = String(item.estado_ap).trim().toUpperCase();
             const indexActual = PASOS_AP.indexOf(estadoActual);
-            const apCard = document.getElementById('apCard');
 
             document.getElementById('timelineAP').innerHTML = PASOS_AP.map((paso, i) => {
                 const esPasado = i < indexActual;
                 const esActual = i === indexActual;
                 const esIncidencia = paso === "INCIDENCIA" && esActual;
 
-                let color = "bg-slate-800 text-slate-600 border-white/5";
-                if (esPasado) color = "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]";
-                if (esActual) color = "bg-blue-500 text-white border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.5)] scale-110";
-                if (esIncidencia) color = "status-incident border-red-500";
+                let color = "bg-slate-900 text-slate-700 border-white/5";
+                if (esPasado) color = "bg-white/20 text-white border-white/20";
+                if (esActual) color = "bg-blue-600 text-white border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-110";
+                if (esIncidencia) color = "status-incident";
 
                 return `
                     <div class="flex items-center gap-6 relative">
                         <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border ${color} transition-all duration-500">
-                            <i class="fas ${esIncidencia ? 'fa-exclamation-triangle' : (esPasado || esActual ? 'fa-check' : 'fa-circle')} text-[10px]"></i>
+                            <i class="fas ${esIncidencia ? 'fa-triangle-exclamation' : (esPasado || esActual ? 'fa-check' : 'fa-circle')} text-[10px]"></i>
                         </div>
-                        <span class="text-[10px] font-black uppercase tracking-widest ${esIncidencia ? 'text-red-500' : (esActual ? 'text-white' : 'text-slate-600')}">${paso}</span>
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em] ${esIncidencia ? 'text-red-500' : (esActual ? 'text-white' : 'text-slate-600')}">${paso}</span>
                     </div>
                 `;
             }).join('');
             
-            window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
+            // Scroll suave a los resultados
+            setTimeout(() => {
+                window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
+            }, 300);
         }
     </script>
 </body>
