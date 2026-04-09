@@ -3,159 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguimiento de Expediente | Ejidoforma</title>
+    <title>Seguimiento Pro | Ejidoforma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .bg-ejido { background-color: #002855; }
         .text-ejido { color: #002855; }
-        .progress-bar-fill { transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .step-animate { transition: all 0.5s ease; }
+        .step-line { position: relative; }
+        .step-line::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: #e2e8f0; z-index: 1; }
+        .active-line::before { background: #22c55e; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans">
+<body class="bg-slate-100 min-h-screen pb-10">
 
-    <nav class="w-full bg-white shadow-md p-4 mb-8 border-b-4 border-yellow-600">
+    <nav class="bg-white p-4 shadow-md border-b-4 border-yellow-600 mb-6">
         <div class="max-w-md mx-auto flex justify-between items-center">
-            <img src="Logo.png" alt="Ejidoforma" class="h-12">
-            <div class="text-right">
-                <h2 class="text-ejido font-black text-sm uppercase">Ejidoforma</h2>
-                <p class="text-gray-400 text-[9px] tracking-widest uppercase italic">Almería, España</p>
-            </div>
+            <img src="Logo.png" alt="Logo" class="h-10">
+            <h2 class="text-ejido font-black text-xs uppercase">Portal del Cliente</h2>
         </div>
     </nav>
 
     <div class="max-w-md mx-auto p-4">
-        <div class="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 mb-6">
-            <h1 class="text-xl font-black text-center text-slate-800 mb-6 uppercase tracking-tight">Estado del Trámite</h1>
-            <div class="space-y-4">
-                <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" 
-                    class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-100 outline-none text-center font-bold text-xl uppercase transition-all">
-                <button onclick="buscarExpediente()" class="w-full bg-ejido hover:bg-blue-900 text-white font-black py-4 rounded-2xl shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2">
-                    VER MI PROGRESO <i class="fas fa-search"></i>
-                </button>
-            </div>
+        <div class="bg-white rounded-3xl p-6 shadow-lg mb-8">
+            <h1 class="text-center font-black text-slate-700 mb-4 uppercase text-sm">Consulta de Expediente</h1>
+            <input type="text" id="userInput" placeholder="EXP-XXX o Pasaporte" 
+                class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-center font-bold text-xl uppercase outline-none focus:border-blue-500 mb-4">
+            <button onclick="buscarExpediente()" class="w-full bg-ejido text-white font-black py-4 rounded-2xl shadow-lg active:scale-95 transition-all">
+                BUSCAR AHORA
+            </button>
         </div>
 
-        <div id="loader" class="hidden text-center p-10">
-            <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-ejido border-t-transparent"></div>
-            <p class="mt-4 text-slate-500 font-bold text-sm">Sincronizando con el sistema...</p>
-        </div>
-
-        <div id="resultBox" class="hidden bg-white p-8 rounded-3xl shadow-2xl border border-slate-50 relative overflow-hidden">
-            <div id="percentLarge" class="absolute -top-4 -right-4 text-8xl font-black text-slate-100 select-none">0%</div>
-
-            <div class="relative z-10">
-                <div class="mb-8">
-                    <h3 id="clientName" class="text-2xl font-black text-ejido uppercase leading-tight"></h3>
-                    <p id="expId" class="text-xs text-slate-400 font-bold tracking-widest mt-1"></p>
-                </div>
-
-                <div class="mb-10">
-                    <div class="flex justify-between items-end mb-2">
-                        <span class="text-[10px] font-black text-slate-400 uppercase italic">Nivel de Finalización</span>
-                        <span id="percentText" class="text-2xl font-black text-ejido">0%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden border border-slate-50">
-                        <div id="progressBar" class="progress-bar-fill bg-green-500 h-full w-0 shadow-[0_0_15px_rgba(34,197,94,0.4)]"></div>
-                    </div>
-                </div>
-
-                <div id="timeline" class="space-y-8 relative before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100">
-                    </div>
-
-                <div id="notasBox" class="mt-10 p-5 bg-blue-50 border-l-4 border-ejido rounded-r-2xl">
-                    <h4 class="text-[10px] font-black text-ejido uppercase mb-2 italic">Observaciones del Letrado:</h4>
-                    <p id="notasContent" class="text-sm text-slate-600 font-medium"></p>
-                </div>
+        <div id="resultBox" class="hidden space-y-6">
+            
+            <div class="bg-ejido text-white p-6 rounded-3xl shadow-xl">
+                <h3 id="clientName" class="text-2xl font-black uppercase"></h3>
+                <p id="expDetail" class="text-blue-200 text-xs font-bold mt-1"></p>
             </div>
+
+            <div class="bg-white p-6 rounded-3xl shadow-md border-l-8 border-blue-500">
+                <h4 class="font-black text-blue-900 text-sm mb-4 uppercase"><i class="fas fa-file-alt mr-2"></i> Documentación Inicial</h4>
+                <div id="timelineDoc" class="space-y-4"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl shadow-md border-l-8 border-green-500">
+                <h4 class="font-black text-green-900 text-sm mb-4 uppercase"><i class="fas fa-shield-alt mr-2"></i> Estado de Antecedentes</h4>
+                <div id="timelineAP" class="space-y-4"></div>
+            </div>
+
+            <div id="notasBox" class="p-5 bg-yellow-50 rounded-3xl border-2 border-yellow-100 text-sm italic text-slate-600"></div>
         </div>
     </div>
-
-    <footer class="mt-10 p-6 text-center">
-        <p class="text-slate-400 text-[10px] uppercase font-bold tracking-[0.2em]">© 2026 Ejidoforma - Almería</p>
-    </footer>
 
     <script>
         const MI_API_URL = "https://script.google.com/macros/s/AKfycbzS7dC1uPDbpI1e2HUVVTlrb5FxHpqXzZmKRGwMiQBHWgeluJ3AkOgSb2MuIB-FQkQ/exec";
 
+        const ORDEN_AP = ["NO TIENE", "LO HA TRAIDO EL", "INCIDENCIA", "RECIBIDO", "TRAMITADO"];
+
         async function buscarExpediente() {
             const val = document.getElementById('userInput').value.trim().toUpperCase();
-            const loader = document.getElementById('loader');
-            const resultBox = document.getElementById('resultBox');
-            
-            if (!val) {
-                alert("Por favor, introduce tu Nº de Expediente o Pasaporte");
-                return;
-            }
-
-            loader.classList.remove('hidden');
-            resultBox.classList.add('hidden');
-
+            if(!val) return;
             try {
                 const response = await fetch(MI_API_URL);
                 const data = await response.json();
-                const item = data.find(i => 
-                    String(i.n_exp).toUpperCase() === val || 
-                    String(i.pasaporte).toUpperCase() === val
-                );
-
-                loader.classList.add('hidden');
-
-                if (item) {
-                    resultBox.classList.remove('hidden');
-                    document.getElementById('clientName').innerText = item.nombre;
-                    document.getElementById('expId').innerText = "EXPEDIENTE: " + item.n_exp;
-                    document.getElementById('notasContent').innerText = item.notas || "Tu expediente está siendo procesado correctamente.";
-                    
-                    renderTimeline(item);
-                } else {
-                    alert("Lo sentimos, no encontramos ese expediente en el sistema.");
-                }
-            } catch (e) {
-                loader.classList.add('hidden');
-                alert("Error de conexión. Inténtalo de nuevo.");
-            }
+                const item = data.find(i => String(i.n_exp).toUpperCase() === val || String(i.pasaporte).toUpperCase() === val);
+                if (item) { mostrarTodo(item); } else { alert("No encontrado"); }
+            } catch (e) { alert("Error"); }
         }
 
-        function renderTimeline(item) {
-            const timeline = document.getElementById('timeline');
-            let completedSteps = 0;
-            
-            // Definición de las 4 fases principales
-            const steps = [
-                { label: "Documentación Inicial", detail: "Pasaporte Escaneado", ok: String(item.pasaporte).toUpperCase().includes("ESCANEADO") },
-                { label: "Contratos de Trabajo", detail: "Validación de Contratos", ok: String(item.contratos).toUpperCase().includes("TIENE") },
-                { label: "Gestión de Tasas", detail: "Pago Administrativo", ok: String(item.pagado_ap).toUpperCase().includes("PAGADO") },
-                { label: "Resolución Final", detail: "Antecedentes Penales", ok: ["RECIBIDO", "TRAMITADO"].includes(String(item.estado_ap).toUpperCase()) }
-            ];
+        function mostrarTodo(item) {
+            document.getElementById('resultBox').classList.remove('hidden');
+            document.getElementById('clientName').innerText = item.nombre;
+            document.getElementById('expDetail').innerText = "EXPEDIENTE: " + item.n_exp;
+            document.getElementById('notasBox').innerHTML = "<strong>Notas:</strong> " + (item.notas || "En revisión");
 
-            timeline.innerHTML = "";
+            // 1. Timeline de Documentación (Pasaporte, Contratos, Pago)
+            const docContainer = document.getElementById('timelineDoc');
+            const docs = [
+                { lab: "Pasaporte", val: item.pasaporte, ok: item.pasaporte.toUpperCase() === "ESCANEADO" },
+                { lab: "Contratos", val: item.contratos, ok: item.contratos.toUpperCase() === "TIENE" },
+                { lab: "Pago de Tasa", val: item.pagado_ap, ok: item.pagado_ap.toUpperCase() === "PAGADO" }
+            ];
+            docContainer.innerHTML = docs.map(d => createStep(d.lab, d.val, d.ok)).join('');
+
+            // 2. Timeline de Antecedentes (Los 5 pasos)
+            const apContainer = document.getElementById('timelineAP');
+            const estadoActual = item.estado_ap.toUpperCase();
+            const indexActual = ORDEN_AP.indexOf(estadoActual);
             
-            steps.forEach((step, index) => {
-                if (step.ok) completedSteps++;
-                
-                const stepHTML = `
-                    <div class="flex items-start gap-5 relative group">
-                        <div class="w-8 h-8 shrink-0 rounded-full flex items-center justify-center z-10 border-4 border-white shadow-sm transition-colors duration-500 ${step.ok ? 'bg-green-500 text-white' : 'bg-slate-200 text-slate-400'}">
-                            <i class="fas ${step.ok ? 'fa-check text-xs' : 'fa-clock text-xs'}"></i>
+            apContainer.innerHTML = ORDEN_AP.map((est, i) => {
+                const isPast = i < indexActual;
+                const isCurrent = i === indexActual;
+                return `
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-full z-10 flex items-center justify-center border-2 ${isCurrent ? 'bg-green-500 text-white shadow-lg' : (isPast ? 'bg-green-200 text-green-700' : 'bg-slate-100 text-slate-300')}">
+                            <i class="fas ${isCurrent ? 'fa-arrow-right' : (isPast ? 'fa-check' : 'fa-circle')} text-[10px]"></i>
                         </div>
-                        <div>
-                            <h4 class="font-black text-sm ${step.ok ? 'text-slate-800' : 'text-slate-300'} uppercase tracking-tight">${step.label}</h4>
-                            <p class="text-[10px] font-bold ${step.ok ? 'text-green-600' : 'text-slate-300'} uppercase italic">${step.detail}</p>
-                        </div>
+                        <span class="text-[10px] font-black uppercase ${isCurrent ? 'text-green-600 scale-105' : 'text-slate-400'}">${est}</span>
                     </div>
                 `;
-                timeline.innerHTML += stepHTML;
-            });
+            }).join('');
+        }
 
-            // Actualizar Porcentajes y Barra
-            const percent = (completedSteps / steps.length) * 100;
-            setTimeout(() => {
-                document.getElementById('progressBar').style.width = percent + "%";
-                document.getElementById('percentText').innerText = percent + "%";
-                document.getElementById('percentLarge').innerText = percent + "%";
-            }, 100);
+        function createStep(label, value, isOk) {
+            return `
+                <div class="flex items-center gap-4">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 ${isOk ? 'bg-blue-500 text-white' : 'bg-red-50 text-red-300'}">
+                        <i class="fas ${isOk ? 'fa-check' : 'fa-times'} text-[10px]"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-slate-800 uppercase">${label}</p>
+                        <p class="text-[9px] font-bold ${isOk ? 'text-blue-600' : 'text-red-400'} uppercase italic">${value}</p>
+                    </div>
+                </div>
+            `;
         }
     </script>
 </body>
