@@ -3,155 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lexilias Jurídicos | Área Privada</title>
+    <title>Lexilias Jurídicos | Seguimiento</title>
     <meta name="theme-color" content="#0f172a">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
-        
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
-            color: #fff;
-            min-height: 100vh;
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-
+        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #000000 100%); color: #fff; min-height: 100vh; margin: 0; }
         .font-cinzel { font-family: 'Cinzel', serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 2rem; }
+        
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        .alert-critical { animation: pulse-red 2s infinite; background: rgba(220, 38, 38, 0.15); border: 1.5px solid #ef4444 !important; }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 2rem;
-        }
-
-        /* أنيماسيون التنبيه باللون الأحمر */
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-        .alert-critical { 
-            animation: pulse-red 2s infinite; 
-            background: rgba(220, 38, 38, 0.15); 
-            border: 1px solid #ef4444 !important;
-        }
-
-        .bg-confirm { 
-            background: #ffffff !important; 
-            color: #000000 !important; 
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-        }
-
-        .whatsapp-lux {
-            position: fixed; bottom: 25px; right: 20px;
-            background: #25d366; color: white;
-            padding: 12px 24px; border-radius: 100px;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
-            z-index: 1000; text-decoration: none;
-            display: flex; align-items: center; gap: 10px;
-            font-weight: 900; font-size: 12px; transition: 0.4s;
-        }
-
-        @media (max-width: 400px) {
-            .whatsapp-lux span { display: none; }
-            .whatsapp-lux { padding: 15px; border-radius: 50%; }
-        }
-
-        .spinner { display: none; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #fff; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: auto; }
+        .bg-confirm { background: #ffffff !important; color: #000 !important; box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+        .whatsapp-lux { position: fixed; bottom: 25px; right: 20px; background: #25d366; color: white; padding: 12px 24px; border-radius: 100px; z-index: 1000; text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 11px; }
+        .spinner { display: none; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #fff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="pb-32">
+<body class="pb-24">
 
     <a href="https://wa.me/34621188515" class="whatsapp-lux" target="_blank">
-        <i class="fab fa-whatsapp text-xl"></i>
-        <span>CONTACTAR ABOGADO</span>
+        <i class="fab fa-whatsapp text-lg"></i><span>CONTACTAR CON OFICINA</span>
     </a>
 
-    <header class="py-10 px-6 text-center">
-        <img src="Logo.png" alt="Lexilias" class="h-20 mx-auto mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-        <h1 class="font-cinzel text-xl tracking-[0.3em] text-white">LEXILIAS</h1>
-        <p class="text-[8px] tracking-[0.5em] text-slate-400 uppercase mt-2">JURÍDICOS</p>
+    <header class="py-10 text-center">
+        <img src="Logo.png" alt="Lexilias" class="h-20 mx-auto mb-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+        <h1 class="font-cinzel text-xl tracking-[0.3em]">LEXILIAS</h1>
+        <p class="text-[7px] tracking-[0.4em] text-slate-500 uppercase mt-1 italic">Gestión Jurídica Profesional</p>
     </header>
 
     <div class="max-w-md mx-auto px-6">
-        
-        <div class="glass-card p-8 mb-8 shadow-2xl border-t border-white/10 text-center">
-            <h2 class="text-[9px] font-black tracking-[0.3em] text-slate-500 mb-6 uppercase italic">Seguimiento de Expediente</h2>
-            <div class="space-y-4">
-                <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" 
-                    class="w-full px-4 py-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-white text-center text-lg uppercase outline-none focus:border-white/30 transition-all">
-                
-                <button onclick="buscarExpediente()" id="btnSearch" class="w-full bg-white text-black font-black py-5 rounded-2xl shadow-xl hover:bg-slate-100 transition-all active:scale-95 uppercase tracking-widest text-xs flex justify-center items-center">
-                    <span id="btnText">Consultar Estado</span>
-                    <div id="loader" class="spinner"></div>
-                </button>
-            </div>
+        <div class="glass-card p-8 mb-8 shadow-2xl border-t border-white/5">
+            <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" class="w-full px-4 py-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-white text-center text-lg outline-none uppercase focus:border-white/30 transition-all mb-4">
+            <button onclick="buscarExpediente()" class="w-full bg-white text-black font-black py-5 rounded-2xl flex justify-center items-center gap-3 uppercase text-[10px] tracking-widest active:scale-95 transition-all">
+                <span id="btnText">Consultar Estado</span>
+                <div id="loader" class="spinner"></div>
+            </button>
         </div>
 
-        <div id="resultBox" class="hidden space-y-8 animate-fade-in">
-            
-            <div class="relative p-[1px] bg-gradient-to-r from-slate-800 via-white/40 to-slate-800 rounded-[2.5rem]">
-                <div class="bg-black rounded-[2.4rem] p-7 text-center">
-                    <span class="text-blue-400 text-[8px] font-black uppercase tracking-widest">Cliente Localizado</span>
-                    <h3 id="clientName" class="text-2xl font-black text-white uppercase italic mt-1"></h3>
-                    <p id="expDetail" class="text-slate-500 text-[9px] font-bold mt-2 tracking-[0.2em]"></p>
-                </div>
+        <div id="resultBox" class="hidden space-y-6">
+            <div class="bg-black border border-white/10 rounded-[2.5rem] p-7 text-center">
+                <span class="text-blue-400 text-[8px] font-black uppercase tracking-[0.3em]">Expediente Localizado</span>
+                <h3 id="clientName" class="text-2xl font-black text-white uppercase italic mt-1"></h3>
+                <p id="expDetail" class="text-slate-600 text-[9px] font-bold mt-2 tracking-widest"></p>
             </div>
 
-            <div id="incidenciaAlert" class="hidden alert-critical p-7 rounded-[2rem] text-center">
-                <i class="fas fa-exclamation-triangle text-red-500 text-3xl mb-3"></i>
-                <h4 class="text-red-500 font-black text-lg uppercase">¡Incidencia Detectada!</h4>
-                <p class="text-white text-[11px] mt-2 leading-relaxed">Se ha detectado una interrupción en su trámite. Por favor, <b>póngase en contacto con el despacho</b> para resolverlo.</p>
-            </div>
-
-            <div class="glass-card p-8">
-                <h4 class="font-black text-white text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center">Documentación Registrada</h4>
-                <div id="docList" class="space-y-4"></div>
+            <div id="incidenciaAlert" class="hidden alert-critical p-7 rounded-[2.5rem] text-center">
+                <i class="fas fa-exclamation-circle text-red-500 text-3xl mb-3"></i>
+                <h4 class="text-red-500 font-black text-lg uppercase">¡Atención!</h4>
+                <p class="text-white text-[11px] mt-2 leading-relaxed">Se ha detectado una incidencia en su trámite. Por favor, <b>contacte con nuestra oficina</b> lo antes posible.</p>
             </div>
 
             <div id="timelineContainer" class="glass-card p-8">
-                <h4 class="font-black text-white text-[10px] mb-10 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center">Evolución del Proceso</h4>
+                <h4 class="font-black text-white text-[9px] mb-10 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center">Evolución del Trámite</h4>
                 <div id="timelineAP" class="space-y-8 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[1px] before:bg-white/5"></div>
             </div>
 
-            <div class="bg-white/5 border border-white/10 p-8 rounded-[2rem] italic">
-                <p class="text-[8px] font-black text-slate-500 uppercase mb-3 tracking-widest text-center">Nota Informativa</p>
-                <div id="notasText" class="text-sm text-slate-300 leading-relaxed text-center italic"></div>
+            <div class="glass-card p-8">
+                <h4 class="font-black text-white text-[9px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center italic">Documentación Requerida</h4>
+                <div id="docList" class="space-y-4"></div>
+            </div>
+
+            <div id="notasContainer" class="bg-white/5 border border-white/10 p-7 rounded-[2rem] text-center">
+                <p class="text-[8px] font-black text-slate-500 uppercase mb-3 tracking-widest">Observaciones</p>
+                <div id="notasText" class="text-xs text-slate-300 italic leading-relaxed"></div>
             </div>
         </div>
     </div>
 
     <script>
         const MI_API_URL = "https://script.google.com/macros/s/AKfycbzS7dC1uPDbpI1e2HUVVTlrb5FxHpqXzZmKRGwMiQBHWgeluJ3AkOgSb2MuIB-FQkQ/exec";
-        // المراحل الطبيعية فقط
+        // المسار الطبيعي
         const PASOS_OK = ["NO TIENE", "LO HA TRAIDO EL", "RECIBIDO", "TRAMITADO"];
 
         async function buscarExpediente() {
             const val = document.getElementById('userInput').value.trim().toUpperCase();
-            const btnText = document.getElementById('btnText');
-            const loader = document.getElementById('loader');
             if(!val) return;
-
-            btnText.classList.add('hidden');
-            loader.style.display = 'block';
+            document.getElementById('btnText').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
 
             try {
                 const response = await fetch(MI_API_URL);
                 const data = await response.json();
                 const item = data.find(i => String(i.n_exp).trim().toUpperCase() === val || String(i.pasaporte).trim().toUpperCase() === val);
-                
-                if (item) { renderizar(item); } 
-                else { alert("Expediente no localizado."); }
-            } catch (e) { alert("Error de red."); } 
+                if (item) renderizar(item); else alert("Expediente no encontrado");
+            } catch (e) { alert("Error de conexión"); }
             finally {
-                btnText.classList.remove('hidden');
-                loader.style.display = 'none';
+                document.getElementById('btnText').style.display = 'block';
+                document.getElementById('loader').style.display = 'none';
             }
         }
 
@@ -159,78 +100,67 @@
             document.getElementById('resultBox').classList.remove('hidden');
             document.getElementById('clientName').innerText = item.nombre;
             document.getElementById('expDetail').innerText = "REG: " + item.n_exp;
-            document.getElementById('notasText').innerText = item.notas || "Su expediente está siguiendo el cauce legal establecido.";
+            document.getElementById('notasText').innerText = item.notas || "Proceso bajo supervisión legal.";
 
-            const estado = String(item.estado_ap).trim().toUpperCase();
+            const estadoRaw = String(item.estado_ap).trim().toUpperCase();
             const alertBox = document.getElementById('incidenciaAlert');
             const timelineBox = document.getElementById('timelineContainer');
 
-            // منطق "INCIDENCIA" الذكي
-            if(estado === "INCIDENCIA") {
+            // منطق إظهار/إخفاء الـ Timeline في حالة INCIDENCIA
+            if(estadoRaw.includes("INCIDENCIA")) {
                 alertBox.classList.remove('hidden');
-                timelineBox.classList.add('opacity-30'); // تبهيت الشريط في حالة وجود مشكل
+                timelineBox.classList.add('hidden'); // إخفاء كامل للـ Timeline
             } else {
                 alertBox.classList.add('hidden');
-                timelineBox.classList.remove('opacity-40');
+                timelineBox.classList.remove('hidden');
             }
 
-            // 1. رسم الوثائق (REQUISITOS)
-            const docs = [
-                { t: "Pasaporte", v: String(item.pasaporte) },
-                { t: "Contrato", v: String(item.contratos) },
-                { t: "Tasa Pago", v: String(item.pagado_ap) }
-            ];
-
-            document.getElementById('docList').innerHTML = docs.map(d => {
-                const val = d.v.toUpperCase();
-                const ok = val === "ESCANEADO" || val === "TIENE" || val === "PAGADO" || val === "SÍ";
-                const mal = val.includes("NO") || val.includes("FALTA");
-
-                return `
-                    <div class="flex items-center gap-5 p-4 rounded-2xl border ${ok ? 'bg-white/5 border-white/10' : (mal ? 'bg-red-500/10 border-red-500/20' : 'border-transparent')}">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center border ${ok ? 'bg-confirm' : (mal ? 'bg-red-500 text-white border-red-500' : 'border-white/10 text-slate-700')}">
-                            <i class="fas ${ok ? 'fa-check' : (mal ? 'fa-exclamation' : 'fa-minus')} text-[10px]"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">${d.t}</p>
-                            <p class="text-sm ${ok ? 'text-white' : (mal ? 'text-red-400 font-black' : 'text-slate-600')} uppercase">${d.v}</p>
-                        </div>
-                    </div>`;
-            }).join('');
-
-            // 2. رسم الـ Timeline (المسار المثالي)
-            let indexActual = PASOS_OK.indexOf(estado);
-            // إذا كانت حالة إنسيدينثيا، نترك المؤشر في المرحلة الثانية كتوضيح
-            if(estado === "INCIDENCIA") indexActual = 1;
+            // رسم الـ Timeline مع التواريخ
+            // استخراج التاريخ إذا وجد في النص (مثلا: "LO HA TRAIDO EL 15/05")
+            let indexActual = -1;
+            let fechaExtra = "";
+            
+            PASOS_OK.forEach((p, idx) => {
+                if(estadoRaw.includes(p)) {
+                    indexActual = idx;
+                    if(p === "LO HA TRAIDO EL") {
+                        fechaExtra = estadoRaw.replace("LO HA TRAIDO EL", "").trim();
+                    }
+                }
+            });
 
             document.getElementById('timelineAP').innerHTML = PASOS_OK.map((paso, i) => {
                 const esPasado = i < indexActual;
-                const esActual = i === indexActual && estado !== "INCIDENCIA";
+                const esActual = i === indexActual;
                 
-                let ballClass = "";
-                let iconContent = "";
-                let textClass = "";
-
-                if (esPasado) {
-                    ballClass = "bg-white/10 border-white/5 text-white/30";
-                    iconContent = '<i class="fas fa-check text-[8px]"></i>';
-                    textClass = "text-slate-500";
-                } else if (esActual) {
-                    ballClass = "bg-blue-600 border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.6)] scale-110 text-white";
-                    iconContent = '<i class="fas fa-sync-alt fa-spin text-[10px]"></i>';
-                    textClass = "text-white font-black italic";
-                } else {
-                    ballClass = "bg-transparent border-white/5 text-slate-800";
-                    iconContent = '<i class="fas fa-circle text-[4px] opacity-10"></i>';
-                    textClass = "text-slate-700";
-                }
+                let ball = esPasado ? "bg-white/10 text-white/30" : (esActual ? "bg-blue-600 shadow-[0_0_20px_#2563eb] scale-110" : "border-white/5 text-slate-800");
+                let text = esActual ? "text-white font-black" : "text-slate-600";
+                let label = (esActual && paso === "LO HA TRAIDO EL" && fechaExtra) ? `LO HA TRAIDO EL <span class="text-blue-400 ml-1">${fechaExtra}</span>` : paso;
 
                 return `
                     <div class="flex items-center gap-6 relative">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border ${ballClass} transition-all">
-                            ${iconContent}
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border ${ball} transition-all">
+                            ${esPasado ? '<i class="fas fa-check text-[8px]"></i>' : (esActual ? '<i class="fas fa-sync-alt fa-spin text-[10px]"></i>' : '')}
                         </div>
-                        <span class="text-[10px] uppercase tracking-widest ${textClass}">${paso}</span>
+                        <span class="text-[10px] uppercase tracking-widest ${text}">${label}</span>
+                    </div>`;
+            }).join('');
+
+            // قسم المتطلبات
+            const docs = [ {t:"Pasaporte", v:item.pasaporte}, {t:"Contrato", v:item.contratos}, {t:"Tasa", v:item.pagado_ap} ];
+            document.getElementById('docList').innerHTML = docs.map(d => {
+                const val = d.v.toUpperCase();
+                const ok = val.includes("TIENE") || val.includes("ESCAN") || val.includes("PAGADO") || val.includes("SÍ");
+                const mal = val.includes("NO") || val.includes("FALTA");
+                return `
+                    <div class="flex items-center gap-5 p-4 rounded-2xl border ${ok ? 'bg-white/5 border-white/5' : (mal ? 'bg-red-500/10 border-red-500/20' : 'border-transparent')}">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center ${ok ? 'bg-confirm' : (mal ? 'bg-red-500 text-white' : 'bg-slate-900 text-slate-700')}">
+                            <i class="fas ${ok ? 'fa-check' : (mal ? 'fa-exclamation' : 'fa-minus')} text-[9px]"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-[7px] text-slate-500 uppercase font-bold">${d.t}</p>
+                            <p class="text-xs ${ok ? 'text-white' : (mal ? 'text-red-400 font-bold' : 'text-slate-600')} uppercase">${d.v}</p>
+                        </div>
                     </div>`;
             }).join('');
             
