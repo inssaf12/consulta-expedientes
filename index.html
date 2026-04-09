@@ -3,119 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguimiento Pro | Ejidoforma</title>
+    <title>Portal Jurídico | Ejidoforma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .bg-ejido { background-color: #002855; }
         .text-ejido { color: #002855; }
-        .step-line { position: relative; }
-        .step-line::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: #e2e8f0; z-index: 1; }
-        .active-line::before { background: #22c55e; }
+        @keyframes pulse-red {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .animate-incident { animation: pulse-red 2s infinite; }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen pb-10">
+<body class="bg-slate-50 min-h-screen font-sans">
 
-    <nav class="bg-white p-4 shadow-md border-b-4 border-yellow-600 mb-6">
-        <div class="max-w-md mx-auto flex justify-between items-center">
-            <img src="Logo.png" alt="Logo" class="h-10">
-            <h2 class="text-ejido font-black text-xs uppercase">Portal del Cliente</h2>
-        </div>
+    <nav class="bg-white shadow-md border-b-4 border-yellow-600 p-4 mb-6 text-center">
+        <img src="Logo.png" alt="Logo" class="h-14 mx-auto mb-1">
+        <p class="text-[10px] font-black text-ejido uppercase tracking-[0.3em]">Servicio Jurídico</p>
     </nav>
 
     <div class="max-w-md mx-auto p-4">
-        <div class="bg-white rounded-3xl p-6 shadow-lg mb-8">
-            <h1 class="text-center font-black text-slate-700 mb-4 uppercase text-sm">Consulta de Expediente</h1>
-            <input type="text" id="userInput" placeholder="EXP-XXX o Pasaporte" 
-                class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-center font-bold text-xl uppercase outline-none focus:border-blue-500 mb-4">
-            <button onclick="buscarExpediente()" class="w-full bg-ejido text-white font-black py-4 rounded-2xl shadow-lg active:scale-95 transition-all">
-                BUSCAR AHORA
+        <div class="bg-white rounded-[2rem] p-8 shadow-xl border border-slate-100 mb-8">
+            <h1 class="text-center font-black text-slate-800 mb-6 uppercase tracking-tight">Seguimiento de Expediente</h1>
+            <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" 
+                class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-center font-bold text-xl uppercase outline-none focus:border-blue-500 transition-all mb-4">
+            <button onclick="buscarExpediente()" class="w-full bg-ejido text-white font-black py-4 rounded-2xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3">
+                <i class="fas fa-search"></i> CONSULTAR AHORA
             </button>
         </div>
 
         <div id="resultBox" class="hidden space-y-6">
             
-            <div class="bg-ejido text-white p-6 rounded-3xl shadow-xl">
-                <h3 id="clientName" class="text-2xl font-black uppercase"></h3>
-                <p id="expDetail" class="text-blue-200 text-xs font-bold mt-1"></p>
+            <div class="bg-ejido text-white p-6 rounded-[2rem] shadow-2xl relative overflow-hidden">
+                <div class="relative z-10">
+                    <h3 id="clientName" class="text-2xl font-black uppercase italic"></h3>
+                    <p id="expDetail" class="text-blue-300 text-xs font-bold tracking-widest mt-1"></p>
+                </div>
+                <i class="fas fa-user-tie absolute -bottom-4 -right-4 text-7xl opacity-10"></i>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl shadow-md border-l-8 border-blue-500">
-                <h4 class="font-black text-blue-900 text-sm mb-4 uppercase"><i class="fas fa-file-alt mr-2"></i> Documentación Inicial</h4>
-                <div id="timelineDoc" class="space-y-4"></div>
+            <div class="bg-white p-6 rounded-[2rem] shadow-lg border border-slate-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-folder-open text-sm"></i>
+                    </div>
+                    <h4 class="font-black text-slate-700 text-xs uppercase tracking-widest">Documentación Básica</h4>
+                </div>
+                <div id="docList" class="space-y-5"></div>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl shadow-md border-l-8 border-green-500">
-                <h4 class="font-black text-green-900 text-sm mb-4 uppercase"><i class="fas fa-shield-alt mr-2"></i> Estado de Antecedentes</h4>
-                <div id="timelineAP" class="space-y-4"></div>
+            <div id="apCard" class="bg-white p-6 rounded-[2rem] shadow-lg border-2 transition-colors duration-500">
+                <div class="flex items-center gap-3 mb-6">
+                    <div id="apIconBg" class="w-8 h-8 bg-green-100 text-green-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-gavel text-sm"></i>
+                    </div>
+                    <h4 class="font-black text-slate-700 text-xs uppercase tracking-widest">Fase Antecedentes Penales</h4>
+                </div>
+                <div id="timelineAP" class="space-y-6 relative before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100">
+                    </div>
             </div>
 
-            <div id="notasBox" class="p-5 bg-yellow-50 rounded-3xl border-2 border-yellow-100 text-sm italic text-slate-600"></div>
+            <div id="notasBox" class="p-6 bg-slate-100 rounded-[2rem] border border-slate-200 text-sm italic text-slate-600 relative">
+                <i class="fas fa-quote-left absolute top-4 left-4 text-slate-200 text-3xl"></i>
+                <div id="notasText" class="relative z-10 pl-6"></div>
+            </div>
         </div>
     </div>
 
     <script>
         const MI_API_URL = "https://script.google.com/macros/s/AKfycbzS7dC1uPDbpI1e2HUVVTlrb5FxHpqXzZmKRGwMiQBHWgeluJ3AkOgSb2MuIB-FQkQ/exec";
-
-        const ORDEN_AP = ["NO TIENE", "LO HA TRAIDO EL", "INCIDENCIA", "RECIBIDO", "TRAMITADO"];
+        const PASOS_AP = ["NO TIENE", "LO HA TRAIDO EL", "INCIDENCIA", "RECIBIDO", "TRAMITADO"];
 
         async function buscarExpediente() {
             const val = document.getElementById('userInput').value.trim().toUpperCase();
             if(!val) return;
+            
+            // Efecto de carga simple
+            document.getElementById('resultBox').classList.add('hidden');
+
             try {
                 const response = await fetch(MI_API_URL);
                 const data = await response.json();
                 const item = data.find(i => String(i.n_exp).toUpperCase() === val || String(i.pasaporte).toUpperCase() === val);
-                if (item) { mostrarTodo(item); } else { alert("No encontrado"); }
-            } catch (e) { alert("Error"); }
+
+                if (item) {
+                    renderizarResultado(item);
+                } else {
+                    alert("No se encontró ningún expediente con esos datos.");
+                }
+            } catch (e) {
+                alert("Error al conectar con la base de datos.");
+            }
         }
 
-        function mostrarTodo(item) {
-            document.getElementById('resultBox').classList.remove('hidden');
-            document.getElementById('clientName').innerText = item.nombre;
-            document.getElementById('expDetail').innerText = "EXPEDIENTE: " + item.n_exp;
-            document.getElementById('notasBox').innerHTML = "<strong>Notas:</strong> " + (item.notas || "En revisión");
-
-            // 1. Timeline de Documentación (Pasaporte, Contratos, Pago)
-            const docContainer = document.getElementById('timelineDoc');
-            const docs = [
-                { lab: "Pasaporte", val: item.pasaporte, ok: item.pasaporte.toUpperCase() === "ESCANEADO" },
-                { lab: "Contratos", val: item.contratos, ok: item.contratos.toUpperCase() === "TIENE" },
-                { lab: "Pago de Tasa", val: item.pagado_ap, ok: item.pagado_ap.toUpperCase() === "PAGADO" }
-            ];
-            docContainer.innerHTML = docs.map(d => createStep(d.lab, d.val, d.ok)).join('');
-
-            // 2. Timeline de Antecedentes (Los 5 pasos)
-            const apContainer = document.getElementById('timelineAP');
-            const estadoActual = item.estado_ap.toUpperCase();
-            const indexActual = ORDEN_AP.indexOf(estadoActual);
+        function renderizarResultado(item) {
+            const resBox = document.getElementById('resultBox');
+            resBox.classList.remove('hidden');
             
-            apContainer.innerHTML = ORDEN_AP.map((est, i) => {
-                const isPast = i < indexActual;
-                const isCurrent = i === indexActual;
+            document.getElementById('clientName').innerText = item.nombre;
+            document.getElementById('expDetail').innerText = "Nº EXPEDIENTE: " + item.n_exp;
+            document.getElementById('notasText').innerHTML = "<strong>Observaciones:</strong><br>" + (item.notas || "Sin observaciones adicionales.");
+
+            // 1. Renderizar Documentos
+            const docs = [
+                { title: "Pasaporte", value: item.pasaporte, ok: String(item.pasaporte).toUpperCase() === "ESCANEADO" },
+                { title: "Contratos de Trabajo", value: item.contratos, ok: String(item.contratos).toUpperCase() === "TIENE" },
+                { title: "Pago de Tasa AP", value: item.pagado_ap, ok: String(item.pagado_ap).toUpperCase() === "PAGADO" }
+            ];
+
+            document.getElementById('docList').innerHTML = docs.map(d => `
+                <div class="flex items-center gap-4">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 ${d.ok ? 'bg-green-500 border-green-500 text-white' : 'bg-red-50 border-red-100 text-red-400'}">
+                        <i class="fas ${d.ok ? 'fa-check' : 'fa-times'} text-[10px]"></i>
+                    </div>
+                    <div>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">${d.title}</p>
+                        <p class="text-xs font-black ${d.ok ? 'text-green-600' : 'text-red-500'} uppercase">${d.value}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // 2. Renderizar Timeline de Antecedentes
+            const estadoActual = String(item.estado_ap).toUpperCase();
+            const indexActual = PASOS_AP.indexOf(estadoActual);
+            const apCard = document.getElementById('apCard');
+            const apIconBg = document.getElementById('apIconBg');
+
+            // Cambio de color de la tarjeta si hay incidencia
+            if (estadoActual === "INCIDENCIA") {
+                apCard.classList.add('border-red-500', 'bg-red-50/30');
+                apIconBg.classList.replace('bg-green-100', 'bg-red-100');
+                apIconBg.classList.replace('text-green-600', 'text-red-600');
+            } else {
+                apCard.classList.remove('border-red-500', 'bg-red-50/30');
+                apCard.classList.add('border-slate-100');
+            }
+
+            document.getElementById('timelineAP').innerHTML = PASOS_AP.map((paso, i) => {
+                const completado = i < indexActual;
+                const esElActual = i === indexActual;
+                const esIncidencia = paso === "INCIDENCIA" && esElActual;
+
+                let puntoColor = "bg-slate-200";
+                if (completado) puntoColor = "bg-green-500";
+                if (esElActual) puntoColor = "bg-green-600 shadow-lg";
+                if (esIncidencia) puntoColor = "bg-red-600 animate-incident";
+
                 return `
-                    <div class="flex items-center gap-4">
-                        <div class="w-8 h-8 rounded-full z-10 flex items-center justify-center border-2 ${isCurrent ? 'bg-green-500 text-white shadow-lg' : (isPast ? 'bg-green-200 text-green-700' : 'bg-slate-100 text-slate-300')}">
-                            <i class="fas ${isCurrent ? 'fa-arrow-right' : (isPast ? 'fa-check' : 'fa-circle')} text-[10px]"></i>
+                    <div class="flex items-center gap-5 relative">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center z-10 border-4 border-white ${puntoColor} text-white transition-all duration-500">
+                            <i class="fas ${esIncidencia ? 'fa-exclamation-triangle' : (completado || esElActual ? 'fa-check' : 'fa-circle')} text-[10px]"></i>
                         </div>
-                        <span class="text-[10px] font-black uppercase ${isCurrent ? 'text-green-600 scale-105' : 'text-slate-400'}">${est}</span>
+                        <div class="${esElActual ? 'scale-110 origin-left' : 'opacity-50'} transition-all">
+                            <span class="text-[10px] font-black uppercase ${esIncidencia ? 'text-red-600' : (esElActual ? 'text-green-700' : 'text-slate-500')}">
+                                ${paso}
+                            </span>
+                        </div>
                     </div>
                 `;
             }).join('');
-        }
-
-        function createStep(label, value, isOk) {
-            return `
-                <div class="flex items-center gap-4">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 ${isOk ? 'bg-blue-500 text-white' : 'bg-red-50 text-red-300'}">
-                        <i class="fas ${isOk ? 'fa-check' : 'fa-times'} text-[10px]"></i>
-                    </div>
-                    <div>
-                        <p class="text-[10px] font-black text-slate-800 uppercase">${label}</p>
-                        <p class="text-[9px] font-bold ${isOk ? 'text-blue-600' : 'text-red-400'} uppercase italic">${value}</p>
-                    </div>
-                </div>
-            `;
         }
     </script>
 </body>
