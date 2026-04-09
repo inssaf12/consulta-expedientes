@@ -1,219 +1,43 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lexilias Jurídicos | Área Privada</title>
-    <meta name="theme-color" content="#0f172a">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
-        
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
-            color: #fff;
-            min-height: 100vh;
-            margin: 0;
+document.getElementById('timelineAP').innerHTML = PASOS_AP.map((paso, i) => {
+    const esPasado = i < indexActual;
+    const esActual = i === indexActual;
+    const esFuturo = i > indexActual;
+    const esIncidencia = paso === "INCIDENCIA" && esActual;
+
+    // المنطق الجديد للألوان والأيقونات
+    let colorClass = "";
+    let iconContent = "";
+    let textClass = "";
+
+    if (esPasado) {
+        // المرحلة اللي دازت: أيقونة صغيرة بيضاء وبدون لمعان قوي
+        colorClass = "bg-white/20 border-white/10 text-white/50";
+        iconContent = '<i class="fas fa-check text-[8px]"></i>';
+        textClass = "text-slate-500 font-medium";
+    } else if (esActual) {
+        // المرحلة الحالية: هي اللي كتشعل!
+        if (esIncidencia) {
+            colorClass = "status-incident"; // التنبيه الأحمر اللي صاوبنا
+            iconContent = '<i class="fas fa-exclamation-triangle text-[10px]"></i>';
+            textClass = "text-red-500 font-black";
+        } else {
+            colorClass = "bg-blue-600 border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.6)] scale-110 text-white";
+            iconContent = '<i class="fas fa-sync-alt fa-spin text-[10px]"></i>'; // أيقونة كتدور كتعني "جارٍ العمل"
+            textClass = "text-white font-black";
         }
+    } else {
+        // المرحلة المستقبلية: دائرة خاوية ومطفيّة
+        colorClass = "bg-transparent border-white/10 text-slate-800";
+        iconContent = '<i class="fas fa-circle text-[6px] opacity-20"></i>';
+        textClass = "text-slate-700 font-light";
+    }
 
-        .font-cinzel { font-family: 'Cinzel', serif; }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 2rem;
-        }
-
-        /* حالة التنبيه الأحمر */
-        @keyframes neon-pulse {
-            0% { box-shadow: 0 0 5px #ff4444; transform: scale(1); }
-            50% { box-shadow: 0 0 15px #ff4444; transform: scale(1.02); }
-            100% { box-shadow: 0 0 5px #ff4444; transform: scale(1); }
-        }
-        .status-incident { animation: neon-pulse 1.5s infinite; background: #450a0a !important; color: #fca5a5 !important; border: 1px solid #ef4444 !important; }
-
-        /* أيقونة التأكيد البيضاء (لحل مشكلة اللون المطفي) */
-        .bg-confirm { 
-            background: #ffffff !important; 
-            color: #000000 !important; 
-            border: none !important; 
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-        }
-
-        .whatsapp-lux {
-            position: fixed; bottom: 25px; right: 20px;
-            background: #25d366; color: white;
-            padding: 12px 24px; border-radius: 100px;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
-            z-index: 1000; text-decoration: none;
-            display: flex; align-items: center; gap: 10px;
-            font-weight: 900; font-size: 12px; transition: 0.4s;
-        }
-        
-        @media (max-width: 400px) {
-            .whatsapp-lux span { display: none; }
-            .whatsapp-lux { padding: 15px; border-radius: 50%; }
-        }
-
-        .spinner { display: none; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #fff; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
-</head>
-<body class="pb-32">
-
-    <a href="https://wa.me/34621188515" class="whatsapp-lux" target="_blank">
-        <i class="fab fa-whatsapp text-xl"></i>
-        <span>HABLAR CON LETRADO</span>
-    </a>
-
-    <header class="py-10 px-6 text-center">
-        <img src="Logo.png" alt="Lexilias" class="h-24 mx-auto mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-        <h1 class="font-cinzel text-2xl tracking-[0.3em] text-white">LEXILIAS</h1>
-        <p class="text-[9px] tracking-[0.6em] text-slate-400 uppercase mt-2">JURÍDICOS</p>
-    </header>
-
-    <div class="max-w-md mx-auto px-6">
-        
-        <div class="glass-card p-8 mb-8 shadow-2xl border-t border-white/10">
-            <h2 class="text-center text-[9px] font-black tracking-[0.3em] text-slate-500 mb-6 uppercase">Área de Seguimiento</h2>
-            <div class="space-y-4">
-                <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" 
-                    class="w-full px-4 py-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-white text-center text-lg uppercase outline-none focus:border-white/30 transition-all">
-                
-                <button onclick="buscarExpediente()" id="btnSearch" class="w-full bg-white text-black font-black py-5 rounded-2xl shadow-xl hover:bg-slate-100 transition-all active:scale-95 uppercase tracking-widest text-xs flex justify-center items-center">
-                    <span id="btnText">Verificar Estado</span>
-                    <div id="loader" class="spinner"></div>
-                </button>
+    return `
+        <div class="flex items-center gap-6 relative">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border ${colorClass} transition-all duration-500">
+                ${iconContent}
             </div>
+            <span class="text-[10px] uppercase tracking-[0.2em] ${textClass}">${paso}</span>
         </div>
-
-        <div id="resultBox" class="hidden space-y-8 animate-fade-in">
-            
-            <div class="relative p-[1px] bg-gradient-to-r from-slate-800 via-white/40 to-slate-800 rounded-[2.5rem]">
-                <div class="bg-black rounded-[2.4rem] p-7 text-center">
-                    <span class="text-blue-400 text-[8px] font-black uppercase tracking-widest">Expediente Localizado</span>
-                    <h3 id="clientName" class="text-2xl font-black text-white uppercase italic mt-1"></h3>
-                    <p id="expDetail" class="text-slate-500 text-[9px] font-bold mt-2 tracking-[0.2em]"></p>
-                </div>
-            </div>
-
-            <div class="glass-card p-8">
-                <h4 class="font-black text-white text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center">Documentación</h4>
-                <div id="docList" class="space-y-4"></div>
-            </div>
-
-            <div id="apCard" class="glass-card p-8">
-                <h4 class="font-black text-white text-[10px] mb-10 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center">Estado del Trámite</h4>
-                <div id="timelineAP" class="space-y-8 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[1px] before:bg-white/5"></div>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 p-8 rounded-[2rem] italic">
-                <p class="text-[8px] font-black text-slate-500 uppercase mb-3 tracking-widest">Notas del Abogado</p>
-                <div id="notasText" class="text-sm text-slate-300 leading-relaxed"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const MI_API_URL = "https://script.google.com/macros/s/AKfycbzS7dC1uPDbpI1e2HUVVTlrb5FxHpqXzZmKRGwMiQBHWgeluJ3AkOgSb2MuIB-FQkQ/exec";
-        const PASOS_AP = ["NO TIENE", "LO HA TRAIDO EL", "INCIDENCIA", "RECIBIDO", "TRAMITADO"];
-
-        async function buscarExpediente() {
-            const val = document.getElementById('userInput').value.trim().toUpperCase();
-            const btnText = document.getElementById('btnText');
-            const loader = document.getElementById('loader');
-            
-            if(!val) return;
-
-            btnText.classList.add('hidden');
-            loader.style.display = 'block';
-
-            try {
-                const response = await fetch(MI_API_URL);
-                const data = await response.json();
-                const item = data.find(i => String(i.n_exp).trim().toUpperCase() === val || String(i.pasaporte).trim().toUpperCase() === val);
-                
-                if (item) { 
-                    renderizar(item); 
-                } else { 
-                    alert("Expediente no encontrado."); 
-                }
-            } catch (e) { 
-                alert("Error de conexión."); 
-            } finally {
-                btnText.classList.remove('hidden');
-                loader.style.display = 'none';
-            }
-        }
-
-        function renderizar(item) {
-            document.getElementById('resultBox').classList.remove('hidden');
-            
-            // الاسم بالكامل
-            document.getElementById('clientName').innerText = item.nombre;
-            document.getElementById('expDetail').innerText = "REG: " + item.n_exp;
-            document.getElementById('notasText').innerHTML = item.notas || "Gestión en curso.";
-
-            const docs = [
-                { t: "Pasaporte", v: String(item.pasaporte) },
-                { t: "Contrato", v: String(item.contratos) },
-                { t: "Tasa Pago", v: String(item.pagado_ap) }
-            ];
-
-            document.getElementById('docList').innerHTML = docs.map(d => {
-                const val = d.v.toUpperCase();
-                const esOK = val === "ESCANEADO" || val === "TIENE" || val === "PAGADO" || val === "SÍ";
-                const esMal = val.includes("NO") || val.includes("FALTA");
-
-                // الألوان الجديدة: الأبيض للتأكيد والأحمر للتنبيه
-                let iconClass = esOK ? "bg-confirm scale-105 shadow-xl" : (esMal ? "bg-red-500 text-white border-red-500" : "border-white/10 text-slate-700");
-                let textClass = esOK ? "text-white font-bold" : (esMal ? "text-red-400 font-black" : "text-slate-500");
-                let cardClass = esOK ? "bg-white/5 border-white/10" : (esMal ? "bg-red-500/10 border-red-500/20 shadow-inner" : "bg-transparent");
-
-                return `
-                    <div class="flex items-center gap-5 p-4 rounded-2xl border transition-all ${cardClass}">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center border ${iconClass}">
-                            <i class="fas ${esOK ? 'fa-check' : (esMal ? 'fa-exclamation-triangle' : 'fa-minus')} text-[10px]"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">${d.t}</p>
-                            <p class="text-sm ${textClass} uppercase">${d.v}</p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            const estadoActual = String(item.estado_ap).trim().toUpperCase();
-            const indexActual = PASOS_AP.indexOf(estadoActual);
-
-            document.getElementById('timelineAP').innerHTML = PASOS_AP.map((paso, i) => {
-                const esPasado = i < indexActual;
-                const esActual = i === indexActual;
-                const esIncidencia = paso === "INCIDENCIA" && esActual;
-
-                let color = "bg-slate-900 text-slate-700 border-white/5";
-                if (esPasado) color = "bg-confirm shadow-sm"; 
-                if (esActual) color = "bg-blue-600 text-white border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-110";
-                if (esIncidencia) color = "status-incident";
-
-                return `
-                    <div class="flex items-center gap-6 relative">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border ${color} transition-all duration-500">
-                            <i class="fas ${esIncidencia ? 'fa-triangle-exclamation' : (esPasado || esActual ? 'fa-check' : 'fa-circle')} text-[10px]"></i>
-                        </div>
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] ${esIncidencia ? 'text-red-500' : (esActual ? 'text-white' : 'text-slate-600')}">${paso}</span>
-                    </div>
-                `;
-            }).join('');
-            
-            setTimeout(() => {
-                window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
-            }, 300);
-        }
-    </script>
-</body>
-</html>
+    `;
+}).join('');
