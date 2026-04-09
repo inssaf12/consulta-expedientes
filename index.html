@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lexilias Jurídicos | Área Privada</title>
     <meta name="theme-color" content="#0f172a">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -16,7 +15,7 @@
             font-family: 'Montserrat', sans-serif; 
             background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
             color: #fff;
-            min-height: 100-screen;
+            min-height: 100vh;
             margin: 0;
         }
 
@@ -29,7 +28,7 @@
             border-radius: 2rem;
         }
 
-        /* أنيماسيون للحالات المستعجلة */
+        /* حالة التنبيه الأحمر */
         @keyframes neon-pulse {
             0% { box-shadow: 0 0 5px #ff4444; transform: scale(1); }
             50% { box-shadow: 0 0 15px #ff4444; transform: scale(1.02); }
@@ -37,7 +36,14 @@
         }
         .status-incident { animation: neon-pulse 1.5s infinite; background: #450a0a !important; color: #fca5a5 !important; border: 1px solid #ef4444 !important; }
 
-        /* زر واتساب المطور للموبايل */
+        /* أيقونة التأكيد البيضاء (لحل مشكلة اللون المطفي) */
+        .bg-confirm { 
+            background: #ffffff !important; 
+            color: #000000 !important; 
+            border: none !important; 
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
         .whatsapp-lux {
             position: fixed; bottom: 25px; right: 20px;
             background: #25d366; color: white;
@@ -53,9 +59,6 @@
             .whatsapp-lux { padding: 15px; border-radius: 50%; }
         }
 
-        input::placeholder { color: rgba(255,255,255,0.2); }
-        
-        /* لودر البحث */
         .spinner { display: none; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #fff; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -91,20 +94,20 @@
         <div id="resultBox" class="hidden space-y-8 animate-fade-in">
             
             <div class="relative p-[1px] bg-gradient-to-r from-slate-800 via-white/40 to-slate-800 rounded-[2.5rem]">
-                <div class="bg-black rounded-[2.4rem] p-7">
+                <div class="bg-black rounded-[2.4rem] p-7 text-center">
                     <span class="text-blue-400 text-[8px] font-black uppercase tracking-widest">Expediente Localizado</span>
-                    <h3 id="clientName" class="text-2xl font-black text-white uppercase italic leading-tight mt-1"></h3>
+                    <h3 id="clientName" class="text-2xl font-black text-white uppercase italic mt-1"></h3>
                     <p id="expDetail" class="text-slate-500 text-[9px] font-bold mt-2 tracking-[0.2em]"></p>
                 </div>
             </div>
 
             <div class="glass-card p-8">
-                <h4 class="font-black text-white text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4">Documentación</h4>
-                <div id="docList" class="space-y-6"></div>
+                <h4 class="font-black text-white text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center">Documentación</h4>
+                <div id="docList" class="space-y-4"></div>
             </div>
 
-            <div id="apCard" class="glass-card p-8 transition-all duration-700">
-                <h4 class="font-black text-white text-[10px] mb-10 uppercase tracking-[0.3em] border-b border-white/5 pb-4">Estado del Trámite</h4>
+            <div id="apCard" class="glass-card p-8">
+                <h4 class="font-black text-white text-[10px] mb-10 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center">Estado del Trámite</h4>
                 <div id="timelineAP" class="space-y-8 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[1px] before:bg-white/5"></div>
             </div>
 
@@ -126,7 +129,6 @@
             
             if(!val) return;
 
-            // Start Loading
             btnText.classList.add('hidden');
             loader.style.display = 'block';
 
@@ -138,10 +140,10 @@
                 if (item) { 
                     renderizar(item); 
                 } else { 
-                    alert("Expediente no encontrado. Verifique los datos."); 
+                    alert("Expediente no encontrado."); 
                 }
             } catch (e) { 
-                alert("Error de conexión con la base de datos."); 
+                alert("Error de conexión."); 
             } finally {
                 btnText.classList.remove('hidden');
                 loader.style.display = 'none';
@@ -151,14 +153,11 @@
         function renderizar(item) {
             document.getElementById('resultBox').classList.remove('hidden');
             
-            // Privacy Masking (M. CHOURAK)
-            const parts = item.nombre.split(' ');
-            document.getElementById('clientName').innerText = parts[0].charAt(0) + ". " + (parts.length > 1 ? parts[parts.length - 1] : "");
-            
+            // الاسم بالكامل
+            document.getElementById('clientName').innerText = item.nombre;
             document.getElementById('expDetail').innerText = "REG: " + item.n_exp;
-            document.getElementById('notasText').innerHTML = item.notas || "Su expediente está siendo procesado por nuestro equipo jurídico.";
+            document.getElementById('notasText').innerHTML = item.notas || "Gestión en curso.";
 
-            // Documentos con lógica de colores para "NO ESCANEADO"
             const docs = [
                 { t: "Pasaporte", v: String(item.pasaporte) },
                 { t: "Contrato", v: String(item.contratos) },
@@ -167,27 +166,27 @@
 
             document.getElementById('docList').innerHTML = docs.map(d => {
                 const val = d.v.toUpperCase();
-                const esOK = val === "ESCANEADO" || val === "TIENE" || val === "PAGADO";
+                const esOK = val === "ESCANEADO" || val === "TIENE" || val === "PAGADO" || val === "SÍ";
                 const esMal = val.includes("NO") || val.includes("FALTA");
 
-                let cardStyle = esMal ? "bg-red-500/10 border-red-500/20" : "bg-transparent";
-                let iconStyle = esOK ? "bg-white text-black border-white" : (esMal ? "bg-red-500 text-white border-red-500" : "border-white/10 text-slate-700");
-                let textStyle = esOK ? "text-white" : (esMal ? "text-red-400 font-black" : "text-slate-500");
+                // الألوان الجديدة: الأبيض للتأكيد والأحمر للتنبيه
+                let iconClass = esOK ? "bg-confirm scale-105 shadow-xl" : (esMal ? "bg-red-500 text-white border-red-500" : "border-white/10 text-slate-700");
+                let textClass = esOK ? "text-white font-bold" : (esMal ? "text-red-400 font-black" : "text-slate-500");
+                let cardClass = esOK ? "bg-white/5 border-white/10" : (esMal ? "bg-red-500/10 border-red-500/20 shadow-inner" : "bg-transparent");
 
                 return `
-                    <div class="flex items-center gap-5 p-3 rounded-2xl transition-all ${cardStyle}">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center border ${iconStyle}">
+                    <div class="flex items-center gap-5 p-4 rounded-2xl border transition-all ${cardClass}">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center border ${iconClass}">
                             <i class="fas ${esOK ? 'fa-check' : (esMal ? 'fa-exclamation-triangle' : 'fa-minus')} text-[10px]"></i>
                         </div>
-                        <div>
+                        <div class="flex-1">
                             <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">${d.t}</p>
-                            <p class="text-sm ${textStyle} uppercase">${d.v}</p>
+                            <p class="text-sm ${textClass} uppercase">${d.v}</p>
                         </div>
                     </div>
                 `;
             }).join('');
 
-            // Timeline Evolution
             const estadoActual = String(item.estado_ap).trim().toUpperCase();
             const indexActual = PASOS_AP.indexOf(estadoActual);
 
@@ -197,7 +196,7 @@
                 const esIncidencia = paso === "INCIDENCIA" && esActual;
 
                 let color = "bg-slate-900 text-slate-700 border-white/5";
-                if (esPasado) color = "bg-white/20 text-white border-white/20";
+                if (esPasado) color = "bg-confirm shadow-sm"; 
                 if (esActual) color = "bg-blue-600 text-white border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-110";
                 if (esIncidencia) color = "status-incident";
 
@@ -211,7 +210,6 @@
                 `;
             }).join('');
             
-            // Scroll suave a los resultados
             setTimeout(() => {
                 window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
             }, 300);
