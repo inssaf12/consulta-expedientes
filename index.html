@@ -3,119 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Expediente | Ejidoforma</title>
+    <title>Seguimiento Jurídico | Ejidoforma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .bg-ejido { background-color: #002855; } 
+        .bg-ejido { background-color: #002855; }
         .text-ejido { color: #002855; }
-        .accent-gold { border-color: #d4af37; } 
+        .progress-bar { transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col items-center p-0 md:p-4">
+<body class="bg-slate-50 min-h-screen font-sans">
 
-    <nav class="w-full bg-white shadow-md p-4 mb-8 border-b-4 border-yellow-600">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <img src="Logo.png" alt="Ejidoforma" class="h-14 md:h-16 p-2">
-            <div class="text-right">
-                <h2 class="text-ejido font-black text-lg md:text-xl uppercase">Ejidoforma</h2>
-                <p class="text-gray-400 text-[10px] tracking-widest uppercase">Servicio Jurídico</p>
-            </div>
+    <nav class="bg-white shadow-sm border-b-4 border-yellow-600 p-4 mb-6">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <img src="Logo.png" alt="Logo" class="h-12">
+            <div class="text-right text-ejido font-black uppercase text-sm">Ejidoforma Almería</div>
         </div>
     </nav>
 
-    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full border border-slate-100 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-2 bg-ejido"></div>
-        
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-slate-800">Consulta de Estado</h1>
-            <p class="text-slate-500 text-sm mt-2">Introduce tus datos para conocer el progreso de tu expediente</p>
-        </div>
-
-        <div class="space-y-4">
-            <div>
-                <label class="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Nº Expediente o Pasaporte</label>
-                <input type="text" id="userInput" placeholder="Ej: EXP-100 / P123456" 
-                    class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all uppercase font-bold text-center text-lg">
-            </div>
-            
-            <button onclick="buscarExpediente()" id="btnMain"
-                class="w-full bg-ejido hover:bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2">
-                <i class="fas fa-search"></i> BUSCAR AHORA
+    <div class="max-w-md mx-auto p-4">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-100 mb-6">
+            <h2 class="text-center font-bold text-slate-700 mb-4">Consulta tu Expediente</h2>
+            <input type="text" id="userInput" placeholder="Nº EXP o Pasaporte" 
+                class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-center text-xl font-black uppercase focus:ring-4 focus:ring-blue-100 outline-none mb-4">
+            <button onclick="buscarExpediente()" class="w-full bg-ejido text-white font-black py-4 rounded-2xl shadow-lg active:scale-95 transition-transform">
+                CONSULTAR ESTADO
             </button>
         </div>
 
-        <div id="loader" class="hidden mt-8 text-center text-blue-600">
-            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
-            <p class="mt-2 text-sm font-medium">Conectando con el sistema...</p>
-        </div>
-        
-        <div id="resultBox" class="hidden mt-8 p-6 rounded-2xl border-2 transition-all shadow-inner">
-            <h2 class="text-[10px] text-slate-400 uppercase font-black mb-3 tracking-widest">Estado Actual del Trámite:</h2>
-            <div id="statusText" class="text-3xl font-black uppercase mb-4"></div>
-            <div id="clientName" class="mt-2 text-slate-600 text-sm font-bold border-t pt-3 flex items-center gap-2">
-                <i class="fas fa-user-circle text-slate-400"></i>
-                <span id="namePlaceholder"></span>
+        <div id="resultBox" class="hidden bg-white rounded-3xl p-6 shadow-2xl border border-slate-50 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 font-black text-ejido text-4xl opacity-20" id="percentLarge">0%</div>
+            
+            <div class="mb-6">
+                <h3 id="clientName" class="text-2xl font-black text-ejido uppercase"></h3>
+                <p id="expDetail" class="text-slate-400 font-bold text-xs uppercase tracking-widest"></p>
+            </div>
+
+            <div class="mb-8">
+                <div class="flex justify-between text-[10px] font-black uppercase text-slate-400 mb-2">
+                    <span>Progreso del Trámite</span>
+                    <span id="percentSmall">0%</span>
+                </div>
+                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                    <div id="progressBar" class="progress-bar bg-green-500 h-full w-0"></div>
+                </div>
+            </div>
+
+            <div id="timeline" class="space-y-6 relative">
+                </div>
+
+            <div id="notasBox" class="mt-8 p-4 bg-blue-50 border-l-4 border-ejido rounded-r-lg text-sm text-slate-600 italic">
             </div>
         </div>
     </div>
 
-    <a href="https://wa.me/34621188515" target="_blank" 
-       class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all transform hover:scale-110 flex items-center justify-center z-50">
-        <i class="fab fa-whatsapp text-3xl"></i>
-        <span class="ml-2 font-bold hidden md:inline">¿Dudas? Escríbenos</span>
-    </a>
-
-    <footer class="mt-12 text-slate-400 text-[10px] uppercase tracking-widest p-4 text-center">
-        © 2024 Ejidoforma - Almeria, España
-    </footer>
-
     <script>
+        // الصقي هنا الرابط الجديد الذي حصلت عليه من الـ Deploy
         const MI_API_URL = "https://script.google.com/macros/s/AKfycbzi-egiSzkJKvQ6l8NMXJ8wOpEmoRj3qZT90_nhhzPTJ7bmo9FLcqKC2obQBra0cYM/exec";
 
         async function buscarExpediente() {
             const val = document.getElementById('userInput').value.trim().toUpperCase();
-            const resultBox = document.getElementById('resultBox');
-            const statusText = document.getElementById('statusText');
-            const namePlaceholder = document.getElementById('namePlaceholder');
-            const loader = document.getElementById('loader');
-
-            if (!val) {
-                alert("Por favor, introduce un dato válido.");
-                return;
-            }
-
-            loader.classList.remove('hidden');
-            resultBox.classList.add('hidden');
+            if(!val) return;
 
             try {
                 const response = await fetch(MI_API_URL);
                 const data = await response.json();
-                
-                const encontrado = data.find(item => 
-                    String(item.n_exp).toUpperCase() === val || 
-                    String(item.pasaporte).toUpperCase() === val
-                );
+                const item = data.find(i => String(i.n_exp).toUpperCase() === val || String(i.pasaporte).toUpperCase() === val);
 
-                loader.classList.add('hidden');
-
-                if (encontrado) {
-                    resultBox.classList.remove('hidden');
-                    statusText.innerText = encontrado.estado;
-                    namePlaceholder.innerText = encontrado.nombre;
-                    
-                    if(encontrado.estado.includes("TRAMITADO") || encontrado.estado.includes("LISTO")) {
-                        resultBox.className = "mt-8 p-6 rounded-2xl border-2 bg-green-50 border-green-200 text-green-700 shadow-inner scale-105 transition-transform";
-                    } else {
-                        resultBox.className = "mt-8 p-6 rounded-2xl border-2 bg-blue-50 border-blue-200 text-blue-800 shadow-inner";
-                    }
+                if (item) {
+                    mostrarResultado(item);
                 } else {
-                    alert("Lo sentimos, no encontramos ese expediente en nuestra base de datos.");
+                    alert("No se encontró el expediente");
                 }
-            } catch (error) {
-                loader.classList.add('hidden');
-                alert("Error de conexión. Verifica tu internet.");
-            }
+            } catch (e) { alert("Error de conexión"); }
+        }
+
+        function mostrarResultado(item) {
+            document.getElementById('resultBox').classList.remove('hidden');
+            document.getElementById('clientName').innerText = item.nombre;
+            document.getElementById('expDetail').innerText = "Expediente: " + item.n_exp;
+            document.getElementById('notasBox').innerHTML = "<strong>Notas:</strong> " + (item.notas || "En proceso");
+
+            const steps = [
+                { label: "Pasaporte Escaneado", ok: item.pasaporte.toUpperCase().includes("ESCANEADO") },
+                { label: "Contratos Listos", ok: item.contratos.toUpperCase().includes("TIENE") },
+                { label: "Tasa Pagada", ok: item.pagado_ap.toUpperCase().includes("PAGADO") },
+                { label: "Antecedentes Penales", ok: ["RECIBIDO", "TRAMITADO"].includes(item.estado_ap.toUpperCase()) }
+            ];
+
+            let completed = 0;
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = "";
+
+            steps.forEach((step, index) => {
+                if(step.ok) completed++;
+                const color = step.ok ? "text-green-600" : "text-slate-300";
+                const icon = step.ok ? "fa-check-circle" : "fa-circle";
+                
+                timeline.innerHTML += `
+                    <div class="flex items-center gap-4">
+                        <i class="fas ${icon} ${color} text-xl z-10 bg-white"></i>
+                        <span class="font-bold ${step.ok ? 'text-slate-800' : 'text-slate-300'}">${step.label}</span>
+                    </div>
+                `;
+            });
+
+            const percent = (completed / steps.length) * 100;
+            document.getElementById('progressBar').style.width = percent + "%";
+            document.getElementById('percentSmall').innerText = percent + "%";
+            document.getElementById('percentLarge').innerText = percent + "%";
         }
     </script>
 </body>
