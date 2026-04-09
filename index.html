@@ -9,16 +9,78 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
-        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #000000 100%); color: #fff; min-height: 100vh; margin: 0; }
-        .font-cinzel { font-family: 'Cinzel', serif; }
-        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 2rem; }
         
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
-        .alert-critical { animation: pulse-red 2s infinite; background: rgba(220, 38, 38, 0.15); border: 1.5px solid #ef4444 !important; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: linear-gradient(135deg, #0f172a 0%, #000000 100%); 
+            color: #fff; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 2rem; 
+        }
 
-        .bg-confirm { background: #ffffff !important; color: #000 !important; box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
-        .whatsapp-lux { position: fixed; bottom: 25px; right: 20px; background: #25d366; color: white; padding: 12px 24px; border-radius: 100px; z-index: 1000; text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 11px; }
-        .spinner { display: none; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #fff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        @keyframes pulse-red { 
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 
+            70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } 
+        }
+        
+        .alert-critical { 
+            animation: pulse-red 2s infinite; 
+            background: rgba(220, 38, 38, 0.15); 
+            border: 1.5px solid #ef4444 !important; 
+        }
+
+        /* ستايل الأيقونة البيضاء (Success) */
+        .bg-confirm { 
+            background: #ffffff !important; 
+            color: #000000 !important; 
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); 
+        }
+        
+        /* ستايل الأيقونة الحمراء (Danger/Missing) */
+        .bg-danger { 
+            background: #ef4444 !important; 
+            color: #ffffff !important; 
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); 
+        }
+
+        .whatsapp-lux { 
+            position: fixed; 
+            bottom: 25px; 
+            right: 20px; 
+            background: #25d366; 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 100px; 
+            z-index: 1000; 
+            text-decoration: none; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-weight: 900; 
+            font-size: 11px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .spinner { 
+            display: none; 
+            border: 3px solid rgba(255,255,255,0.1); 
+            border-top: 3px solid #fff; 
+            border-radius: 50%; 
+            width: 20px; 
+            height: 20px; 
+            animation: spin 1s linear infinite; 
+        }
+        
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -29,12 +91,13 @@
     </a>
 
     <header class="py-10 text-center">
-        <img src="Logo.png" alt="Lexilias" class="h-20 mx-auto mb-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+        <img src="Logo.png" alt="Lexilias" class="h-20 mx-auto mb-3 drop-shadow-[0_0:10px_rgba(255,255,255,0.2)]">
         <h1 class="font-cinzel text-xl tracking-[0.3em]">LEXILIAS</h1>
         <p class="text-[7px] tracking-[0.4em] text-slate-500 uppercase mt-1 italic">Gestión Jurídica Profesional</p>
     </header>
 
     <div class="max-w-md mx-auto px-6">
+        
         <div class="glass-card p-8 mb-8 shadow-2xl border-t border-white/5">
             <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" class="w-full px-4 py-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-white text-center text-lg outline-none uppercase focus:border-white/30 transition-all mb-4">
             <button onclick="buscarExpediente()" class="w-full bg-white text-black font-black py-5 rounded-2xl flex justify-center items-center gap-3 uppercase text-[10px] tracking-widest active:scale-95 transition-all">
@@ -44,6 +107,7 @@
         </div>
 
         <div id="resultBox" class="hidden space-y-6">
+            
             <div class="bg-black border border-white/10 rounded-[2.5rem] p-7 text-center">
                 <span class="text-blue-400 text-[8px] font-black uppercase tracking-[0.3em]">Expediente Localizado</span>
                 <h3 id="clientName" class="text-2xl font-black text-white uppercase italic mt-1"></h3>
@@ -75,7 +139,6 @@
 
     <script>
         const MI_API_URL = "https://script.google.com/macros/s/AKfycbzS7dC1uPDbpI1e2HUVVTlrb5FxHpqXzZmKRGwMiQBHWgeluJ3AkOgSb2MuIB-FQkQ/exec";
-        // المسار الطبيعي
         const PASOS_OK = ["NO TIENE", "LO HA TRAIDO EL", "RECIBIDO", "TRAMITADO"];
 
         async function buscarExpediente() {
@@ -88,8 +151,8 @@
                 const response = await fetch(MI_API_URL);
                 const data = await response.json();
                 const item = data.find(i => String(i.n_exp).trim().toUpperCase() === val || String(i.pasaporte).trim().toUpperCase() === val);
-                if (item) renderizar(item); else alert("Expediente no encontrado");
-            } catch (e) { alert("Error de conexión"); }
+                if (item) renderizar(item); else alert("Expediente no localizado");
+            } catch (e) { alert("Error de red"); }
             finally {
                 document.getElementById('btnText').style.display = 'block';
                 document.getElementById('loader').style.display = 'none';
@@ -106,20 +169,18 @@
             const alertBox = document.getElementById('incidenciaAlert');
             const timelineBox = document.getElementById('timelineContainer');
 
-            // منطق إظهار/إخفاء الـ Timeline في حالة INCIDENCIA
+            // منطق إخفاء التايملاين عند وجود مشكلة
             if(estadoRaw.includes("INCIDENCIA")) {
                 alertBox.classList.remove('hidden');
-                timelineBox.classList.add('hidden'); // إخفاء كامل للـ Timeline
+                timelineBox.classList.add('hidden'); 
             } else {
                 alertBox.classList.add('hidden');
                 timelineBox.classList.remove('hidden');
             }
 
-            // رسم الـ Timeline مع التواريخ
-            // استخراج التاريخ إذا وجد في النص (مثلا: "LO HA TRAIDO EL 15/05")
+            // رسم الجدول الزمني (Timeline)
             let indexActual = -1;
             let fechaExtra = "";
-            
             PASOS_OK.forEach((p, idx) => {
                 if(estadoRaw.includes(p)) {
                     indexActual = idx;
@@ -132,7 +193,6 @@
             document.getElementById('timelineAP').innerHTML = PASOS_OK.map((paso, i) => {
                 const esPasado = i < indexActual;
                 const esActual = i === indexActual;
-                
                 let ball = esPasado ? "bg-white/10 text-white/30" : (esActual ? "bg-blue-600 shadow-[0_0_20px_#2563eb] scale-110" : "border-white/5 text-slate-800");
                 let text = esActual ? "text-white font-black" : "text-slate-600";
                 let label = (esActual && paso === "LO HA TRAIDO EL" && fechaExtra) ? `LO HA TRAIDO EL <span class="text-blue-400 ml-1">${fechaExtra}</span>` : paso;
@@ -146,20 +206,26 @@
                     </div>`;
             }).join('');
 
-            // قسم المتطلبات
-            const docs = [ {t:"Pasaporte", v:item.pasaporte}, {t:"Contrato", v:item.contratos}, {t:"Tasa", v:item.pagado_ap} ];
+            // قسم المتطلبات (الذي يظهر في الصور)
+            const docs = [ {t:"Pasaporte", v:item.pasaporte}, {t:"Contrato", v:item.contratos}, {t:"Tasa Pago", v:item.pagado_ap} ];
             document.getElementById('docList').innerHTML = docs.map(d => {
                 const val = d.v.toUpperCase();
-                const ok = val.includes("TIENE") || val.includes("ESCAN") || val.includes("PAGADO") || val.includes("SÍ");
-                const mal = val.includes("NO") || val.includes("FALTA");
+                const esOK = val.includes("TIENE") || val.includes("ESCAN") || val.includes("PAGADO") || val.includes("SÍ");
+                const esMal = val.includes("NO") || val.includes("FALTA");
+                
+                let iconClass = esOK ? "bg-confirm" : (esMal ? "bg-danger" : "bg-slate-800");
+                let iconSymbol = esOK ? "fa-check" : (esMal ? "fa-times" : "fa-minus");
+                let borderClass = esMal ? "border-red-500/30" : "border-white/5";
+                let textStatusColor = esOK ? "text-white" : (esMal ? "text-red-400 font-bold" : "text-slate-600");
+
                 return `
-                    <div class="flex items-center gap-5 p-4 rounded-2xl border ${ok ? 'bg-white/5 border-white/5' : (mal ? 'bg-red-500/10 border-red-500/20' : 'border-transparent')}">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center ${ok ? 'bg-confirm' : (mal ? 'bg-red-500 text-white' : 'bg-slate-900 text-slate-700')}">
-                            <i class="fas ${ok ? 'fa-check' : (mal ? 'fa-exclamation' : 'fa-minus')} text-[9px]"></i>
+                    <div class="flex items-center gap-5 p-4 rounded-2xl border ${borderClass} bg-white/5">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center ${iconClass} transition-all">
+                            <i class="fas ${iconSymbol} text-[11px]"></i>
                         </div>
                         <div class="flex-1">
-                            <p class="text-[7px] text-slate-500 uppercase font-bold">${d.t}</p>
-                            <p class="text-xs ${ok ? 'text-white' : (mal ? 'text-red-400 font-bold' : 'text-slate-600')} uppercase">${d.v}</p>
+                            <p class="text-[7px] text-slate-500 uppercase font-bold tracking-widest">${d.t}</p>
+                            <p class="text-xs ${textStatusColor} uppercase tracking-tighter">${d.v}</p>
                         </div>
                     </div>`;
             }).join('');
