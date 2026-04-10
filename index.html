@@ -4,28 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lexilias Jurídicos | Seguimiento</title>
-    <meta name="theme-color" content="#0f172a">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
         
-        /* تثبيت الألوان الداكنة */
+        /* فرض الألوان الداكنة حتى لو تعطل Tailwind */
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background: #020617 !important; 
+            background: #000000 !important; /* أسود كحلي غامق */
             background: linear-gradient(135deg, #0f172a 0%, #000000 100%) !important; 
-            color: #fff !important; 
+            color: #ffffff !important; 
             min-height: 100vh; 
             margin: 0; 
         }
         
         .font-cinzel { font-family: 'Cinzel', serif; }
         
-        /* تصحيح المربع اللي كان كيبان أبيض عندك */
+        /* تعديل المربع الأبيض اللي طالع عندك */
         .glass-card { 
-            background: rgba(30, 41, 59, 0.7) !important; 
+            background: rgba(30, 41, 59, 0.8) !important; 
             backdrop-filter: blur(12px); 
             border: 1px solid rgba(255, 255, 255, 0.1) !important; 
             border-radius: 2rem; 
@@ -43,9 +42,10 @@
             border: 1.5px solid #ef4444 !important; 
         }
 
+        /* تصحيح زر الواتساب */
         .whatsapp-lux { 
             position: fixed; bottom: 25px; right: 20px; 
-            background: #25d366; color: white; padding: 12px 24px; 
+            background: #25d366 !important; color: white !important; padding: 12px 24px; 
             border-radius: 100px; z-index: 1000; text-decoration: none; 
             display: flex; align-items: center; gap: 10px; 
             font-weight: 900; font-size: 11px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
@@ -65,7 +65,8 @@
     </a>
 
     <header class="py-10 text-center">
-        <h1 class="font-cinzel text-xl tracking-[0.3em]">LEXILIAS</h1>
+        <img src="Logo.png" alt="Lexilias" class="h-16 mx-auto mb-4">
+        <h1 class="font-cinzel text-xl tracking-[0.3em] text-white">LEXILIAS</h1>
         <p class="text-[7px] tracking-[0.4em] text-slate-500 uppercase mt-1 italic">Gestión Jurídica Profesional</p>
     </header>
 
