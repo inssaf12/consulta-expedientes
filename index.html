@@ -55,7 +55,6 @@
         
         .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
-        /* تنبيه INCIDENCIA */
         @keyframes pulse-red { 
             0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 
             70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 
@@ -68,11 +67,10 @@
             border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px;
         }
 
-        /* التايملاين */
         .step { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
         .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #334155; flex-shrink: 0; margin-top: 3px; }
         .dot.active { background-color: #2563eb; border-color: #2563eb; box-shadow: 0 0 10px #2563eb; }
-        .dot.past { background-color: #334155; }
+        .dot.past { background-color: #334155; border-color: #334155; }
         .step-text { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #475569; }
         .step-text.active { color: #ffffff; }
         .fecha { color: #60a5fa; font-size: 10px; display: block; margin-top: 4px; font-weight: bold; }
@@ -130,12 +128,12 @@
         </div>
 
         <div class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 20px; color: #64748b;">EVOLUCIÓN DEL TRÁMITE</p>
+            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b;">EVOLUCIÓN DEL TRÁMITE</p>
             <div id="timelineContent"></div>
         </div>
 
         <div class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 20px; color: #64748b;">DOCUMENTACIÓN</p>
+            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b;">DOCUMENTACIÓN</p>
             <div id="docsContent"></div>
         </div>
     </div>
@@ -159,15 +157,13 @@
                     document.getElementById('cExp').innerText = "REG: " + item.n_exp;
                     
                     const est = String(item.estado_ap || "").toUpperCase();
-
-                    // التحقق من وجود INCIDENCIA
                     if (est.includes("INCIDENCIA")) {
                         document.getElementById('incidenciaDiv').style.display = 'block';
                     } else {
                         document.getElementById('incidenciaDiv').style.display = 'none';
                     }
 
-                    // التاريخ
+                    // تجهيز التاريخ المنظم
                     let fT = "";
                     if (item.fecha_cad) {
                         const d = new Date(item.fecha_cad);
@@ -177,12 +173,16 @@
                     let idxAct = -1;
                     PASOS.forEach((p, idx) => { if(est.includes(p)) idxAct = idx; });
 
+                    // التعديل هنا: التاريخ سيظهر دائماً في سطر "LO HA TRAIDO EL" إذا وصل الزبون لهذه المرحلة أو تجاوزها
                     document.getElementById('timelineContent').innerHTML = PASOS.map((p, i) => {
                         const isA = i === idxAct; const isP = i < idxAct;
+                        // شرط ظهور التاريخ: أن يكون السطر هو "LO HA TRAIDO EL" والمؤشر وصل له (Index 1) أو تجاوزه
+                        const mostrarFecha = (p === "LO HA TRAIDO EL" && idxAct >= 1 && fT);
+                        
                         return `<div class="step">
                             <div class="dot ${isA ? 'active' : (isP ? 'past' : '')}"></div>
                             <div class="step-text ${isA ? 'active' : ''}">
-                                ${p} ${(p === "LO HA TRAIDO EL" && (isA || isP)) ? `<span class="fecha">${fT}</span>` : ""}
+                                ${p} ${mostrarFecha ? `<span class="fecha">${fT}</span>` : ""}
                             </div>
                         </div>`;
                     }).join('');
