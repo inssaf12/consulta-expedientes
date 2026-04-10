@@ -44,11 +44,18 @@
             text-transform: uppercase; outline: none;
         }
 
+        /* MEJORA: Animación del botón al hacer clic */
         button {
             width: 100%; background-color: #ffffff !important; color: #000000 !important;
             padding: 18px; border: none; border-radius: 15px;
             font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
             cursor: pointer; font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        button:active { 
+            transform: scale(0.96); 
+            background-color: #cbd5e1 !important; 
         }
 
         #resultBox { width: 100%; max-width: 380px; display: none; }
@@ -62,8 +69,8 @@
         }
         .alert-critical { 
             animation: pulse-red 2s infinite; 
-            background: rgba(220, 38, 38, 0.2) !important; 
-            border: 1.5px solid #ef4444 !important; 
+            background: rgba(220, 38, 38, 0.3) !important; 
+            border: 2px solid #ef4444 !important; 
             border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px;
         }
 
@@ -111,7 +118,7 @@
 
     <div class="glass-card">
         <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE">
-        <button onclick="buscarExpediente()">Consultar Estado</button>
+        <button id="btnSearch" onclick="buscarExpediente()">Consultar Estado</button>
     </div>
 
     <div id="resultBox">
@@ -122,18 +129,18 @@
         </div>
 
         <div id="incidenciaDiv" class="alert-critical" style="display: none;">
-            <i class="fas fa-exclamation-triangle text-red-500 text-2xl mb-2"></i>
-            <h4 style="color: #ef4444; margin: 0; font-weight: 900; text-transform: uppercase;">¡Atención!</h4>
-            <p style="margin: 5px 0 0 0; font-size: 11px; font-weight: bold;">Hay una incidencia en su trámite. Contacte con nosotros urgentemente.</p>
+            <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
+            <h4 style="color: #ef4444; margin: 0; font-weight: 900; text-transform: uppercase; font-size: 16px;">¡Atención!</h4>
+            <p style="margin: 8px 0 0 0; font-size: 12px; font-weight: bold; line-height: 1.4;">Se ha detectado una INCIDENCIA. Por favor, póngase en contacto con nuestra oficina urgentemente.</p>
         </div>
 
         <div class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b;">EVOLUCIÓN DEL TRÁMITE</p>
+            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">EVOLUCIÓN DEL TRÁMITE</p>
             <div id="timelineContent"></div>
         </div>
 
         <div class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b;">DOCUMENTACIÓN</p>
+            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">DOCUMENTACIÓN</p>
             <div id="docsContent"></div>
         </div>
     </div>
@@ -143,8 +150,16 @@
         const PASOS = ["NO TIENE", "LO HA TRAIDO EL", "RECIBIDO", "TRAMITADO"];
 
         async function buscarExpediente() {
-            const val = document.getElementById('userInput').value.trim().toUpperCase();
+            const input = document.getElementById('userInput');
+            const btn = document.getElementById('btnSearch');
+            const val = input.value.trim().toUpperCase();
+            
             if(!val) return;
+
+            // MEJORA: Feedback visual inmediato
+            btn.innerText = "BUSCANDO...";
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
             
             try {
                 const res = await fetch(API);
@@ -157,28 +172,32 @@
                     document.getElementById('cExp').innerText = "REG: " + item.n_exp;
                     
                     const est = String(item.estado_ap || "").toUpperCase();
+                    
                     if (est.includes("INCIDENCIA")) {
                         document.getElementById('incidenciaDiv').style.display = 'block';
                     } else {
                         document.getElementById('incidenciaDiv').style.display = 'none';
                     }
 
-                    // تجهيز التاريخ المنظم
                     let fT = "";
                     if (item.fecha_cad) {
                         const d = new Date(item.fecha_cad);
-                        fT = !isNaN(d) ? d.toLocaleDateString('es-ES') : String(item.fecha_cad).split('T')[0];
+                        if (!isNaN(d)) {
+                            const dia = String(d.getDate()).padStart(2, '0');
+                            const mes = String(d.getMonth() + 1).padStart(2, '0');
+                            const anio = d.getFullYear();
+                            fT = `${dia}/${mes}/${anio}`;
+                        } else {
+                            fT = String(item.fecha_cad).split('T')[0];
+                        }
                     }
 
                     let idxAct = -1;
                     PASOS.forEach((p, idx) => { if(est.includes(p)) idxAct = idx; });
 
-                    // التعديل هنا: التاريخ سيظهر دائماً في سطر "LO HA TRAIDO EL" إذا وصل الزبون لهذه المرحلة أو تجاوزها
                     document.getElementById('timelineContent').innerHTML = PASOS.map((p, i) => {
                         const isA = i === idxAct; const isP = i < idxAct;
-                        // شرط ظهور التاريخ: أن يكون السطر هو "LO HA TRAIDO EL" والمؤشر وصل له (Index 1) أو تجاوزه
-                        const mostrarFecha = (p === "LO HA TRAIDO EL" && idxAct >= 1 && fT);
-                        
+                        const mostrarFecha = (p === "LO HA TRAIDO EL" && fT !== "");
                         return `<div class="step">
                             <div class="dot ${isA ? 'active' : (isP ? 'past' : '')}"></div>
                             <div class="step-text ${isA ? 'active' : ''}">
@@ -195,8 +214,7 @@
 
                     document.getElementById('docsContent').innerHTML = docsArr.map(d => {
                         const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(d.v.toUpperCase());
-                        return `
-                        <div class="doc-row">
+                        return `<div class="doc-row">
                             <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
                                 <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
                             </div>
@@ -208,8 +226,21 @@
                     }).join('');
 
                     if(est.includes("TRAMITADO")) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                } else { alert("No encontrado"); }
-            } catch (e) { alert("Error de red"); }
+                    
+                    // Bajamos automáticamente para ver el resultado
+                    window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
+
+                } else { 
+                    alert("No encontrado"); 
+                }
+            } catch (e) { 
+                alert("Error de conexión"); 
+            } finally {
+                // Restauramos el botón
+                btn.innerText = "CONSULTAR ESTADO";
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
         }
     </script>
 </body>
