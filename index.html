@@ -4,188 +4,192 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lexilias Jurídicos | Seguimiento</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;700;900&display=swap');
         
-        /* فرض الألوان الداكنة حتى لو تعطل Tailwind */
+        /* ألوان ثابتة لضمان اشتغال التصميم الداكن دائماً */
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background: #000000 !important; /* أسود كحلي غامق */
-            background: linear-gradient(135deg, #0f172a 0%, #000000 100%) !important; 
+            background-color: #020617 !important; 
+            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%) !important;
             color: #ffffff !important; 
-            min-height: 100vh; 
-            margin: 0; 
+            margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh;
         }
-        
-        .font-cinzel { font-family: 'Cinzel', serif; }
-        
-        /* تعديل المربع الأبيض اللي طالع عندك */
+
+        header { text-align: center; margin-bottom: 40px; margin-top: 20px; }
+        .logo-text { font-family: 'Cinzel', serif; font-size: 26px; letter-spacing: 0.4em; margin: 0; color: #ffffff; }
+        .sub-text { font-size: 9px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
+
+        /* البطاقة الرئيسية */
         .glass-card { 
-            background: rgba(30, 41, 59, 0.8) !important; 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255, 255, 255, 0.1) !important; 
-            border-radius: 2rem; 
+            background-color: #1e293b !important; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 30px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-sizing: border-box;
         }
 
-        @keyframes pulse-red { 
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 
-            70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } 
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 18px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            text-transform: uppercase;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: transform 0.2s;
         }
         
-        .alert-critical { 
-            animation: pulse-red 2s infinite; 
-            background: rgba(220, 38, 38, 0.15); 
-            border: 1.5px solid #ef4444 !important; 
+        button:active { transform: scale(0.98); }
+
+        /* صندوق النتائج */
+        #resultBox { width: 100%; max-width: 380px; margin-top: 30px; display: none; }
+        
+        .client-info { 
+            background: rgba(0,0,0,0.4); 
+            padding: 25px; 
+            border-radius: 25px; 
+            text-align: center; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            margin-bottom: 20px; 
         }
 
-        /* تصحيح زر الواتساب */
-        .whatsapp-lux { 
-            position: fixed; bottom: 25px; right: 20px; 
-            background: #25d366 !important; color: white !important; padding: 12px 24px; 
-            border-radius: 100px; z-index: 1000; text-decoration: none; 
-            display: flex; align-items: center; gap: 10px; 
-            font-weight: 900; font-size: 11px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        /* مراحل التتبع (Timeline) */
+        .step { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 30px; position: relative; }
+        .dot { 
+            width: 14px; height: 14px; border-radius: 50%; 
+            border: 2px solid #334155; flex-shrink: 0; margin-top: 2px;
         }
+        .dot.active { background-color: #2563eb; border-color: #2563eb; box-shadow: 0 0 15px #2563eb; }
+        .dot.past { background-color: #334155; border-color: #334155; }
+        
+        .step-text { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #475569; letter-spacing: 1px; }
+        .step-text.active { color: #ffffff; }
+        .fecha { color: #60a5fa; font-size: 10px; display: block; margin-top: 4px; font-weight: bold; }
 
-        .spinner { 
-            display: none; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #fff; 
-            border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; 
+        /* زر الواتساب */
+        .whatsapp-btn {
+            position: fixed; bottom: 25px; right: 20px;
+            background: #25d366 !important; color: white !important; padding: 14px 22px;
+            border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 11px;
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            z-index: 999;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="pb-24">
+<body>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-lux" target="_blank">
-        <i class="fab fa-whatsapp text-lg"></i><span>CONTACTAR CON OFICINA</span>
+    <a href="https://wa.me/34621188515" class="whatsapp-btn">
+        <i class="fab fa-whatsapp text-lg"></i> CONTACTAR CON OFICINA
     </a>
 
-    <header class="py-10 text-center">
-        <img src="Logo.png" alt="Lexilias" class="h-16 mx-auto mb-4">
-        <h1 class="font-cinzel text-xl tracking-[0.3em] text-white">LEXILIAS</h1>
-        <p class="text-[7px] tracking-[0.4em] text-slate-500 uppercase mt-1 italic">Gestión Jurídica Profesional</p>
+    <header>
+        <img src="Logo.png" alt="" style="height: 60px; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto;">
+        <h1 class="logo-text">LEXILIAS</h1>
+        <p class="sub-text">Gestión Jurídica Profesional</p>
     </header>
 
-    <div class="max-w-md mx-auto px-6">
-        <div class="glass-card p-8 mb-8 shadow-2xl">
-            <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE" 
-                   class="w-full px-4 py-5 bg-black/20 border border-white/10 rounded-2xl font-bold text-white text-center text-lg outline-none uppercase focus:border-white/30 transition-all mb-4">
-            <button onclick="buscarExpediente()" class="w-full bg-white text-black font-black py-5 rounded-2xl flex justify-center items-center gap-3 uppercase text-[10px] tracking-widest active:scale-95 transition-all">
-                <span id="btnText">Consultar Estado</span>
-                <div id="loader" class="spinner"></div>
-            </button>
+    <div class="glass-card">
+        <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE">
+        <button onclick="buscarExpediente()">Consultar Estado</button>
+    </div>
+
+    <div id="resultBox">
+        <div class="client-info">
+            <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 3px;">EXPEDIENTE LOCALIZADO</span>
+            <h2 id="cName" style="margin: 15px 0 5px 0; font-size: 24px; text-transform: uppercase; font-style: italic; font-weight: 900;"></h2>
+            <p id="cExp" style="color: #475569; font-size: 10px; margin: 0; font-weight: bold; letter-spacing: 1px;"></p>
         </div>
 
-        <div id="resultBox" class="hidden space-y-6">
-            <div class="bg-black/40 border border-white/10 rounded-[2.5rem] p-7 text-center">
-                <span class="text-blue-400 text-[8px] font-black uppercase tracking-[0.3em]">Expediente Localizado</span>
-                <h3 id="clientName" class="text-2xl font-black text-white uppercase italic mt-1"></h3>
-                <p id="expDetail" class="text-slate-600 text-[9px] font-bold mt-2 tracking-widest"></p>
-            </div>
-
-            <div id="incidenciaAlert" class="hidden alert-critical p-7 rounded-[2.5rem] text-center">
-                <i class="fas fa-exclamation-circle text-red-500 text-3xl mb-3"></i>
-                <h4 class="text-red-500 font-black text-lg uppercase">¡Atención!</h4>
-                <p class="text-white text-[11px] mt-2">Hay una incidencia en su trámite. Contacte con nosotros.</p>
-            </div>
-
-            <div id="timelineContainer" class="glass-card p-8">
-                <h4 class="font-black text-white text-[9px] mb-10 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center">Evolución del Trámite</h4>
-                <div id="timelineAP" class="space-y-8 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[1px] before:bg-white/5"></div>
-            </div>
-
-            <div class="glass-card p-8">
-                <h4 class="font-black text-white text-[9px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4 text-center italic">Documentación Requerida</h4>
-                <div id="docList" class="space-y-4"></div>
-            </div>
+        <div class="glass-card" style="padding: 30px;">
+            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; letter-spacing: 2px; color: #64748b;">EVOLUCIÓN DEL TRÁMITE</p>
+            <div id="timelineContent"></div>
         </div>
     </div>
 
     <script>
-        const MI_API_URL = "https://script.google.com/macros/s/AKfycbwySMAtY8mrP4RO47VHW3iBX9OHjTbozBc_zmmjXNNWMpJobGO9KrZu_ghGC5GRiFc/exec";
-        const PASOS_OK = ["NO TIENE", "LO HA TRAIDO EL", "RECIBIDO", "TRAMITADO"];
+        // رابط API الخاص بجدول بيانات جوجل
+        const API = "https://script.google.com/macros/s/AKfycbwySMAtY8mrP4RO47VHW3iBX9OHjTbozBc_zmmjXNNWMpJobGO9KrZu_ghGC5GRiFc/exec";
+        const PASOS = ["NO TIENE", "LO HA TRAIDO EL", "RECIBIDO", "TRAMITADO"];
 
         async function buscarExpediente() {
             const val = document.getElementById('userInput').value.trim().toUpperCase();
             if(!val) return;
-            document.getElementById('btnText').style.display = 'none';
-            document.getElementById('loader').style.display = 'block';
-
+            
             try {
-                const response = await fetch(MI_API_URL);
-                const data = await response.json();
+                const res = await fetch(API);
+                const data = await res.json();
+                // البحث بواسطة رقم الملف أو جواز السفر
                 const item = data.find(i => (i.n_exp && String(i.n_exp).toUpperCase() === val) || (i.pasaporte && String(i.pasaporte).toUpperCase() === val));
 
-                if (item) { renderizar(item); } else { alert("No se ha encontrado ningún expediente"); }
-            } catch (e) { alert("Error de conexión"); } finally {
-                document.getElementById('btnText').style.display = 'block';
-                document.getElementById('loader').style.display = 'none';
+                if (item) {
+                    document.getElementById('resultBox').style.display = 'block';
+                    document.getElementById('cName').innerText = item.nombre;
+                    document.getElementById('cExp').innerText = "REG: " + item.n_exp;
+                    
+                    // تنسيق التاريخ ليظهر بشكل نقي
+                    let fechaText = "";
+                    if (item.fecha_cad) {
+                        const d = new Date(item.fecha_cad);
+                        fechaText = !isNaN(d) ? d.toLocaleDateString('es-ES') : String(item.fecha_cad).split('T')[0];
+                    }
+
+                    const estado = String(item.estado_ap || "").toUpperCase();
+                    let idxAct = -1;
+                    PASOS.forEach((p, idx) => { if(estado.includes(p)) idxAct = idx; });
+
+                    // بناء التايملاين
+                    document.getElementById('timelineContent').innerHTML = PASOS.map((p, i) => {
+                        const isAct = i === idxAct;
+                        const isPast = i < idxAct;
+                        return `
+                            <div class="step">
+                                <div class="dot ${isAct ? 'active' : (isPast ? 'past' : '')}"></div>
+                                <div class="step-text ${isAct ? 'active' : ''}">
+                                    ${p}
+                                    ${(p === "LO HA TRAIDO EL" && (isAct || isPast)) ? `<span class="fecha">${fechaText}</span>` : ""}
+                                </div>
+                            </div>`;
+                    }).join('');
+
+                    // تأثير الاحتفال عند انتهاء المعاملة
+                    if(estado.includes("TRAMITADO")) {
+                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                    }
+                } else { 
+                    alert("Lo sentimos, no hemos encontrado ese número de expediente."); 
+                }
+            } catch (e) { 
+                alert("Error de conexión. Inténtelo de nuevo."); 
             }
-        }
-
-        function renderizar(item) {
-            document.getElementById('resultBox').classList.remove('hidden');
-            document.getElementById('clientName').innerText = item.nombre;
-            document.getElementById('expDetail').innerText = "REG: " + item.n_exp;
-
-            const estadoRaw = String(item.estado_ap || "").trim().toUpperCase();
-            
-            // تاريخ منسق
-            let fechaTramite = "";
-            if (item.fecha_cad) {
-                const d = new Date(item.fecha_cad);
-                fechaTramite = !isNaN(d) ? d.toLocaleDateString('es-ES') : String(item.fecha_cad).split('T')[0];
-            }
-
-            let indexActual = -1;
-            PASOS_OK.forEach((p, idx) => { if(estadoRaw.includes(p)) indexActual = idx; });
-
-            document.getElementById('timelineAP').innerHTML = PASOS_OK.map((paso, i) => {
-                const esPasado = i < indexActual;
-                const esActual = i === indexActual;
-                let dotClass = esActual ? "bg-blue-600 shadow-[0_0_20px_#2563eb]" : (esPasado ? "bg-white/10 text-white/30" : "border-white/5");
-                
-                let labelExtra = (paso === "LO HA TRAIDO EL" && (esActual || esPasado) && fechaTramite) 
-                    ? `<br><span class="text-[9px] text-blue-400 font-bold">${fechaTramite}</span>` : "";
-
-                return `
-                    <div class="flex items-start gap-6 relative">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border ${dotClass} mt-1">
-                            ${esPasado ? '✓' : (esActual ? '↻' : '')}
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[10px] uppercase tracking-widest ${esActual ? 'text-white font-black' : 'text-slate-600'}">${paso}</span>
-                            ${labelExtra}
-                        </div>
-                    </div>`;
-            }).join('');
-
-            // قائمة الوثائق
-            const docs = [ 
-                { t: "Pasaporte", v: String(item.pasaporte || "").toUpperCase() }, 
-                { t: "Contrato", v: String(item.contratos || "").toUpperCase() }, 
-                { t: "Tasa Pago", v: String(item.pagado_ap || "").toUpperCase() } 
-            ];
-
-            document.getElementById('docList').innerHTML = docs.map(d => {
-                const esOK = d.v === "ESCANEADO" || d.v === "PAGADO" || d.v === "TIENE";
-                return `
-                    <div class="flex items-center gap-5 p-4 rounded-2xl border border-white/5 bg-white/5">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center ${esOK ? 'bg-white text-black' : 'bg-red-500/20 text-red-500'}">
-                            <i class="fas ${esOK ? 'fa-check' : 'fa-times'} text-[11px]"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-[7px] text-slate-500 uppercase font-bold tracking-widest">${d.t}</p>
-                            <p class="text-xs ${esOK ? 'text-white' : 'text-red-400'} uppercase">${d.v}</p>
-                        </div>
-                    </div>`;
-            }).join('');
-
-            if(estadoRaw === "TRAMITADO") confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
     </script>
 </body>
