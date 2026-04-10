@@ -177,7 +177,16 @@
 
             // Timeline con Fecha
             let indexActual = -1;
-            let fechaTramite = item.fecha_cad ? item.fecha_cad : ""; 
+            let fechaTramite = "";
+            if (item.fecha_cad) {
+    // هاد السطر كياخد أول 10 حروف فقط (يعني التاريخ بلا الوقت والزيادات)
+               const d = new Date(item.fecha_cad);
+               if (!isNaN(d)) {
+              fechaTramite = d.toLocaleDateString('es-ES'); // كيرجع التاريخ بصيغة DD/MM/YYYY
+               } else {
+              fechaTramite = String(item.fecha_cad).split('T')[0]; // حل احتياطي
+        }
+    }
 
             PASOS_OK.forEach((p, idx) => {
                 if(estadoRaw.includes(p)) indexActual = idx;
