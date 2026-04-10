@@ -70,9 +70,37 @@
             border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px;
         }
 
+        /* --- ANIMACIÓN DEL CÍRCULO AZUL --- */
+        @keyframes spin-blue {
+            to { transform: rotate(360deg); }
+        }
+
         .step { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #334155; flex-shrink: 0; margin-top: 3px; }
-        .dot.active { background-color: #2563eb; border-color: #2563eb; box-shadow: 0 0 10px #2563eb; }
+        
+        .dot { 
+            width: 14px; height: 14px; border-radius: 50%; 
+            border: 2px solid #334155; flex-shrink: 0; margin-top: 3px; 
+            position: relative;
+        }
+
+        /* Círculo activo girando */
+        .dot.active { 
+            border: 2px dashed #2563eb; 
+            animation: spin-blue 2s linear infinite;
+            box-shadow: 0 0 10px #2563eb;
+        }
+
+        /* Punto central del círculo activo */
+        .dot.active::after {
+            content: '';
+            position: absolute;
+            width: 6px; height: 6px;
+            background: #2563eb;
+            border-radius: 50%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         .dot.past { background-color: #334155; border-color: #334155; }
         .step-text { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #475569; }
         .step-text.active { color: #ffffff; }
@@ -165,7 +193,7 @@
                     
                     const est = String(item.estado_ap || "").toUpperCase();
 
-                    // REGLA 2: Ocultar tabla de evolución si hay incidencia
+                    // REGLA: Si hay incidencia, ocultamos la tabla de evolución
                     if (est.includes("INCIDENCIA")) {
                         document.getElementById('incidenciaDiv').style.display = 'block';
                         document.getElementById('timelineCard').style.display = 'none';
@@ -189,7 +217,7 @@
                         const isA = i === idxAct; 
                         const isP = i < idxAct;
                         
-                        // REGLA 1: La fecha solo se ve si el estado es EXACTAMENTE "LO HA TRAIDO EL" (Index 1)
+                        // REGLA: La fecha solo se ve si el estado es exactamente "LO HA TRAIDO EL"
                         const mostrarFecha = (p === "LO HA TRAIDO EL" && idxAct === 1 && fT !== "");
                         
                         return `<div class="step">
