@@ -44,7 +44,6 @@
             text-transform: uppercase; outline: none;
         }
 
-        /* MEJORA: Animación del botón al hacer clic */
         button {
             width: 100%; background-color: #ffffff !important; color: #000000 !important;
             padding: 18px; border: none; border-radius: 15px;
@@ -53,10 +52,7 @@
             transition: all 0.2s ease;
         }
         
-        button:active { 
-            transform: scale(0.96); 
-            background-color: #cbd5e1 !important; 
-        }
+        button:active { transform: scale(0.96); background-color: #cbd5e1 !important; }
 
         #resultBox { width: 100%; max-width: 380px; display: none; }
         
@@ -134,7 +130,7 @@
             <p style="margin: 8px 0 0 0; font-size: 12px; font-weight: bold; line-height: 1.4;">Se ha detectado una INCIDENCIA. Por favor, póngase en contacto con nuestra oficina urgentemente.</p>
         </div>
 
-        <div class="glass-card">
+        <div id="timelineCard" class="glass-card">
             <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">EVOLUCIÓN DEL TRÁMITE</p>
             <div id="timelineContent"></div>
         </div>
@@ -150,16 +146,12 @@
         const PASOS = ["NO TIENE", "LO HA TRAIDO EL", "RECIBIDO", "TRAMITADO"];
 
         async function buscarExpediente() {
-            const input = document.getElementById('userInput');
             const btn = document.getElementById('btnSearch');
-            const val = input.value.trim().toUpperCase();
-            
+            const val = document.getElementById('userInput').value.trim().toUpperCase();
             if(!val) return;
 
-            // MEJORA: Feedback visual inmediato
             btn.innerText = "BUSCANDO...";
             btn.disabled = true;
-            btn.style.opacity = "0.7";
             
             try {
                 const res = await fetch(API);
@@ -172,23 +164,21 @@
                     document.getElementById('cExp').innerText = "REG: " + item.n_exp;
                     
                     const est = String(item.estado_ap || "").toUpperCase();
-                    
+
+                    // REGLA 2: Ocultar tabla de evolución si hay incidencia
                     if (est.includes("INCIDENCIA")) {
                         document.getElementById('incidenciaDiv').style.display = 'block';
+                        document.getElementById('timelineCard').style.display = 'none';
                     } else {
                         document.getElementById('incidenciaDiv').style.display = 'none';
+                        document.getElementById('timelineCard').style.display = 'block';
                     }
 
                     let fT = "";
                     if (item.fecha_cad) {
                         const d = new Date(item.fecha_cad);
                         if (!isNaN(d)) {
-                            const dia = String(d.getDate()).padStart(2, '0');
-                            const mes = String(d.getMonth() + 1).padStart(2, '0');
-                            const anio = d.getFullYear();
-                            fT = `${dia}/${mes}/${anio}`;
-                        } else {
-                            fT = String(item.fecha_cad).split('T')[0];
+                            fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
                         }
                     }
 
@@ -196,8 +186,12 @@
                     PASOS.forEach((p, idx) => { if(est.includes(p)) idxAct = idx; });
 
                     document.getElementById('timelineContent').innerHTML = PASOS.map((p, i) => {
-                        const isA = i === idxAct; const isP = i < idxAct;
-                        const mostrarFecha = (p === "LO HA TRAIDO EL" && fT !== "");
+                        const isA = i === idxAct; 
+                        const isP = i < idxAct;
+                        
+                        // REGLA 1: La fecha solo se ve si el estado es EXACTAMENTE "LO HA TRAIDO EL" (Index 1)
+                        const mostrarFecha = (p === "LO HA TRAIDO EL" && idxAct === 1 && fT !== "");
+                        
                         return `<div class="step">
                             <div class="dot ${isA ? 'active' : (isP ? 'past' : '')}"></div>
                             <div class="step-text ${isA ? 'active' : ''}">
@@ -226,20 +220,12 @@
                     }).join('');
 
                     if(est.includes("TRAMITADO")) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    
-                    // Bajamos automáticamente para ver el resultado
                     window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
-
-                } else { 
-                    alert("No encontrado"); 
-                }
-            } catch (e) { 
-                alert("Error de conexión"); 
-            } finally {
-                // Restauramos el botón
+                } else { alert("No encontrado"); }
+            } catch (e) { alert("Error de conexión"); }
+            finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
-                btn.style.opacity = "1";
             }
         }
     </script>
