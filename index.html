@@ -79,7 +79,7 @@
 
     <header class="py-10 text-center">
         <h1 class="font-cinzel text-xl tracking-[0.3em]">LEXILIAS</h1>
-        <p class="text-[7px] tracking-[0.4em] text-slate-500 uppercase mt-1 italic">Gestión Jurídica Profesional</p>
+        <p class="text-[7px] tracking-[0.4em] text-slate-500 uppercase mt-1 italic">Gestión Jurيدica Profesional</p>
     </header>
 
     <div class="max-w-md mx-auto px-6">
@@ -123,7 +123,6 @@
     </div>
 
     <script>
-        // الرابط الخاص بك الذي يعمل حاليا
         const MI_API_URL = "https://script.google.com/macros/s/AKfycbwySMAtY8mrP4RO47VHW3iBX9OHjTbozBc_zmmjXNNWMpJobGO9KrZu_ghGC5GRiFc/exec";
         const PASOS_OK = ["NO TIENE", "LO HA TRAIDO EL", "RECIBIDO", "TRAMITADO"];
 
@@ -135,13 +134,10 @@
             document.getElementById('loader').style.display = 'block';
 
             try {
-                // استخدام fetch العادي مع معالجة التحويلات لـ Google Apps Script
                 const response = await fetch(MI_API_URL);
                 if (!response.ok) throw new Error('Error en red');
-                
                 const data = await response.json();
                 
-                // البحث في البيانات
                 const item = data.find(i => 
                     (i.n_exp && String(i.n_exp).trim().toUpperCase() === val) || 
                     (i.pasaporte && String(i.pasaporte).trim().toUpperCase() === val)
@@ -169,7 +165,6 @@
 
             const estadoRaw = String(item.estado_ap || "").trim().toUpperCase();
             
-            // التنبيه بالإصابة
             const alertBox = document.getElementById('incidenciaAlert');
             const timelineBox = document.getElementById('timelineContainer');
             if(estadoRaw.includes("INCIDENCIA")) {
@@ -180,8 +175,10 @@
                 timelineBox.classList.remove('hidden');
             }
 
-            // التايملاين
+            // Timeline con Fecha
             let indexActual = -1;
+            let fechaTramite = item.fecha_cad ? item.fecha_cad : ""; 
+
             PASOS_OK.forEach((p, idx) => {
                 if(estadoRaw.includes(p)) indexActual = idx;
             });
@@ -192,16 +189,24 @@
                 let ball = esPasado ? "bg-white/10 text-white/30" : (esActual ? "bg-blue-600 shadow-[0_0_20px_#2563eb] scale-110" : "border-white/5 text-slate-800");
                 let textStyle = esActual ? "text-white font-black" : "text-slate-600";
                 
+                let labelExtra = "";
+                if (paso === "LO HA TRAIDO EL" && (esActual || esPasado) && fechaTramite) {
+                    labelExtra = `<br><span class="text-[8px] text-blue-400 font-medium tracking-normal">${fechaTramite}</span>`;
+                }
+
                 return `
-                    <div class="flex items-center gap-6 relative">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border ${ball} transition-all">
+                    <div class="flex items-start gap-6 relative">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center z-10 border ${ball} transition-all mt-1">
                             ${esPasado ? '<i class="fas fa-check text-[8px]"></i>' : (esActual ? '<i class="fas fa-sync-alt fa-spin text-[10px]"></i>' : '')}
                         </div>
-                        <span class="text-[10px] uppercase tracking-widest ${textStyle}">${paso}</span>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-widest ${textStyle}">${paso}</span>
+                            ${labelExtra}
+                        </div>
                     </div>`;
             }).join('');
 
-            // الوثائق (منطق الألوان)
+            // Documentación
             const docs = [ 
                 { t: "Pasaporte", v: String(item.pasaporte || "").trim().toUpperCase() }, 
                 { t: "Contrato", v: String(item.contratos || "").trim().toUpperCase() }, 
@@ -209,9 +214,7 @@
             ];
 
             document.getElementById('docList').innerHTML = docs.map(d => {
-                // الكلمات التي تعتبر إيجابية
                 const esOK = d.v === "ESCANEADO" || d.v === "PAGADO" || d.v === "TIENE";
-                // الكلمات التي تعتبر سلبية
                 const esMal = d.v.includes("NO") || d.v === "FALTA";
                 
                 let iconClass = esOK ? "bg-confirm" : (esMal ? "bg-danger" : "bg-slate-800");
