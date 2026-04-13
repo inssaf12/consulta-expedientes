@@ -23,8 +23,9 @@
 
         header { text-align: center; margin-bottom: 30px; width: 100%; }
 
+        /* LOGO MUCHO MÁS GRANDE */
         .logo-img { 
-            height: 220px; 
+            height: 220px; /* Aumentado de 125px a 220px */
             width: auto;
             margin-bottom: 5px; 
             display: block; 
@@ -49,49 +50,7 @@
             width: 100%; max-width: 380px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             box-sizing: border-box; margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
         }
-
-        /* --- ANIMACIÓN DE ENGRANÁJES --- */
-        @keyframes gear-rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes gear-rotate-reverse {
-            from { transform: rotate(360deg); }
-            to { transform: rotate(0deg); }
-        }
-
-        .bg-gears::before, .bg-gears::after {
-            content: "\f085"; /* Icono cog de FontAwesome */
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            color: rgba(255, 255, 255, 0.03);
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Engranaje Grande Inferior */
-        .bg-gears::before {
-            font-size: 200px;
-            bottom: -50px;
-            right: -40px;
-            animation: gear-rotate 15s linear infinite;
-        }
-
-        /* Engranaje Pequeño Superior */
-        .bg-gears::after {
-            font-size: 120px;
-            top: -20px;
-            left: -30px;
-            animation: gear-rotate-reverse 10s linear infinite;
-        }
-
-        .card-content { position: relative; z-index: 1; }
-        /* ------------------------------- */
 
         input {
             width: 100%; background: rgba(0, 0, 0, 0.5);
@@ -128,14 +87,34 @@
 
         .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
         
-        .doc-row { 
-            display: flex; align-items: center; gap: 15px; 
-            padding: 12px; background: rgba(0,0,0,0.3); 
-            border-radius: 15px; margin-bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.05);
-            backdrop-filter: blur(2px);
+        .fecha-label { 
+            color: #fbbf24; 
+            font-size: 12px; 
+            display: block; 
+            margin-top: 6px; 
+            font-weight: 900; 
+            background: rgba(251, 191, 36, 0.15);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            width: fit-content;
         }
 
+        .incidencia-box {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border: 2px solid #ef4444 !important;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .incidencia-text { color: #f87171 !important; font-weight: 900; }
+
+        .doc-row { 
+            display: flex; align-items: center; gap: 15px; 
+            padding: 12px; background: rgba(0,0,0,0.2); 
+            border-radius: 15px; margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
         .status-badge { 
             width: 30px; height: 30px; border-radius: 8px; 
             display: flex; align-items: center; justify-content: center; font-size: 11px;
@@ -182,17 +161,13 @@
             </div>
 
             <div id="timelineCard" class="glass-card">
-                <div class="card-content">
-                    <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">EVOLUCIÓN DEL TRÁMITE</p>
-                    <div id="timelineContent"></div>
-                </div>
+                <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">EVOLUCIÓN DEL TRÁMITE</p>
+                <div id="timelineContent"></div>
             </div>
 
-            <div class="glass-card bg-gears">
-                <div class="card-content">
-                    <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">ESTADO DE DOCUMENTOS</p>
-                    <div id="docsContent"></div>
-                </div>
+            <div class="glass-card">
+                <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">ESTADO DE DOCUMENTOS</p>
+                <div id="docsContent"></div>
             </div>
         </div>
 
@@ -208,13 +183,18 @@
             const btn = document.getElementById('btnSearch');
             const val = document.getElementById('userInput').value.trim().toUpperCase();
             if(!val) return;
+
             btn.innerText = "BUSCANDO...";
             btn.disabled = true;
+            
             try {
                 const res = await fetch(API);
                 const data = await res.json();
                 const item = data.find(i => (i.n_exp && String(i.n_exp).toUpperCase() === val) || (i.pasaporte && String(i.pasaporte).toUpperCase() === val));
-                if (item) { mostrarTodo(item); } else { alert("No encontrado"); }
+
+                if (item) {
+                    mostrarTodo(item);
+                } else { alert("No encontrado"); }
             } catch (e) { alert("Error de conexión"); }
             finally {
                 btn.innerText = "CONSULTAR ESTADO";
@@ -226,8 +206,55 @@
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('cName').innerText = item.nombre;
             document.getElementById('cExp').innerText = "REG: " + item.n_exp;
+            
             const est = String(item.estado_ap || "").toUpperCase();
-            document.getElementById('timelineContent').innerHTML = `<div class="step"><div class="dot"></div><div class="step-text">${est}</div></div>`;
+
+            let fT = "--/--/--";
+            if (item.fecha_cad) {
+                let d = new Date(item.fecha_cad);
+                if (!isNaN(d.getTime())) {
+                    fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                } else {
+                    fT = item.fecha_cad;
+                }
+            }
+
+            let htmlFinal = "";
+
+            if (est === "INCIDENCIA") {
+                htmlFinal = `
+                    <div class="incidencia-box">
+                        <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 20px; margin-bottom: 10px;"></i>
+                        <div class="step-text incidencia-text">ATENCIÓN: SE HA DETECTADO UNA INCIDENCIA</div>
+                        <div style="font-size: 11px; margin-top: 5px; color: #fff; font-weight: 700;">POR FAVOR, CONTACTE CON NUESTRA OFICINA LO ANTES POSIBLE.</div>
+                    </div>`;
+            } else {
+                let mensajeTexto = "";
+                if (est === "LO HA TRAIDO EL") {
+                    mensajeTexto = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha-label">CADUCIDAD: ${fT}</span>`;
+                }
+                else if (est === "TRAMITADO") {
+                    mensajeTexto = `ENVIADO A TRADUCIR <span class="fecha-label">FECHA: ${fT}</span>`;
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                }
+                else if (est === "NO TIENE") {
+                    mensajeTexto = "NO TIENE PENALES";
+                }
+                else if (est === "RECIBIDO") {
+                    mensajeTexto = `RECIBIDO CON TRADUCCIÓN <span class="fecha-label">CADUCIDAD: ${fT}</span>`;
+                }
+                else {
+                    mensajeTexto = est + (fT !== "--/--/--" ? ` <span class="fecha-label">FECHA: ${fT}</span>` : "");
+                }
+
+                htmlFinal = `
+                    <div class="step">
+                        <div class="dot"></div>
+                        <div class="step-text">${mensajeTexto}</div>
+                    </div>`;
+            }
+
+            document.getElementById('timelineContent').innerHTML = htmlFinal;
 
             const docsArr = [
                 { n: "Pasaporte", v: String(item.pasaporte || "") },
@@ -242,16 +269,35 @@
                         <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
                     </div>
                     <div>
-                        <p style="font-size: 7px; color: #64748b; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
+                        <p style="font-size: 7px; color: #475569; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
                         <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${d.v || 'PENDIENTE'}</p>
                     </div>
                 </div>`;
             }).join('');
+
+            window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
         }
 
         function generarPDF() {
             const element = document.getElementById('captureArea');
-            html2pdf().from(element).save();
+            const btn = document.getElementById('downloadBtn');
+            const waBtn = document.querySelector('.whatsapp-btn');
+
+            btn.style.display = 'none';
+            waBtn.style.display = 'none';
+
+            const opt = {
+                margin: [10, 5, 10, 5],
+                filename: `Justificante_Lexilias_${document.getElementById('cName').innerText}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, backgroundColor: '#020617', useCORS: true, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.style.display = 'flex';
+                waBtn.style.display = 'flex';
+            });
         }
     </script>
 </body>
