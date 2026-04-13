@@ -11,10 +11,9 @@
         
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: #020617 !important; 
-            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%) !important;
-            color: #ffffff !important; 
-            margin: 0; padding: 20px;
+            background-color: #020617; 
+            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
+            color: #ffffff; margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
         }
@@ -24,19 +23,16 @@
         .sub-text { font-size: 9px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
 
         .glass-card { 
-            background-color: #1e293b !important; 
+            background-color: #1e293b; 
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            padding: 25px;
-            width: 100%;
-            max-width: 380px;
+            border-radius: 25px; padding: 25px;
+            width: 100%; max-width: 380px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            box-sizing: border-box;
-            margin-bottom: 20px;
+            box-sizing: border-box; margin-bottom: 20px;
         }
 
         input {
-            width: 100%; background: rgba(0, 0, 0, 0.5) !important;
+            width: 100%; background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 18px; border-radius: 15px;
             color: white; text-align: center; font-size: 18px;
@@ -45,31 +41,18 @@
         }
 
         button {
-            width: 100%; background-color: #ffffff !important; color: #000000 !important;
+            width: 100%; background-color: #ffffff; color: #000000;
             padding: 18px; border: none; border-radius: 15px;
             font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; font-size: 12px;
-            transition: all 0.2s ease;
+            cursor: pointer; font-size: 12px; transition: all 0.2s ease;
         }
         
-        button:active { transform: scale(0.96); background-color: #cbd5e1 !important; }
+        button:active { transform: scale(0.96); background-color: #cbd5e1; }
 
         #resultBox { width: 100%; max-width: 380px; display: none; }
         
         .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
-        @keyframes pulse-red { 
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 
-            70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } 
-        }
-        .alert-critical { 
-            animation: pulse-red 2s infinite; 
-            background: rgba(220, 38, 38, 0.3) !important; 
-            border: 2px solid #ef4444 !important; 
-            border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px;
-        }
-
         @keyframes spin-blue { to { transform: rotate(360deg); } }
 
         .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
@@ -77,8 +60,7 @@
         .dot { 
             width: 14px; height: 14px; border-radius: 50%; 
             border: 2px dashed #2563eb; flex-shrink: 0; 
-            position: relative;
-            animation: spin-blue 2s linear infinite;
+            position: relative; animation: spin-blue 2s linear infinite;
             box-shadow: 0 0 10px #2563eb;
         }
 
@@ -90,7 +72,7 @@
         }
 
         .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
-        .fecha { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; font-weight: 900; }
+        .fecha-label { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; font-weight: 900; }
 
         .doc-row { 
             display: flex; align-items: center; gap: 15px; 
@@ -107,7 +89,7 @@
 
         .whatsapp-btn {
             position: fixed; bottom: 20px; right: 20px;
-            background: #25d366 !important; color: white !important; padding: 12px 20px;
+            background: #25d366; color: white; padding: 12px 20px;
             border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 11px;
             display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             z-index: 9999;
@@ -138,12 +120,6 @@
             <p id="cExp" style="color: #475569; font-size: 10px; font-weight: bold;"></p>
         </div>
 
-        <div id="incidenciaDiv" class="alert-critical" style="display: none;">
-            <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
-            <h4 style="color: #ef4444; margin: 0; font-weight: 900; text-transform: uppercase; font-size: 16px;">¡Atención!</h4>
-            <p style="margin: 8px 0 0 0; font-size: 12px; font-weight: bold; line-height: 1.4;">Se ha detectado una INCIDENCIA. Por favor, póngase en contacto con nuestra oficina urgentemente.</p>
-        </div>
-
         <div id="timelineCard" class="glass-card">
             <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">EVOLUCIÓN DEL TRÁMITE</p>
             <div id="timelineContent"></div>
@@ -156,8 +132,7 @@
     </div>
 
     <script>
-        // USA TU URL DE GOOGLE SCRIPTS AQUÍ
-        const API = "https://script.google.com/macros/s/AKfycbwySMAtY8mrP4RO47VHW3iBX9OHjTbozBc_zmmjXNNWMpJobGO9KrZu_ghGC5GRiFc/exec";
+        const API = "TU_URL_DE_SCRIPT_AQUI";
 
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
@@ -189,41 +164,33 @@
             
             const est = String(item.estado_ap || "").toUpperCase();
 
-            // Gestión de Incidencia
-            if (est.includes("INCIDENCIA")) {
-                document.getElementById('incidenciaDiv').style.display = 'block';
-                document.getElementById('timelineCard').style.display = 'none';
-            } else {
-                document.getElementById('incidenciaDiv').style.display = 'none';
-                document.getElementById('timelineCard').style.display = 'block';
-            }
-
-            // Limpiar Fecha
-            let fT = "--/--/--";
+            // Formatear Fecha de columna E
+            let fCad = "--/--/--";
             if (item.fecha_cad) {
-                const d = new Date(item.fecha_cad);
-                if (!isNaN(d)) {
-                    fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                let d = new Date(item.fecha_cad);
+                if (!isNaN(d.getTime())) {
+                    fCad = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                } else {
+                    fCad = item.fecha_cad;
                 }
             }
 
-            // --- LÓGICA DE MENSAJES PARA EL CLIENTE ---
+            // --- LÓGICA DE MENSAJES SEGÚN TU EXCEL ---
             let mensajeFinal = "";
-            if (est === "NO TIENE") {
-                mensajeFinal = "NO TIENE PENALES";
-            } 
-            else if (est === "LO HA TRAIDO EL") {
-                mensajeFinal = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha">ENTREGADO EL: ${fT}</span>`;
+            
+            if (est === "LO HA TRAIDO EL") {
+                // Solo muestra la fecha que está en la columna E (Fecha_caducidad)
+                mensajeFinal = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha-label">${fCad}</span>`;
             }
-            else if (est === "RECIBIDO") {
-                mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha">FECHA CAD. PENALES: ${fT}</span>`;
-            } 
             else if (est === "TRAMITADO") {
-                mensajeFinal = "ENVIADO A TRADUCIR";
+                mensajeFinal = `TRAMITADO CORRECTAMENTE <span class="fecha-label">${fCad}</span>`;
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             }
+            else if (est === "NO TIENE") {
+                mensajeFinal = "NO TIENE PENALES";
+            }
             else {
-                mensajeFinal = est + (fT !== "--/--/--" ? ` <span class="fecha">FECHA: ${fT}</span>` : "");
+                mensajeFinal = est + (fCad !== "--/--/--" ? ` <span class="fecha-label">${fCad}</span>` : "");
             }
 
             document.getElementById('timelineContent').innerHTML = `
