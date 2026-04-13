@@ -11,9 +11,10 @@
         
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: #020617; 
-            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
-            color: #ffffff; margin: 0; padding: 20px;
+            background-color: #020617 !important; 
+            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%) !important;
+            color: #ffffff !important; 
+            margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
         }
@@ -23,16 +24,40 @@
         .sub-text { font-size: 9px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
 
         .glass-card { 
-            background-color: #1e293b; 
+            background-color: #1e293b !important; 
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px; padding: 25px;
-            width: 100%; max-width: 380px;
+            border-radius: 25px;
+            padding: 25px;
+            width: 100%;
+            max-width: 380px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            box-sizing: border-box; margin-bottom: 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            position: relative; /* Necesario para los engranajes */
+            overflow: hidden;   /* Para que los engranajes no se salgan */
+        }
+
+        /* ENGRANAJES ANIMADOS AL FONDO */
+        .bg-gears {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 180px;
+            color: rgba(255, 255, 255, 0.03); /* Muy sutil */
+            z-index: 0;
+            pointer-events: none;
+        }
+        .gear-spin {
+            animation: gear-rotate 10s linear infinite;
+        }
+        @keyframes gear-rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         input {
-            width: 100%; background: rgba(0, 0, 0, 0.5);
+            width: 100%; background: rgba(0, 0, 0, 0.5) !important;
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 18px; border-radius: 15px;
             color: white; text-align: center; font-size: 18px;
@@ -41,48 +66,43 @@
         }
 
         button {
-            width: 100%; background-color: #ffffff; color: #000000;
+            width: 100%; background-color: #ffffff !important; color: #000000 !important;
             padding: 18px; border: none; border-radius: 15px;
             font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; font-size: 12px; transition: all 0.2s ease;
+            cursor: pointer; font-size: 12px;
+            transition: all 0.2s ease;
         }
-        
-        button:active { transform: scale(0.96); background-color: #cbd5e1; }
 
         #resultBox { width: 100%; max-width: 380px; display: none; }
         
         .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
-        @keyframes spin-blue { to { transform: rotate(360deg); } }
+        .alert-critical { 
+            animation: pulse-red 2s infinite; 
+            background: rgba(220, 38, 38, 0.3) !important; 
+            border: 2px solid #ef4444 !important; 
+            border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px;
+        }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
-        .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
-        
-        /* Estilo base del punto */
+        .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; position: relative; z-index: 1; }
         .dot { 
             width: 14px; height: 14px; border-radius: 50%; 
             border: 2px dashed #2563eb; flex-shrink: 0; 
-            position: relative; animation: spin-blue 2s linear infinite;
-            box-shadow: 0 0 10px #2563eb;
+            position: relative; animation: spin-blue 2s linear infinite; box-shadow: 0 0 10px #2563eb;
         }
-        .dot::after {
-            content: ''; position: absolute;
-            width: 6px; height: 6px; background: #2563eb;
-            border-radius: 50%; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-        }
+        @keyframes spin-blue { to { transform: rotate(360deg); } }
 
-        /* Estilo especial para INCIDENCIA */
-        .dot-error { border-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
-        .dot-error::after { background: #ef4444; }
-
-        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
-        .fecha-label { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; font-weight: 900; }
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; }
+        .fecha { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; font-weight: 900; }
 
         .doc-row { 
             display: flex; align-items: center; gap: 15px; 
-            padding: 12px; background: rgba(0,0,0,0.2); 
+            padding: 12px; background: rgba(15, 23, 42, 0.8); /* Más opaco para leer sobre el engranaje */
+            backdrop-filter: blur(4px);
             border-radius: 15px; margin-bottom: 10px;
             border: 1px solid rgba(255,255,255,0.05);
+            position: relative; z-index: 1;
         }
         .status-badge { 
             width: 30px; height: 30px; border-radius: 8px; 
@@ -93,7 +113,7 @@
 
         .whatsapp-btn {
             position: fixed; bottom: 20px; right: 20px;
-            background: #25d366; color: white; padding: 12px 20px;
+            background: #25d366 !important; color: white !important; padding: 12px 20px;
             border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 11px;
             display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             z-index: 9999;
@@ -124,19 +144,27 @@
             <p id="cExp" style="color: #475569; font-size: 10px; font-weight: bold;"></p>
         </div>
 
+        <div id="incidenciaDiv" class="alert-critical" style="display: none;">
+            <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
+            <h4 style="color: #ef4444; margin: 0; font-weight: 900; text-transform: uppercase; font-size: 16px;">¡Atención!</h4>
+            <p style="margin: 8px 0 0 0; font-size: 12px; font-weight: bold; line-height: 1.4;">Se ha detectado una INCIDENCIA. Por favor, póngase en contacto con nuestra oficina urgentemente.</p>
+        </div>
+
         <div id="timelineCard" class="glass-card">
             <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">EVOLUCIÓN DEL TRÁMITE</p>
             <div id="timelineContent"></div>
         </div>
 
         <div class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">DOCUMENTACIÓN</p>
+            <div class="bg-gears"><i class="fas fa-cog gear-spin"></i></div>
+            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px; position: relative; z-index: 1;">DOCUMENTACIÓN</p>
             <div id="docsContent"></div>
+            <p style="text-align: center; font-size: 8px; color: #475569; margin-top: 15px; font-weight: bold; position: relative; z-index: 1;">DOCUMENTACIÓN EN ACTUALIZACIÓN...</p>
         </div>
     </div>
 
     <script>
-        const API = "https://script.google.com/macros/s/AKfycbwZ8vlsZFZ1Ep9I6s2rdD6DtxQASiab7ind13TVzKCH7DhNmUxatuaFtMnqROMoic0/exec";
+        const API = "https://script.google.com/macros/s/AKfycbwySMAtY8mrP4RO47VHW3iBX9OHjTbozBc_zmmjXNNWMpJobGO9KrZu_ghGC5GRiFc/exec";
 
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
@@ -152,85 +180,69 @@
                 const item = data.find(i => (i.n_exp && String(i.n_exp).toUpperCase() === val) || (i.pasaporte && String(i.pasaporte).toUpperCase() === val));
 
                 if (item) {
-                    mostrarTodo(item);
+                    document.getElementById('resultBox').style.display = 'block';
+                    document.getElementById('cName').innerText = item.nombre;
+                    document.getElementById('cExp').innerText = "REG: " + item.n_exp;
+                    
+                    const est = String(item.estado_ap || "").toUpperCase();
+
+                    if (est.includes("INCIDENCIA")) {
+                        document.getElementById('incidenciaDiv').style.display = 'block';
+                        document.getElementById('timelineCard').style.display = 'none';
+                    } else {
+                        document.getElementById('incidenciaDiv').style.display = 'none';
+                        document.getElementById('timelineCard').style.display = 'block';
+                    }
+
+                    let fT = "--/--/--";
+                    if (item.fecha_cad) {
+                        const d = new Date(item.fecha_cad);
+                        if (!isNaN(d)) {
+                            fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                        }
+                    }
+
+                    let mensajeFinal = "";
+                    if (est === "NO TIENE") mensajeFinal = "NO TIENE PENALES";
+                    else if (est === "RECIBIDO") mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha">FECHA CAD: ${fT}</span>`;
+                    else if (est === "TRAMITADO") {
+                        mensajeFinal = "ENVIADO A TRADUCIR";
+                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                    }
+                    else mensajeFinal = est;
+
+                    document.getElementById('timelineContent').innerHTML = `
+                        <div class="step">
+                            <div class="dot"></div>
+                            <div class="step-text">${mensajeFinal}</div>
+                        </div>`;
+
+                    const docsArr = [
+                        { n: "Pasaporte", v: String(item.pasaporte || "") },
+                        { n: "Contratos", v: String(item.contracts || item.contratos || "") },
+                        { n: "Tasa Pago", v: String(item.pagado_ap || "") }
+                    ];
+
+                    document.getElementById('docsContent').innerHTML = docsArr.map(d => {
+                        const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(d.v.toUpperCase());
+                        return `<div class="doc-row">
+                            <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
+                                <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 7px; color: #475569; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
+                                <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${d.v || 'PENDIENTE'}</p>
+                            </div>
+                        </div>`;
+                    }).join('');
+
+                    window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
                 } else { alert("No encontrado"); }
             } catch (e) { alert("Error de conexión"); }
             finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
             }
-        }
-
-        function mostrarTodo(item) {
-            document.getElementById('resultBox').style.display = 'block';
-            document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "REG: " + item.n_exp;
-            
-            const est = String(item.estado_ap || "").toUpperCase();
-
-            // Formatear Fecha de columna E (fecha_cad)
-            let fT = "--/--/--";
-            if (item.fecha_cad) {
-                let d = new Date(item.fecha_cad);
-                if (!isNaN(d.getTime())) {
-                    fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-                } else {
-                    fT = item.fecha_cad;
-                }
-            }
-
-            let mensajeFinal = "";
-            let isError = false; // Variable para controlar el color rojo
-            
-            if (est.includes("INCIDENCIA")) {
-                mensajeFinal = `<span style="color: #ef4444;">INCIDENCIA DETECTADA: CONTACTE CON NOSOTROS</span>`;
-                isError = true;
-            }
-            else if (est === "LO HA TRAIDO EL") {
-                mensajeFinal = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha-label">FECHA CAD: ${fT}</span>`;
-            }
-            else if (est === "TRAMITADO") {
-                mensajeFinal = `ENVIADO A TRADUCIR <span class="fecha-label">${fT}</span>`;
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            }
-            else if (est === "NO TIENE") {
-                mensajeFinal = "NO TIENE PENALES";
-            }
-            else if (est === "RECIBIDO") {
-                mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha-label">FECHA CAD: ${fT}</span>`;
-            }
-            else {
-                mensajeFinal = est + (fT !== "--/--/--" ? ` <span class="fecha-label">FECHA: ${fT}</span>` : "");
-            }
-
-            // Inyectamos el contenido con la clase condicional del punto (dot-error)
-            document.getElementById('timelineContent').innerHTML = `
-                <div class="step">
-                    <div class="dot ${isError ? 'dot-error' : ''}"></div>
-                    <div class="step-text">${mensajeFinal}</div>
-                </div>`;
-
-            // Documentación
-            const docsArr = [
-                { n: "Pasaporte", v: String(item.pasaporte || "") },
-                { n: "Contratos", v: String(item.contratos || "") },
-                { n: "Tasa Pago", v: String(item.pagado_ap || "") }
-            ];
-
-            document.getElementById('docsContent').innerHTML = docsArr.map(d => {
-                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(d.v.toUpperCase());
-                return `<div class="doc-row">
-                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
-                        <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
-                    </div>
-                    <div>
-                        <p style="font-size: 7px; color: #475569; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
-                        <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${d.v || 'PENDIENTE'}</p>
-                    </div>
-                </div>`;
-            }).join('');
-
-            window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
         }
     </script>
 </body>
