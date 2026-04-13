@@ -89,7 +89,7 @@
             transform: translate(-50%, -50%);
         }
 
-        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; }
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
         .fecha { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; font-weight: 900; }
 
         .doc-row { 
@@ -156,6 +156,7 @@
     </div>
 
     <script>
+        // USA TU URL DE GOOGLE SCRIPTS AQUÍ
         const API = "https://script.google.com/macros/s/AKfycbwySMAtY8mrP4RO47VHW3iBX9OHjTbozBc_zmmjXNNWMpJobGO9KrZu_ghGC5GRiFc/exec";
 
         async function buscarExpediente() {
@@ -172,74 +173,86 @@
                 const item = data.find(i => (i.n_exp && String(i.n_exp).toUpperCase() === val) || (i.pasaporte && String(i.pasaporte).toUpperCase() === val));
 
                 if (item) {
-                    document.getElementById('resultBox').style.display = 'block';
-                    document.getElementById('cName').innerText = item.nombre;
-                    document.getElementById('cExp').innerText = "REG: " + item.n_exp;
-                    
-                    const est = String(item.estado_ap || "").toUpperCase();
-
-                    // Lógica de Incidencia
-                    if (est.includes("INCIDENCIA")) {
-                        document.getElementById('incidenciaDiv').style.display = 'block';
-                        document.getElementById('timelineCard').style.display = 'none';
-                    } else {
-                        document.getElementById('incidenciaDiv').style.display = 'none';
-                        document.getElementById('timelineCard').style.display = 'block';
-                    }
-
-                    // Formatear Fecha
-                    let fT = "--/--/--";
-                    if (item.fecha_cad) {
-                        const d = new Date(item.fecha_cad);
-                        if (!isNaN(d)) {
-                            fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-                        }
-                    }
-
-                    // LÓGICA DINÁMICA DE MENSAJES
-                    let mensajeFinal = "";
-                    if (est === "NO TIENE") mensajeFinal = "NO TIENE PENALES";
-                    else if (est === "RECIBIDO") mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha">FECHA CAD: ${fT}</span>`;
-                    else if (est === "TRAMITADO") {
-                        mensajeFinal = "ENVIADO A TRADUCIR";
-                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    }
-                    else mensajeFinal = est;
-
-                    // Dibujar el paso único activo
-                    document.getElementById('timelineContent').innerHTML = `
-                        <div class="step">
-                            <div class="dot"></div>
-                            <div class="step-text">${mensajeFinal}</div>
-                        </div>`;
-
-                    // Documentación
-                    const docsArr = [
-                        { n: "Pasaporte", v: String(item.pasaporte || "") },
-                        { n: "Contratos", v: String(item.contratos || "") },
-                        { n: "Tasa Pago", v: String(item.pagado_ap || "") }
-                    ];
-
-                    document.getElementById('docsContent').innerHTML = docsArr.map(d => {
-                        const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(d.v.toUpperCase());
-                        return `<div class="doc-row">
-                            <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
-                                <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
-                            </div>
-                            <div>
-                                <p style="font-size: 7px; color: #475569; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
-                                <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${d.v || 'PENDIENTE'}</p>
-                            </div>
-                        </div>`;
-                    }).join('');
-
-                    window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
+                    mostrarTodo(item);
                 } else { alert("No encontrado"); }
             } catch (e) { alert("Error de conexión"); }
             finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
             }
+        }
+
+        function mostrarTodo(item) {
+            document.getElementById('resultBox').style.display = 'block';
+            document.getElementById('cName').innerText = item.nombre;
+            document.getElementById('cExp').innerText = "REG: " + item.n_exp;
+            
+            const est = String(item.estado_ap || "").toUpperCase();
+
+            // Gestión de Incidencia
+            if (est.includes("INCIDENCIA")) {
+                document.getElementById('incidenciaDiv').style.display = 'block';
+                document.getElementById('timelineCard').style.display = 'none';
+            } else {
+                document.getElementById('incidenciaDiv').style.display = 'none';
+                document.getElementById('timelineCard').style.display = 'block';
+            }
+
+            // Limpiar Fecha
+            let fT = "--/--/--";
+            if (item.fecha_cad) {
+                const d = new Date(item.fecha_cad);
+                if (!isNaN(d)) {
+                    fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                }
+            }
+
+            // --- LÓGICA DE MENSAJES PARA EL CLIENTE ---
+            let mensajeFinal = "";
+            if (est === "NO TIENE") {
+                mensajeFinal = "NO TIENE PENALES";
+            } 
+            else if (est === "LO HA TRAIDO EL") {
+                mensajeFinal = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha">ENTREGADO EL: ${fT}</span>`;
+            }
+            else if (est === "RECIBIDO") {
+                mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha">FECHA CAD. PENALES: ${fT}</span>`;
+            } 
+            else if (est === "TRAMITADO") {
+                mensajeFinal = "ENVIADO A TRADUCIR";
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+            else {
+                mensajeFinal = est + (fT !== "--/--/--" ? ` <span class="fecha">FECHA: ${fT}</span>` : "");
+            }
+
+            document.getElementById('timelineContent').innerHTML = `
+                <div class="step">
+                    <div class="dot"></div>
+                    <div class="step-text">${mensajeFinal}</div>
+                </div>`;
+
+            // Documentación (Badges)
+            const docsArr = [
+                { n: "Pasaporte", v: String(item.pasaporte || "") },
+                { n: "Contratos", v: String(item.contratos || "") },
+                { n: "Tasa Pago", v: String(item.pagado_ap || "") }
+            ];
+
+            document.getElementById('docsContent').innerHTML = docsArr.map(d => {
+                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(d.v.toUpperCase());
+                return `<div class="doc-row">
+                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
+                        <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
+                    </div>
+                    <div>
+                        <p style="font-size: 7px; color: #475569; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
+                        <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${d.v || 'PENDIENTE'}</p>
+                    </div>
+                </div>`;
+            }).join('');
+
+            window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
         }
     </script>
 </body>
