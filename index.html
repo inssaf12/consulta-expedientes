@@ -132,7 +132,7 @@
     </div>
 
     <script>
-        const API = "TU_URL_DE_SCRIPT_AQUI";
+        const API = "https://script.google.com/macros/s/AKfycbwZ8vlsZFZ1Ep9I6s2rdD6DtxQASiab7ind13TVzKCH7DhNmUxatuaFtMnqROMoic0/exec";
 
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
@@ -164,33 +164,35 @@
             
             const est = String(item.estado_ap || "").toUpperCase();
 
-            // Formatear Fecha de columna E
-            let fCad = "--/--/--";
+            // Formatear Fecha de columna E (fecha_cad)
+            let fT = "--/--/--";
             if (item.fecha_cad) {
                 let d = new Date(item.fecha_cad);
                 if (!isNaN(d.getTime())) {
-                    fCad = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                    fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
                 } else {
-                    fCad = item.fecha_cad;
+                    fT = item.fecha_cad;
                 }
             }
 
-            // --- LÓGICA DE MENSAJES SEGÚN TU EXCEL ---
+            // LÓGICA DE MENSAJES PARA EL CLIENTE
             let mensajeFinal = "";
             
             if (est === "LO HA TRAIDO EL") {
-                // Solo muestra la fecha que está en la columna E (Fecha_caducidad)
-                mensajeFinal = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha-label">${fCad}</span>`;
+                mensajeFinal = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha-label">FECHA CAD: ${fT}</span>`;
             }
             else if (est === "TRAMITADO") {
-                mensajeFinal = `TRAMITADO CORRECTAMENTE <span class="fecha-label">${fCad}</span>`;
+                mensajeFinal = `ENVIADO A TRADUCIR <span class="fecha-label">${fT}</span>`;
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             }
             else if (est === "NO TIENE") {
                 mensajeFinal = "NO TIENE PENALES";
             }
+            else if (est === "RECIBIDO") {
+                mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha-label">FECHA CAD: ${fT}</span>`;
+            }
             else {
-                mensajeFinal = est + (fCad !== "--/--/--" ? ` <span class="fecha-label">${fCad}</span>` : "");
+                mensajeFinal = est + (fT !== "--/--/--" ? ` <span class="fecha-label">FECHA: ${fT}</span>` : "");
             }
 
             document.getElementById('timelineContent').innerHTML = `
@@ -199,7 +201,7 @@
                     <div class="step-text">${mensajeFinal}</div>
                 </div>`;
 
-            // Documentación (Badges)
+            // Documentación
             const docsArr = [
                 { n: "Pasaporte", v: String(item.pasaporte || "") },
                 { n: "Contratos", v: String(item.contratos || "") },
