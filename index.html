@@ -11,9 +11,9 @@
         
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: #020617 !important; 
-            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%) !important;
-            color: #ffffff !important; 
+            background-color: #020617; 
+            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
+            color: #ffffff; 
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
@@ -24,7 +24,7 @@
         .sub-text { font-size: 9px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
 
         .glass-card { 
-            background-color: #1e293b !important; 
+            background-color: #1e293b; 
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 25px;
             padding: 25px;
@@ -36,7 +36,7 @@
         }
 
         input {
-            width: 100%; background: rgba(0, 0, 0, 0.5) !important;
+            width: 100%; background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 18px; border-radius: 15px;
             color: white; text-align: center; font-size: 18px;
@@ -45,66 +45,28 @@
         }
 
         button {
-            width: 100%; background-color: #ffffff !important; color: #000000 !important;
+            width: 100%; background-color: #ffffff; color: #000000;
             padding: 18px; border: none; border-radius: 15px;
             font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; font-size: 12px;
-            transition: all 0.2s ease;
+            cursor: pointer; font-size: 12px; transition: all 0.2s ease;
         }
         
-        button:active { transform: scale(0.96); background-color: #cbd5e1 !important; }
+        button:active { transform: scale(0.96); background-color: #cbd5e1; }
 
         #resultBox { width: 100%; max-width: 380px; display: none; }
         
         .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
-        @keyframes pulse-red { 
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 
-            70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } 
-        }
         .alert-critical { 
-            animation: pulse-red 2s infinite; 
-            background: rgba(220, 38, 38, 0.3) !important; 
-            border: 2px solid #ef4444 !important; 
+            background: rgba(220, 38, 38, 0.2); 
+            border: 2px solid #ef4444; 
             border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px;
         }
 
-        /* --- ANIMACIÓN DEL CÍRCULO AZUL --- */
-        @keyframes spin-blue {
-            to { transform: rotate(360deg); }
-        }
-
         .step { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
-        
-        .dot { 
-            width: 14px; height: 14px; border-radius: 50%; 
-            border: 2px solid #334155; flex-shrink: 0; margin-top: 3px; 
-            position: relative;
-        }
-
-        /* Círculo activo girando */
-        .dot.active { 
-            border: 2px dashed #2563eb; 
-            animation: spin-blue 2s linear infinite;
-            box-shadow: 0 0 10px #2563eb;
-        }
-
-        /* Punto central del círculo activo */
-        .dot.active::after {
-            content: '';
-            position: absolute;
-            width: 6px; height: 6px;
-            background: #2563eb;
-            border-radius: 50%;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .dot.past { background-color: #334155; border-color: #334155; }
-        .step-text { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #475569; }
-        .step-text.active { color: #ffffff; }
-        .fecha { color: #60a5fa; font-size: 10px; display: block; margin-top: 4px; font-weight: bold; }
+        .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #2563eb; position: relative; background: #2563eb; box-shadow: 0 0 10px #2563eb; }
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; }
+        .fecha-tag { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; }
 
         .doc-row { 
             display: flex; align-items: center; gap: 15px; 
@@ -112,19 +74,15 @@
             border-radius: 15px; margin-bottom: 10px;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .status-badge { 
-            width: 30px; height: 30px; border-radius: 8px; 
-            display: flex; align-items: center; justify-content: center; font-size: 11px;
-        }
+        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
         .bg-ok { background: #ffffff; color: #000; }
         .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
 
         .whatsapp-btn {
             position: fixed; bottom: 20px; right: 20px;
-            background: #25d366 !important; color: white !important; padding: 12px 20px;
+            background: #25d366; color: white; padding: 12px 20px;
             border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 11px;
             display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            z-index: 9999;
         }
     </style>
 </head>
@@ -135,7 +93,6 @@
     </a>
 
     <header>
-        <img src="Logo.png" alt="" style="height: 55px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
         <h1 class="logo-text">LEXILIAS</h1>
         <p class="sub-text">Gestión Jurídica Profesional</p>
     </header>
@@ -148,30 +105,29 @@
     <div id="resultBox">
         <div class="client-info">
             <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</span>
-            <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic;"></h2>
-            <p id="cExp" style="color: #475569; font-size: 10px; font-weight: bold;"></p>
+            <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900;"></h2>
+            <p id="cExp" style="color: #475569; font-size: 11px; font-weight: bold;"></p>
         </div>
 
         <div id="incidenciaDiv" class="alert-critical" style="display: none;">
             <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
-            <h4 style="color: #ef4444; margin: 0; font-weight: 900; text-transform: uppercase; font-size: 16px;">¡Atención!</h4>
-            <p style="margin: 8px 0 0 0; font-size: 12px; font-weight: bold; line-height: 1.4;">Se ha detectado una INCIDENCIA. Por favor, póngase en contacto con nuestra oficina urgentemente.</p>
+            <h4 style="color: #ef4444; margin: 0; font-weight: 900;">¡ATENCIÓN!</h4>
+            <p style="font-size: 12px; font-weight: bold;">Se ha detectado una incidencia. Contacte con nosotros.</p>
         </div>
 
-        <div id="timelineCard" class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">EVOLUCIÓN DEL TRÁMITE</p>
+        <div class="glass-card">
+            <p style="text-align: center; font-size: 9px; font-weight: 900; color: #64748b; letter-spacing: 2px; margin-bottom: 20px;">EVOLUCIÓN DEL TRÁMITE</p>
             <div id="timelineContent"></div>
         </div>
 
         <div class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">DOCUMENTACIÓN</p>
+            <p style="text-align: center; font-size: 9px; font-weight: 900; color: #64748b; letter-spacing: 2px; margin-bottom: 20px;">DOCUMENTACIÓN</p>
             <div id="docsContent"></div>
         </div>
     </div>
 
     <script>
-        const API = "https://script.google.com/macros/s/AKfycbwySMAtY8mrP4RO47VHW3iBX9OHjTbozBc_zmmjXNNWMpJobGO9KrZu_ghGC5GRiFc/exec";
-        const PASOS = ["NO TIENE", "LO HA TRAIDO EL", "RECIBIDO", "TRAMITADO"];
+        const API_URL = "https://script.google.com/macros/s/AKfycby-_0eYVx9NXEleeDidQwzIr3k915CbiVL1uxIdQrI1bc6N3wZzfVv4_XuQaFgi53g/exec";
 
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
@@ -180,81 +136,76 @@
 
             btn.innerText = "BUSCANDO...";
             btn.disabled = true;
-            
+
             try {
-                const res = await fetch(API);
+                const res = await fetch(API_URL);
                 const data = await res.json();
-                const item = data.find(i => (i.n_exp && String(i.n_exp).toUpperCase() === val) || (i.pasaporte && String(i.pasaporte).toUpperCase() === val));
+                const item = data.find(i => 
+                    (i.n_exp && String(i.n_exp).toUpperCase() === val) || 
+                    (i.pasaporte && String(i.pasaporte).toUpperCase() === val)
+                );
 
                 if (item) {
-                    document.getElementById('resultBox').style.display = 'block';
-                    document.getElementById('cName').innerText = item.nombre;
-                    document.getElementById('cExp').innerText = "REG: " + item.n_exp;
-                    
-                    const est = String(item.estado_ap || "").toUpperCase();
-
-                    // REGLA: Si hay incidencia, ocultamos la tabla de evolución
-                    if (est.includes("INCIDENCIA")) {
-                        document.getElementById('incidenciaDiv').style.display = 'block';
-                        document.getElementById('timelineCard').style.display = 'none';
-                    } else {
-                        document.getElementById('incidenciaDiv').style.display = 'none';
-                        document.getElementById('timelineCard').style.display = 'block';
-                    }
-
-                    let fT = "";
-                    if (item.fecha_cad) {
-                        const d = new Date(item.fecha_cad);
-                        if (!isNaN(d)) {
-                            fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-                        }
-                    }
-
-                    let idxAct = -1;
-                    PASOS.forEach((p, idx) => { if(est.includes(p)) idxAct = idx; });
-
-                    document.getElementById('timelineContent').innerHTML = PASOS.map((p, i) => {
-                        const isA = i === idxAct; 
-                        const isP = i < idxAct;
-                        
-                        // REGLA: La fecha solo se ve si el estado es exactamente "LO HA TRAIDO EL"
-                        const mostrarFecha = (p === "LO HA TRAIDO EL" && idxAct === 1 && fT !== "");
-                        
-                        return `<div class="step">
-                            <div class="dot ${isA ? 'active' : (isP ? 'past' : '')}"></div>
-                            <div class="step-text ${isA ? 'active' : ''}">
-                                ${p} ${mostrarFecha ? `<span class="fecha">${fT}</span>` : ""}
-                            </div>
-                        </div>`;
-                    }).join('');
-
-                    const docsArr = [
-                        { n: "Pasaporte", v: String(item.pasaporte || "") },
-                        { n: "Contratos", v: String(item.contratos || "") },
-                        { n: "Tasa Pago", v: String(item.pagado_ap || "") }
-                    ];
-
-                    document.getElementById('docsContent').innerHTML = docsArr.map(d => {
-                        const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(d.v.toUpperCase());
-                        return `<div class="doc-row">
-                            <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
-                                <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
-                            </div>
-                            <div>
-                                <p style="font-size: 7px; color: #475569; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
-                                <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${d.v || 'PENDIENTE'}</p>
-                            </div>
-                        </div>`;
-                    }).join('');
-
-                    if(est.includes("TRAMITADO")) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
-                } else { alert("No encontrado"); }
-            } catch (e) { alert("Error de conexión"); }
-            finally {
+                    mostrarResultados(item);
+                } else {
+                    alert("No se ha encontrado el expediente.");
+                    document.getElementById('resultBox').style.display = 'none';
+                }
+            } catch (e) {
+                alert("Error al conectar con la base de datos.");
+            } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
             }
+        }
+
+        function mostrarResultados(item) {
+            document.getElementById('resultBox').style.display = 'block';
+            document.getElementById('cName').innerText = item.nombre;
+            document.getElementById('cExp').innerText = "REGISTRO: " + item.n_exp;
+
+            const est = String(item.estado_ap || "").toUpperCase();
+            let msg = "";
+            let isIncidencia = est.includes("INCIDENCIA");
+
+            // Lógica de estados que pediste
+            if (est === "NO TIENE") msg = "NO TIENE PENALES";
+            else if (est === "RECIBIDO") msg = `RECIBIDO CON TRADUCCIÓN <span class="fecha-tag">FECHA CAD: ${item.fecha_cad || '--/--/--'}</span>`;
+            else if (est === "TRAMITADO") {
+                msg = "ENVIADO A TRADUCIR";
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+            else msg = est;
+
+            document.getElementById('incidenciaDiv').style.display = isIncidencia ? 'block' : 'none';
+            
+            document.getElementById('timelineContent').innerHTML = `
+                <div class="step">
+                    <div class="dot"></div>
+                    <div class="step-text">${msg}</div>
+                </div>
+            `;
+
+            // Documentación
+            const docs = [
+                { n: "Pasaporte", v: item.pasaporte },
+                { n: "Pago de Tasa", v: item.pagado_ap },
+                { n: "Contratos", v: item.contratos }
+            ];
+
+            document.getElementById('docsContent').innerHTML = docs.map(d => {
+                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(String(d.v).toUpperCase());
+                return `
+                    <div class="doc-row">
+                        <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
+                            <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
+                        </div>
+                        <div>
+                            <p style="font-size: 7px; color: #475569; margin:0;">${d.n}</p>
+                            <p style="font-size: 13px; font-weight: 900; margin:0;">${d.v || 'PENDIENTE'}</p>
+                        </div>
+                    </div>`;
+            }).join('');
         }
     </script>
 </body>
