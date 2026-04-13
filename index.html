@@ -20,6 +20,7 @@
         }
 
         header { text-align: center; margin-bottom: 25px; }
+        .logo-img { height: 70px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3)); }
         .logo-text { font-family: 'Cinzel', serif; font-size: 26px; letter-spacing: 0.4em; margin: 0; }
         .sub-text { font-size: 9px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
 
@@ -51,22 +52,21 @@
             cursor: pointer; font-size: 12px; transition: all 0.2s ease;
         }
         
-        button:active { transform: scale(0.96); background-color: #cbd5e1; }
+        button:active { transform: scale(0.96); }
 
         #resultBox { width: 100%; max-width: 380px; display: none; }
         
         .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
         .alert-critical { 
-            background: rgba(220, 38, 38, 0.2); 
-            border: 2px solid #ef4444; 
+            background: rgba(220, 38, 38, 0.2); border: 2px solid #ef4444; 
             border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px;
         }
 
-        .step { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
-        .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #2563eb; position: relative; background: #2563eb; box-shadow: 0 0 10px #2563eb; }
-        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; }
-        .fecha-tag { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; }
+        .step { display: flex; align-items: center; gap: 15px; }
+        .dot { width: 14px; height: 14px; border-radius: 50%; background: #2563eb; box-shadow: 0 0 10px #2563eb; }
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.4; }
+        .fecha-tag { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; font-weight: 900; }
 
         .doc-row { 
             display: flex; align-items: center; gap: 15px; 
@@ -74,7 +74,7 @@
             border-radius: 15px; margin-bottom: 10px;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .bg-ok { background: #ffffff; color: #000; }
         .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
 
@@ -83,6 +83,7 @@
             background: #25d366; color: white; padding: 12px 20px;
             border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 11px;
             display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            z-index: 999;
         }
     </style>
 </head>
@@ -93,6 +94,7 @@
     </a>
 
     <header>
+        <img src="https://raw.githubusercontent.com/TU_USUARIO/REPO/main/Logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
         <h1 class="logo-text">LEXILIAS</h1>
         <p class="sub-text">Gestión Jurídica Profesional</p>
     </header>
@@ -105,28 +107,29 @@
     <div id="resultBox">
         <div class="client-info">
             <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</span>
-            <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900;"></h2>
+            <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic;"></h2>
             <p id="cExp" style="color: #475569; font-size: 11px; font-weight: bold;"></p>
         </div>
 
         <div id="incidenciaDiv" class="alert-critical" style="display: none;">
             <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
             <h4 style="color: #ef4444; margin: 0; font-weight: 900;">¡ATENCIÓN!</h4>
-            <p style="font-size: 12px; font-weight: bold;">Se ha detectado una incidencia. Contacte con nosotros.</p>
+            <p style="font-size: 12px; font-weight: bold; margin-top: 5px;">Se ha detectado una incidencia. Contacte con nuestra oficina urgentemente.</p>
         </div>
 
         <div class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; color: #64748b; letter-spacing: 2px; margin-bottom: 20px;">EVOLUCIÓN DEL TRÁMITE</p>
+            <p style="text-align: center; font-size: 9px; font-weight: 900; color: #64748b; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px;">EVOLUCIÓN DEL TRÁMITE</p>
             <div id="timelineContent"></div>
         </div>
 
         <div class="glass-card">
-            <p style="text-align: center; font-size: 9px; font-weight: 900; color: #64748b; letter-spacing: 2px; margin-bottom: 20px;">DOCUMENTACIÓN</p>
+            <p style="text-align: center; font-size: 9px; font-weight: 900; color: #64748b; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px;">DOCUMENTACIÓN</p>
             <div id="docsContent"></div>
         </div>
     </div>
 
     <script>
+        // REEMPLAZA ESTA URL POR LA TUYA DE GOOGLE SCRIPTS
         const API_URL = "https://script.google.com/macros/s/AKfycby-_0eYVx9NXEleeDidQwzIr3k915CbiVL1uxIdQrI1bc6N3wZzfVv4_XuQaFgi53g/exec";
 
         async function buscarExpediente() {
@@ -148,11 +151,11 @@
                 if (item) {
                     mostrarResultados(item);
                 } else {
-                    alert("No se ha encontrado el expediente.");
+                    alert("Expediente no encontrado. Verifique los datos.");
                     document.getElementById('resultBox').style.display = 'none';
                 }
             } catch (e) {
-                alert("Error al conectar con la base de datos.");
+                alert("Error de conexión con el servidor.");
             } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
@@ -168,14 +171,32 @@
             let msg = "";
             let isIncidencia = est.includes("INCIDENCIA");
 
-            // Lógica de estados que pediste
-            if (est === "NO TIENE") msg = "NO TIENE PENALES";
-            else if (est === "RECIBIDO") msg = `RECIBIDO CON TRADUCCIÓN <span class="fecha-tag">FECHA CAD: ${item.fecha_cad || '--/--/--'}</span>`;
+            // --- FORMATEAR FECHA DE MANERA LIMPIA ---
+            let fechaLimpia = "--/--/--";
+            if (item.fecha_cad) {
+                let d = new Date(item.fecha_cad);
+                if (!isNaN(d)) {
+                    let dia = String(d.getDate()).padStart(2, '0');
+                    let mes = String(d.getMonth() + 1).padStart(2, '0');
+                    let ano = d.getFullYear();
+                    fechaLimpia = `${dia}/${mes}/${ano}`;
+                }
+            }
+
+            // --- LÓGICA DE ESTADOS PERSONALIZADA ---
+            if (est === "NO TIENE") {
+                msg = "NO TIENE PENALES";
+            } 
+            else if (est === "RECIBIDO") {
+                msg = `RECIBIDO CON TRADUCCIÓN <span class="fecha-tag">FECHA CAD: ${fechaLimpia}</span>`;
+            } 
             else if (est === "TRAMITADO") {
                 msg = "ENVIADO A TRADUCIR";
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             }
-            else msg = est;
+            else {
+                msg = est;
+            }
 
             document.getElementById('incidenciaDiv').style.display = isIncidencia ? 'block' : 'none';
             
@@ -186,7 +207,7 @@
                 </div>
             `;
 
-            // Documentación
+            // Sección Documentación
             const docs = [
                 { n: "Pasaporte", v: item.pasaporte },
                 { n: "Pago de Tasa", v: item.pagado_ap },
@@ -194,18 +215,21 @@
             ];
 
             document.getElementById('docsContent').innerHTML = docs.map(d => {
-                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(String(d.v).toUpperCase());
+                const valStr = String(d.v || "").toUpperCase();
+                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(valStr);
                 return `
                     <div class="doc-row">
                         <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
                             <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
                         </div>
                         <div>
-                            <p style="font-size: 7px; color: #475569; margin:0;">${d.n}</p>
-                            <p style="font-size: 13px; font-weight: 900; margin:0;">${d.v || 'PENDIENTE'}</p>
+                            <p style="font-size: 7px; color: #475569; margin:0; text-transform:uppercase; font-weight:900;">${d.n}</p>
+                            <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}">${d.v || 'PENDIENTE'}</p>
                         </div>
                     </div>`;
             }).join('');
+            
+            window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
         }
     </script>
 </body>
