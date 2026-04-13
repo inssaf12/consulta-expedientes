@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
         
         body { 
             font-family: 'Montserrat', sans-serif; 
@@ -21,20 +21,27 @@
             min-height: 100vh;
         }
 
-        header { text-align: center; margin-bottom: 25px; }
+        header { text-align: center; margin-bottom: 30px; width: 100%; }
 
+        /* LOGO MUCHO MÁS GRANDE */
         .logo-img { 
-            height: 125px; 
+            height: 220px; /* Aumentado de 125px a 220px */
             width: auto;
-            margin-bottom: 15px; 
+            margin-bottom: 5px; 
             display: block; 
             margin-left: auto; 
             margin-right: auto;
-            filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3));
+            filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
         }
 
-        .logo-text { font-family: 'Cinzel', serif; font-size: 26px; letter-spacing: 0.4em; margin: 0; }
-        .sub-text { font-size: 9px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
+        .sub-text { 
+            font-size: 11px; 
+            letter-spacing: 0.3em; 
+            color: #60a5fa; 
+            text-transform: uppercase; 
+            margin-top: 0; 
+            font-weight: bold; 
+        }
 
         .glass-card { 
             background-color: #1e293b; 
@@ -136,8 +143,7 @@
     </a>
 
     <header>
-        <img src="Logo.png" alt="Lexilias" class="logo-img">
-        <h1 class="logo-text">LEXILIAS</h1>
+        <img src="Logo.png" alt="Lexilias Jurídicos" class="logo-img">
         <p class="sub-text">Servicio jurídico Extranjería</p>
     </header>
 
