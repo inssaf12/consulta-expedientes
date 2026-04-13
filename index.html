@@ -22,9 +22,21 @@
             min-height: 100vh;
         }
 
-        header { text-align: center; margin-bottom: 25px; }
-        .logo-text { font-family: 'Cinzel', serif; font-size: 26px; letter-spacing: 0.4em; margin: 0; }
-        .sub-text { font-size: 9px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
+        /* AJUSTE DEL LOGO */
+        header { text-align: center; margin-bottom: 30px; width: 100%; }
+        
+        .logo-img { 
+            height: 120px; /* Aumentado de 55px a 120px */
+            width: auto;
+            margin-bottom: 15px; 
+            display: block; 
+            margin-left: auto; 
+            margin-right: auto;
+            filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3)); /* Brillo suave azulado */
+        }
+
+        .logo-text { font-family: 'Cinzel', serif; font-size: 32px; letter-spacing: 0.4em; margin: 0; color: #ffffff; }
+        .sub-text { font-size: 10px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; margin-top: 10px; font-weight: bold; }
 
         .glass-card { 
             background-color: #1e293b !important; 
@@ -40,7 +52,6 @@
             overflow: hidden;
         }
 
-        /* Gears Animation */
         .bg-gears {
             position: absolute; top: 55%; left: 50%;
             transform: translate(-50%, -50%);
@@ -74,14 +85,6 @@
         
         .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
-        .alert-critical { 
-            animation: pulse-red 2s infinite; 
-            background: rgba(220, 38, 38, 0.3) !important; 
-            border: 2px solid #ef4444 !important; 
-            border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px;
-        }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
-
         .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; position: relative; z-index: 1; }
         .dot { 
             width: 14px; height: 14px; border-radius: 50%; 
@@ -130,7 +133,7 @@
     </a>
 
     <header>
-        <img src="Logo.png" alt="Lexilias" style="height: 55px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
+        <img src="Logo.png" alt="Lexilias" class="logo-img">
         <h1 class="logo-text">LEXILIAS</h1>
         <p class="sub-text">Gestión Jurídica Profesional</p>
     </header>
@@ -148,18 +151,12 @@
                 <p id="cExp" style="color: #475569; font-size: 10px; font-weight: bold;"></p>
             </div>
 
-            <div id="incidenciaDiv" class="alert-critical" style="display: none;">
-                <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
-                <h4 style="color: #ef4444; margin: 0; font-weight: 900; text-transform: uppercase; font-size: 16px;">¡Atención!</h4>
-                <p style="margin: 8px 0 0 0; font-size: 12px; font-weight: bold; line-height: 1.4;">Se ha detectado una INCIDENCIA. Por favor, póngase en contacto con nuestra oficina urgentemente.</p>
-            </div>
-
             <div id="timelineCard" class="glass-card">
                 <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px;">EVOLUCIÓN DEL TRÁMITE</p>
                 <div id="timelineContent"></div>
             </div>
 
-            <div class="glass-card" id="docsCard">
+            <div class="glass-card">
                 <div class="bg-gears"><i class="fas fa-cog gear-spin"></i></div>
                 <p style="text-align: center; font-size: 9px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; color: #64748b; letter-spacing: 2px; position: relative; z-index: 1;">DOCUMENTACIÓN</p>
                 <div id="docsContent"></div>
@@ -194,44 +191,17 @@
 
                 if (item) {
                     document.getElementById('resultBox').style.display = 'block';
-                    
                     let nombreCompleto = item.nombre || "CLIENTE";
                     let partes = nombreCompleto.split(" ");
                     document.getElementById('cName').innerText = partes[0] + (partes[1] ? " " + partes[1][0] + "..." : "");
-                    
                     document.getElementById('cExp').innerText = "REG: " + (item.n_exp || "---");
                     
                     const est = String(item.estado_ap || "").toUpperCase();
 
-                    if (est.includes("INCIDENCIA")) {
-                        document.getElementById('incidenciaDiv').style.display = 'block';
-                        document.getElementById('timelineCard').style.display = 'none';
-                    } else {
-                        document.getElementById('incidenciaDiv').style.display = 'none';
-                        document.getElementById('timelineCard').style.display = 'block';
-                    }
-
-                    let fT = "--/--/--";
-                    if (item.fecha_cad) {
-                        const d = new Date(item.fecha_cad);
-                        if (!isNaN(d)) {
-                            fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-                        }
-                    }
-
-                    let mensajeFinal = "";
-                    if (est === "NO TIENE") mensajeFinal = "NO TIENE PENALES";
-                    else if (est === "RECIBIDO") mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha">CADUCIDAD: ${fT}</span>`;
-                    else if (est === "TRAMITADO") {
-                        mensajeFinal = "ENVIADO A TRADUCIR (EN PROCESO)";
-                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    }
-                    else mensajeFinal = est || "EN ESTUDIO";
-
                     document.getElementById('timelineContent').innerHTML = `
                         <div class="step">
                             <div class="dot"></div>
-                            <div class="step-text">${mensajeFinal}</div>
+                            <div class="step-text">${est}</div>
                         </div>`;
 
                     const docsArr = [
@@ -255,10 +225,10 @@
 
                     window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
                 } else {
-                    alert("No se ha encontrado ningún expediente con esos datos.");
+                    alert("No encontrado.");
                 }
             } catch (e) {
-                alert("Error de conexión con el servidor.");
+                alert("Error.");
             } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
@@ -266,24 +236,18 @@
         }
 
         function generarPDF() {
-            const element = document.getElementById('captureArea'); // نلتقط منطقة البيانات فقط
+            const element = document.getElementById('captureArea');
             const btn = document.getElementById('downloadBtn');
             const waBtn = document.querySelector('.whatsapp-btn');
 
-            // إخفاء الأزرار مؤقتاً
             btn.style.display = 'none';
             waBtn.style.display = 'none';
 
             const opt = {
                 margin:       [10, 5, 10, 5],
-                filename:     `Justificante_${document.getElementById('cName').innerText}.pdf`,
+                filename:     `Justificante_Lexilias.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { 
-                    scale: 2, 
-                    backgroundColor: '#020617', 
-                    useCORS: true,
-                    scrollY: 0
-                },
+                html2canvas:  { scale: 2, backgroundColor: '#020617', useCORS: true, scrollY: 0 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
