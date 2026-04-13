@@ -57,19 +57,23 @@
 
         .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
         
+        /* Estilo base del punto */
         .dot { 
             width: 14px; height: 14px; border-radius: 50%; 
             border: 2px dashed #2563eb; flex-shrink: 0; 
             position: relative; animation: spin-blue 2s linear infinite;
             box-shadow: 0 0 10px #2563eb;
         }
-
         .dot::after {
             content: ''; position: absolute;
             width: 6px; height: 6px; background: #2563eb;
             border-radius: 50%; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        /* Estilo especial para INCIDENCIA */
+        .dot-error { border-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
+        .dot-error::after { background: #ef4444; }
 
         .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
         .fecha-label { color: #60a5fa; font-size: 11px; display: block; margin-top: 4px; font-weight: 900; }
@@ -175,10 +179,14 @@
                 }
             }
 
-            // LÓGICA DE MENSAJES PARA EL CLIENTE
             let mensajeFinal = "";
+            let isError = false; // Variable para controlar el color rojo
             
-            if (est === "LO HA TRAIDO EL") {
+            if (est.includes("INCIDENCIA")) {
+                mensajeFinal = `<span style="color: #ef4444;">INCIDENCIA DETECTADA: CONTACTE CON NOSOTROS</span>`;
+                isError = true;
+            }
+            else if (est === "LO HA TRAIDO EL") {
                 mensajeFinal = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha-label">FECHA CAD: ${fT}</span>`;
             }
             else if (est === "TRAMITADO") {
@@ -195,9 +203,10 @@
                 mensajeFinal = est + (fT !== "--/--/--" ? ` <span class="fecha-label">FECHA: ${fT}</span>` : "");
             }
 
+            // Inyectamos el contenido con la clase condicional del punto (dot-error)
             document.getElementById('timelineContent').innerHTML = `
                 <div class="step">
-                    <div class="dot"></div>
+                    <div class="dot ${isError ? 'dot-error' : ''}"></div>
                     <div class="step-text">${mensajeFinal}</div>
                 </div>`;
 
