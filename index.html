@@ -23,7 +23,6 @@
 
         header { text-align: center; margin-bottom: 25px; }
 
-        /* LOGO AMPLIADO */
         .logo-img { 
             height: 125px; 
             width: auto;
@@ -62,28 +61,22 @@
             cursor: pointer; font-size: 12px; transition: all 0.2s ease;
         }
         
-        button:active { transform: scale(0.96); background-color: #cbd5e1; }
-
         #resultBox { width: 100%; max-width: 380px; display: none; }
-        
         .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
-        @keyframes spin-blue { to { transform: rotate(360deg); } }
-
         .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
-        
         .dot { 
             width: 14px; height: 14px; border-radius: 50%; 
             border: 2px dashed #2563eb; flex-shrink: 0; 
-            position: relative; animation: spin-blue 2s linear infinite;
-            box-shadow: 0 0 10px #2563eb;
+            animation: spin-blue 2s linear infinite;
         }
+        @keyframes spin-blue { to { transform: rotate(360deg); } }
 
         .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
         
-        /* ESTILO FECHA RESALTADA */
+        /* ESTILO FECHA */
         .fecha-label { 
-            color: #fbbf24; /* Dorado/Naranja para que se vea bien */
+            color: #fbbf24; 
             font-size: 12px; 
             display: block; 
             margin-top: 6px; 
@@ -91,20 +84,24 @@
             background: rgba(251, 191, 36, 0.15);
             padding: 4px 10px;
             border-radius: 8px;
-            border: 1px solid rgba(251, 191, 36, 0.3);
             width: fit-content;
         }
 
+        /* ESTILO INCIDENCIA ROJO */
+        .incidencia-box {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border: 2px solid #ef4444 !important;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .incidencia-text { color: #f87171 !important; font-weight: 900; }
+
         .doc-row { 
-            display: flex; align-items: center; gap: 15px; 
-            padding: 12px; background: rgba(0,0,0,0.2); 
-            border-radius: 15px; margin-bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; gap: 15px; padding: 12px; 
+            background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px;
         }
-        .status-badge { 
-            width: 30px; height: 30px; border-radius: 8px; 
-            display: flex; align-items: center; justify-content: center; font-size: 11px;
-        }
+        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .bg-ok { background: #ffffff; color: #000; }
         .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
 
@@ -112,21 +109,15 @@
             position: fixed; bottom: 20px; right: 20px;
             background: #25d366; color: white; padding: 12px 20px;
             border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 11px;
-            display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            z-index: 9999;
+            display: flex; align-items: center; gap: 8px; z-index: 9999;
         }
 
-        #downloadBtn {
-            background-color: #2563eb !important; color: white !important;
-            margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
+        #downloadBtn { background-color: #2563eb !important; color: white !important; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn">
-        <i class="fab fa-whatsapp"></i> CONTACTAR OFICINA
-    </a>
+    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR OFICINA</a>
 
     <header>
         <img src="Logo.png" alt="Lexilias" class="logo-img">
@@ -170,23 +161,15 @@
             const btn = document.getElementById('btnSearch');
             const val = document.getElementById('userInput').value.trim().toUpperCase();
             if(!val) return;
-
             btn.innerText = "BUSCANDO...";
             btn.disabled = true;
-            
             try {
                 const res = await fetch(API);
                 const data = await res.json();
                 const item = data.find(i => (i.n_exp && String(i.n_exp).toUpperCase() === val) || (i.pasaporte && String(i.pasaporte).toUpperCase() === val));
-
-                if (item) {
-                    mostrarTodo(item);
-                } else { alert("No encontrado"); }
+                if (item) { mostrarTodo(item); } else { alert("No encontrado"); }
             } catch (e) { alert("Error de conexión"); }
-            finally {
-                btn.innerText = "CONSULTAR ESTADO";
-                btn.disabled = false;
-            }
+            finally { btn.innerText = "CONSULTAR ESTADO"; btn.disabled = false; }
         }
 
         function mostrarTodo(item) {
@@ -195,40 +178,41 @@
             document.getElementById('cExp').innerText = "REG: " + item.n_exp;
             
             const est = String(item.estado_ap || "").toUpperCase();
-
             let fT = "--/--/--";
             if (item.fecha_cad) {
                 let d = new Date(item.fecha_cad);
                 if (!isNaN(d.getTime())) {
                     fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-                } else {
-                    fT = item.fecha_cad;
+                } else { fT = item.fecha_cad; }
+            }
+
+            let htmlContenido = "";
+            if (est === "INCIDENCIA") {
+                htmlContenido = `
+                    <div class="incidencia-box">
+                        <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 20px; margin-bottom: 10px;"></i>
+                        <div class="step-text incidencia-text">ATENCIÓN: SE HA DETECTADO UNA INCIDENCIA</div>
+                        <div style="font-size: 11px; margin-top: 5px; color: #fff;">POR FAVOR, CONTACTE CON NUESTRA OFICINA LO ANTES POSIBLE.</div>
+                    </div>`;
+            } else {
+                let mensajeFinal = "";
+                if (est === "LO HA TRAIDO EL") mensajeFinal = `DOCUMENTACIÓN APORTADA <span class="fecha-label">CADUCIDAD: ${fT}</span>`;
+                else if (est === "TRAMITADO") {
+                    mensajeFinal = `ENVIADO A TRADUCIR <span class="fecha-label">FECHA: ${fT}</span>`;
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 }
+                else if (est === "NO TIENE") mensajeFinal = "NO TIENE PENALES";
+                else if (est === "RECIBIDO") mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha-label">CADUCIDAD: ${fT}</span>`;
+                else mensajeFinal = est + (fT !== "--/--/--" ? ` <span class="fecha-label">FECHA: ${fT}</span>` : "");
+
+                htmlContenido = `
+                    <div class="step">
+                        <div class="dot"></div>
+                        <div class="step-text">${mensajeFinal}</div>
+                    </div>`;
             }
 
-            let mensajeFinal = "";
-            if (est === "LO HA TRAIDO EL") {
-                mensajeFinal = `DOCUMENTACIÓN APORTADA POR EL CLIENTE <span class="fecha-label">CADUCIDAD: ${fT}</span>`;
-            }
-            else if (est === "TRAMITADO") {
-                mensajeFinal = `ENVIADO A TRADUCIR <span class="fecha-label">FECHA: ${fT}</span>`;
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            }
-            else if (est === "NO TIENE") {
-                mensajeFinal = "NO TIENE PENALES";
-            }
-            else if (est === "RECIBIDO") {
-                mensajeFinal = `RECIBIDO CON TRADUCCIÓN <span class="fecha-label">CADUCIDAD: ${fT}</span>`;
-            }
-            else {
-                mensajeFinal = est + (fT !== "--/--/--" ? ` <span class="fecha-label">FECHA: ${fT}</span>` : "");
-            }
-
-            document.getElementById('timelineContent').innerHTML = `
-                <div class="step">
-                    <div class="dot"></div>
-                    <div class="step-text">${mensajeFinal}</div>
-                </div>`;
+            document.getElementById('timelineContent').innerHTML = htmlContenido;
 
             const docsArr = [
                 { n: "Pasaporte", v: String(item.pasaporte || "") },
@@ -239,39 +223,28 @@
             document.getElementById('docsContent').innerHTML = docsArr.map(d => {
                 const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(d.v.toUpperCase());
                 return `<div class="doc-row">
-                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
-                        <i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i>
-                    </div>
+                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
                     <div>
                         <p style="font-size: 7px; color: #475569; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
                         <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${d.v || 'PENDIENTE'}</p>
                     </div>
                 </div>`;
             }).join('');
-
             window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
         }
 
         function generarPDF() {
             const element = document.getElementById('captureArea');
             const btn = document.getElementById('downloadBtn');
-            const waBtn = document.querySelector('.whatsapp-btn');
-
             btn.style.display = 'none';
-            waBtn.style.display = 'none';
-
             const opt = {
                 margin: [10, 5, 10, 5],
-                filename: `Justificante_Lexilias_${document.getElementById('cName').innerText}.pdf`,
+                filename: `Justificante_Lexilias.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, backgroundColor: '#020617', useCORS: true, scrollY: 0 },
+                html2canvas: { scale: 2, backgroundColor: '#020617', useCORS: true },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-
-            html2pdf().set(opt).from(element).save().then(() => {
-                btn.style.display = 'flex';
-                waBtn.style.display = 'flex';
-            });
+            html2pdf().set(opt).from(element).save().then(() => { btn.style.display = 'flex'; });
         }
     </script>
 </body>
