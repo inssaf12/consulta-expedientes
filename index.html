@@ -18,174 +18,75 @@
             font-family: 'Montserrat', sans-serif; 
             background-color: #020617 !important; 
             background: radial-gradient(circle at top, #0f172a 0%, #000000 100%) !important;
-            color: #ffffff; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
 
-        header { text-align: center; margin-bottom: 30px; width: 100%; }
+        /* Área de captura para el PDF */
+        #captureArea { width: 100%; max-width: 400px; padding: 10px; }
 
-        .logo-img { 
-            height: 150px; width: auto; margin-bottom: 5px; 
-            display: block; margin-left: auto; margin-right: auto;
-            filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
-        }
+        .logo-container { text-align: center; margin-bottom: 25px; }
+        .logo-img { height: 130px; width: auto; margin: 0 auto 5px; display: block; }
+        .sub-text { font-size: 10px; letter-spacing: 3px; color: #60a5fa; text-transform: uppercase; font-weight: 900; }
 
-        .sub-text { 
-            font-size: 11px; letter-spacing: 0.3em; color: #60a5fa; 
-            text-transform: uppercase; font-weight: bold; 
-        }
-
-        /* Estilo base de las tarjetas (Web) */
         .glass-card { 
-            background-color: rgba(30, 41, 59, 0.7) !important; /* Semi-transparente para la web */
-            backdrop-filter: blur(10px); /* Efecto cristal para la web */
+            background: #1e293b !important; 
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px; padding: 25px;
-            width: 100%; max-width: 380px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-            position: relative; overflow: hidden;
-        }
-
-        /* Animaciones solo para la web */
-        @keyframes gear-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .glass-card::before {
-            content: "\f085"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
-            font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite;
+            border-radius: 20px; padding: 20px; margin-bottom: 15px; position: relative;
         }
 
         .section-header {
-            text-align: center; font-size: 14px !important; font-weight: 900; 
-            border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 12px; margin-bottom: 20px; 
-            color: #94a3b8; letter-spacing: 2px; text-transform: uppercase;
+            text-align: center; font-size: 13px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.1); 
+            padding-bottom: 10px; margin-bottom: 15px; color: #94a3b8; text-transform: uppercase;
         }
 
-        input {
-            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 18px; border-radius: 15px; color: white; text-align: center; font-size: 18px;
-            font-weight: bold; margin-bottom: 15px; outline: none;
-        }
-
-        #btnSearch {
-            width: 100%; background-color: #ffffff; color: #000000; padding: 18px; 
-            border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase;
-            cursor: pointer; font-size: 12px;
-        }
-
-        #resultBox { width: 100%; max-width: 380px; display: none; }
+        .client-info { background: #0f172a; padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 15px; border: 1px solid #1e293b; }
         
-        .client-info { 
-            background: rgba(15, 23, 42, 0.5) !important; 
-            padding: 25px; border-radius: 20px; text-align: center; 
-            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; 
-        }
+        .step { display: flex; align-items: center; gap: 12px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background: #2563eb; flex-shrink: 0; box-shadow: 0 0 8px #2563eb; }
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #fff; }
 
-        .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
-        .dot { 
-            width: 14px; height: 14px; border-radius: 50%; 
-            background: #2563eb; flex-shrink: 0; box-shadow: 0 0 10px #2563eb;
-        }
-
-        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; }
-        
         .doc-row { 
-            display: flex; align-items: center; gap: 15px; padding: 12px; 
-            background: rgba(15, 23, 42, 0.3) !important; border-radius: 15px; 
-            margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; gap: 12px; padding: 10px; 
+            background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 8px;
         }
 
-        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .bg-ok { background: #ffffff !important; color: #000 !important; }
-        .bg-no { background: #ef4444 !important; color: #fff !important; }
+        .status-badge { width: 25px; height: 25px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .bg-ok { background: #ffffff; color: #000; }
+        .bg-no { background: #ef4444; color: #fff; }
 
-        .whatsapp-btn {
-            position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; 
-            padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; 
-            font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
+        #searchPanel input {
+            width: 100%; background: #000; border: 1px solid #334155;
+            padding: 15px; border-radius: 12px; color: white; text-align: center; margin-bottom: 10px;
+        }
+        #searchPanel button {
+            width: 100%; background: white; color: black; padding: 15px; border-radius: 12px; font-weight: 900; cursor: pointer;
         }
 
-        /* =========================================
-           CLASES ESPECIALES PARA UN PDF LIMPIO
-           ========================================= */
-        .pdf-mode {
-            background-color: #ffffff !important; /* Fondo blanco sólido para el PDF */
-            color: #000000 !important; /* Texto negro para el PDF */
-            padding: 20px !important;
+        #downloadBtn {
+            background: #2563eb; color: white; width: 100%; max-width: 380px; padding: 18px; border-radius: 15px; 
+            font-weight: 900; border: none; margin-bottom: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        
-        .pdf-mode .glass-card {
-            background-color: #f1f5f9 !important; /* Tarjetas gris claro sólido */
-            backdrop-filter: none !important; /* Quitar desenfoque */
-            border: 1px solid #cbd5e1 !important; /* Borde gris claro */
-            color: #000000 !important;
-            box-shadow: none !important;
-        }
-        
-        .pdf-mode .glass-card::before {
-            display: none !important; /* Quitar engranajes */
-        }
-        
-        .pdf-mode .client-info { 
-            background-color: #e2e8f0 !important; /* Fondo info gris suave */
-            color: #000000 !important;
-            border: 1px solid #cbd5e1 !important;
-        }
-        
-        .pdf-mode #cName { color: #000000 !important; }
-        .pdf-mode #cExp { color: #475569 !important; }
-        .pdf-mode .section-header { color: #475569 !important; border-bottom: 1px solid #cbd5e1 !important;}
-        .pdf-mode .step-text { color: #000000 !important; }
-        .pdf-mode .sub-text { color: #1e3a8a !important; } /* Subtítulo azul oscuro */
-        
-        .pdf-mode .doc-row { 
-            background-color: #ffffff !important; /* Filas blancas sólidas */
-            border: 1px solid #e2e8f0 !important;
-        }
-        
-        .pdf-mode .status-badge {
-            border: 1px solid #cbd5e1 !important;
-        }
-        
-        .pdf-mode .bg-ok { background-color: #16a34a !important; color: #ffffff !important; } /* Check verde */
-        .pdf-mode .bg-no { background-color: #dc2626 !important; color: #ffffff !important; } /* X roja */
-        
-        .pdf-mode .logo-img { filter: none !important; } /* Quitar brillo logo */
-        
-        .pdf-mode .p-nota-doc { color: #475569 !important; }
-        .pdf-mode .p-val-doc-ok { color: #16a34a !important; }
-        .pdf-mode .p-val-doc-no { color: #dc2626 !important; }
-        .pdf-mode #cNotes { color: #1e293b !important; }
-        
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> AYUDA</a>
-
-    <div class="glass-card" id="searchPanel">
-        <p class="section-header">ACCESO CLIENTES</p>
-        <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
-        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO (DD/MM/AAAA)">
-        <button id="btnSearch" onclick="buscarExpediente()">Consultar Estado</button>
+    <div class="glass-card" id="searchPanel" style="margin-top: 50px;">
+        <p class="section-header">ACCESO SEGURO</p>
+        <input type="text" id="userExp" placeholder="Nº EXPEDIENTE">
+        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO">
+        <button onclick="buscarExpediente()">CONSULTAR</button>
     </div>
 
-    <div id="resultBox">
+    <div id="resultBox" style="display:none;">
         <div id="captureArea">
-            <header id="pdfHeader" style="display:none;">
+            <div class="logo-container">
                 <img src="Logo.png" alt="Lexilias" class="logo-img">
-                <p class="sub-text">Servicio jurídico Extranjería</p>
-            </header>
+                <p class="sub-text">Servicio Jurídico Extranjería</p>
+            </div>
 
             <div class="client-info">
-                <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</span>
-                <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic; color: #ffffff;"></h2>
-                <p id="cExp" style="color: #94a3b8; font-size: 10px; font-weight: bold;"></p>
+                <h2 id="cName" style="font-size: 22px; font-weight: 900; color: #fff;"></h2>
+                <p id="cExp" style="color: #94a3b8; font-size: 11px; margin-top: 5px;"></p>
             </div>
 
             <div class="glass-card">
@@ -194,21 +95,18 @@
             </div>
 
             <div class="glass-card">
-                <p class="section-header">ESTADO DE DOCUMENTOS</p>
+                <p class="section-header">ESTADO DOCUMENTAL</p>
                 <div id="docsContent"></div>
             </div>
 
-            <div id="notesCard" class="glass-card" style="display:none; border: 1px solid rgba(96, 165, 250, 0.3);">
-                <p class="section-header" style="color: #60a5fa;">NOTAS</p>
-                <div style="display: flex; gap: 15px; align-items: flex-start;">
-                    <i class="fas fa-comment-dots" style="color: #60a5fa; font-size: 20px; margin-top: 5px;"></i>
-                    <p id="cNotes" style="font-size: 13px; text-align: left; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
-                </div>
+            <div id="notesCard" class="glass-card" style="display:none;">
+                <p class="section-header">NOTAS</p>
+                <p id="cNotes" style="font-size: 13px; color: #cbd5e1; line-height: 1.5;"></p>
             </div>
         </div>
         
-        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px; margin-bottom: 40px; cursor: pointer;">
-            <i class="fas fa-file-pdf"></i> DESCARGAR JUSTIFICANTE (PDF)
+        <button id="downloadBtn" onclick="generarPDF()">
+            <i class="fas fa-file-pdf"></i> DESCARGAR PDF
         </button>
     </div>
 
@@ -216,126 +114,75 @@
         const API = "https://script.google.com/macros/s/AKfycbykY05Qo-Qjhq7XnjCymcdHzMAdxnBJ4l7YXUYeWvqHIqHlgdmcJfG0LLbETn89SQQ/exec";
 
         async function buscarExpediente() {
-            const btn = document.getElementById('btnSearch');
-            const expVal = document.getElementById('userExp').value.trim();
-            const birthVal = document.getElementById('userBirth').value.trim();
+            const exp = document.getElementById('userExp').value.trim();
+            const birth = document.getElementById('userBirth').value.trim();
+            if(!exp || !birth) return alert("Faltan datos");
 
-            if(!expVal || !birthVal) { alert("Completa los datos"); return; }
-
-            btn.innerText = "BUSCANDO...";
-            btn.disabled = true;
-            
             try {
                 const res = await fetch(API);
                 const data = await res.json();
-                const item = data.find(i => String(i.n_exp) === expVal && String(i.fecha_nac).trim() === birthVal);
-
-                if (item) { mostrarTodo(item); } else { alert("Datos incorrectos."); }
-            } catch (e) { alert("Error de conexión"); }
-            finally { btn.innerText = "CONSULTAR ESTADO"; btn.disabled = false; }
+                const item = data.find(i => String(i.n_exp) === exp && String(i.fecha_nac).trim() === birth);
+                if (item) { mostrarTodo(item); } else { alert("No encontrado"); }
+            } catch (e) { alert("Error"); }
         }
 
         function mostrarTodo(item) {
             document.getElementById('searchPanel').style.display = 'none';
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | NACIMIENTO: " + item.fecha_nac;
+            document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | " + item.fecha_nac;
             
             const est = String(item.estado_penales || "").toUpperCase();
-            let htmlFinal = "";
+            let mensaje = est;
+            let sub = "";
 
-            if (est === "INCIDENCIA") {
-                htmlFinal = `<div class="incidencia-box">
-                    <div class="step-text" style="color:#f87171">ATENCIÓN: INCIDENCIA DETECTADA</div>
-                    <div style="font-size: 11px; margin-top: 5px; color: #fff;">POR FAVOR, CONTACTE CON LA OFICINA.</div>
-                </div>`;
-            } else {
-                let mensaje = est;
-                let subFecha = ""; 
-
-                if (est === "LO HA TRAIDO EL") {
-                    mensaje = "DOCUMENTACIÓN APORTADA";
-                    let fechaCad = item["fecha_cad_ant_penales"]; 
-                    if (fechaCad) {
-                        subFecha = `<div class="p-nota-doc" style="font-size: 11px; color: #94a3b8; margin-top: 4px; font-weight: bold;">CAD: ${fechaCad}</div>`;
-                    }
-                }
-                
-                if (est === "TRAMITADO") mensaje = "ENVIADO A TRADUCIR";
-                if (est === "NO TIENE") mensaje = "NO TIENE PENALES";
-                if (est === "RECIBIDO") mensaje = "RECIBIDO CON TRADUCCIÓN";
-
-                htmlFinal = `<div class="step"><div class="dot"></div><div><div class="step-text">${mensaje}</div>${subFecha}</div></div>`;
+            if (est === "LO HA TRAIDO EL") {
+                mensaje = "DOCUMENTACIÓN APORTADA";
+                if(item["fecha_cad_ant_penales"]) sub = `<div style="font-size:11px; color:#94a3b8; margin-top:4px;">CAD: ${item["fecha_cad_ant_penales"]}</div>`;
+            } else if (est === "TRAMITADO") { 
+                mensaje = "ENVIADO A TRADUCIR"; 
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             }
-            document.getElementById('timelineContent').innerHTML = htmlFinal;
+            
+            document.getElementById('timelineContent').innerHTML = `
+                <div class="step">
+                    <div class="dot"></div>
+                    <div><div class="step-text">${mensaje}</div>${sub}</div>
+                </div>`;
 
-            const docsArr = [
-                { n: "Pasaporte", v: item.pasaporte_esc },
-                { n: "Contratos", v: item.contratos },
-                { n: "Tasa Pago", v: item.pagado }
+            const dList = [
+                {n: "Pasaporte", v: item.pasaporte_esc},
+                {n: "Contratos", v: item.contratos},
+                {n: "Tasas", v: item.pagado}
             ];
-
-            document.getElementById('docsContent').innerHTML = docsArr.map(d => {
-                const val = String(d.v || "PENDIENTE").toUpperCase();
-                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(val);
+            document.getElementById('docsContent').innerHTML = dList.map(d => {
+                const ok = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(String(d.v).toUpperCase());
                 return `<div class="doc-row">
-                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
-                    <div>
-                        <p class="p-nota-doc" style="font-size: 7px; color: #94a3b8; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
-                        <p class="${isOK ? 'p-val-doc-ok' : 'p-val-doc-no'}" style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${val}</p>
-                    </div>
+                    <div class="status-badge ${ok ? 'bg-ok' : 'bg-no'}"><i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i></div>
+                    <div style="font-size:12px; font-weight:900; color:#fff;">${d.n}: ${d.v || 'PENDIENTE'}</div>
                 </div>`;
             }).join('');
 
-            if(item.nota_cliente && item.nota_cliente.trim() !== "" && item.nota_cliente.toUpperCase() !== "NADA") {
+            if(item.nota_cliente && item.nota_cliente !== "NADA") {
                 document.getElementById('notesCard').style.display = 'block';
                 document.getElementById('cNotes').innerText = item.nota_cliente;
-            } else {
-                document.getElementById('notesCard').style.display = 'none';
             }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function generarPDF() {
-            const area = document.getElementById('captureArea');
-            const btn = document.getElementById('downloadBtn');
-            const pdfHeader = document.getElementById('pdfHeader');
-            const name = document.getElementById('cName').innerText;
-            
-            // Preparar para la captura
-            btn.style.display = 'none'; // Ocultar botón descargar
-            pdfHeader.style.display = 'block'; // Mostrar logo dentro del área de captura
-            area.classList.add('pdf-mode'); // Activar modo PDF sólido
-
+            const element = document.getElementById('captureArea');
             const opt = {
-                margin: [15, 10, 15, 10], // Márgenes [arriba, izq, abajo, der]
-                filename: `Justificante_Lexilias_${name}.pdf`,
+                margin: 10,
+                filename: 'Justificante_Lexilias.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
-                    scale: 3, // Alta resolución
-                    letterRendering: true,
-                    backgroundColor: '#ffffff', // Forzar fondo blanco de página
-                    useCORS: true
+                    scale: 3, 
+                    backgroundColor: '#020617',
+                    useCORS: true 
                 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-
-            // Ejecutar captura y descarga
-            html2pdf().set(opt).from(area).save().then(() => {
-                // Restaurar estado web original
-                area.classList.remove('pdf-mode');
-                pdfHeader.style.display = 'none';
-                btn.style.display = 'flex';
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.7 } }); // Celebrar descarga
-            }).catch(err => {
-                console.error("Error generando PDF:", err);
-                alert("Hubo un error al generar el PDF. Por favor, inténtalo de nuevo.");
-                // Restaurar en caso de error
-                area.classList.remove('pdf-mode');
-                pdfHeader.style.display = 'none';
-                btn.style.display = 'flex';
-            });
+            html2pdf().set(opt).from(element).save();
         }
     </script>
 </body>
