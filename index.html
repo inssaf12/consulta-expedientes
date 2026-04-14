@@ -12,150 +12,183 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
+            background-color: #020617 !important; 
+            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%) !important;
             color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
+
         header { text-align: center; margin-bottom: 30px; width: 100%; }
-        .logo-img { width: 280px; height: auto; filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.5)); }
+        .logo-img { height: 180px; width: auto; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto; filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4)); }
         .sub-text { font-size: 11px; letter-spacing: 0.3em; color: #60a5fa; text-transform: uppercase; font-weight: bold; }
 
+        /* Estilo Glass-Card con Engranajes */
         .glass-card { 
-            background-color: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #1e293b !important; border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 25px; padding: 25px; width: 100%; max-width: 380px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 20px; position: relative; overflow: hidden;
         }
-        .section-header {
-            text-align: center; font-size: 14px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 15px; margin-bottom: 20px; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase;
+
+        @keyframes gear-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes gear-rotate-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+        .glass-card::before, .glass-card::after {
+            content: "\f085"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
         }
-        input {
-            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 18px; border-radius: 15px; color: white; text-align: center; font-size: 16px;
-            font-weight: bold; margin-bottom: 15px; outline: none;
-        }
-        button {
-            width: 100%; background-color: #ffffff; color: #000000; padding: 18px; 
-            border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer;
-        }
+        .glass-card::before { font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite; }
+        .glass-card::after { font-size: 80px; top: -15px; left: -15px; animation: gear-rotate-reverse 10s linear infinite; }
+        .glass-card > * { position: relative; z-index: 1; }
+
+        .section-header { text-align: center; font-size: 16px !important; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 25px; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; }
+        input { width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); padding: 18px; border-radius: 15px; color: white; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px; outline: none; }
+        button { width: 100%; background-color: #ffffff; color: #000000; padding: 18px; border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s; }
+
         #resultBox { width: 100%; max-width: 380px; display: none; }
-        .client-info { background: rgba(0,0,0,0.4); padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 20px; }
-        .doc-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; }
+        .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
+        
+        @keyframes spin-blue { to { transform: rotate(360deg); } }
+        .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px dashed #2563eb; flex-shrink: 0; animation: spin-blue 2s linear infinite; box-shadow: 0 0 10px #2563eb; }
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
+        .fecha-label { color: #fbbf24; font-size: 12px; display: block; margin-top: 6px; font-weight: 900; background: rgba(251, 191, 36, 0.15); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(251, 191, 36, 0.3); width: fit-content; }
+
+        .incidencia-box { background: rgba(239, 68, 68, 0.2) !important; border: 2px solid #ef4444 !important; padding: 20px; border-radius: 15px; text-align: center; }
+        .doc-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
         .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .bg-ok { background: #ffffff; color: #000; }
         .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 9999; }
+
+        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 11px; z-index: 9999; }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR</a>
+    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR OFICINA</a>
 
     <header>
-        <img src="https://i.postimg.cc/9FmS7m8m/Logo.png" alt="Lexilias" class="logo-img">
+        <img src="Logo.png" alt="Lexilias" class="logo-img">
         <p class="sub-text">Servicio jurídico Extranjería</p>
     </header>
 
     <div class="glass-card" id="searchPanel">
-        <p class="section-header">Acceso Clientes</p>
-        <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE (Ejem: 1)">
+        <p class="section-header">ACCESO SEGURO</p>
+        <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
         <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO (DD/MM/AAAA)">
-        <button id="btnSearch" onclick="buscarExpediente()">Consultar Estado</button>
+        <button id="btnSearch" onclick="buscarExpediente()">CONSULTAR ESTADO</button>
     </div>
 
     <div id="resultBox">
         <div id="captureArea">
             <div class="client-info">
-                <h2 id="cName" style="font-size: 22px; font-weight: 900; color: #60a5fa;"></h2>
-                <p id="cExpInfo" style="font-size: 11px; color: #94a3b8; margin-top: 5px;"></p>
+                <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic;"></h2>
+                <p id="cExp" style="color: #94a3b8; font-size: 10px; font-weight: bold;"></p>
             </div>
+
             <div class="glass-card">
-                <p class="section-header">Documentación</p>
+                <p class="section-header">EVOLUCIÓN DEL TRÁMITE</p>
+                <div id="timelineContent"></div>
+            </div>
+
+            <div class="glass-card">
+                <p class="section-header">ESTADO DE DOCUMENTOS</p>
                 <div id="docsContent"></div>
             </div>
-            <div id="noteBox" class="glass-card" style="display:none; border: 1px dashed #60a5fa;">
-                <p id="cNote" style="text-align: center; font-style: italic;"></p>
+
+            <div id="notesCard" class="glass-card" style="display:none;">
+                <p class="section-header" style="color: #60a5fa;">NOTAS</p>
+                <p id="cNotes" style="font-size: 13px; text-align: center; color: #cbd5e1; font-style: italic;"></p>
             </div>
         </div>
-        <button onclick="generarPDF()" style="background:#2563eb; color:white; margin-bottom: 50px;">Descargar PDF</button>
+        
+        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; margin-bottom: 40px;">
+            <i class="fas fa-file-pdf"></i> DESCARGAR PDF
+        </button>
     </div>
 
     <script>
-        // TU URL ACTUALIZADA
-        const API_URL = "https://script.google.com/macros/s/AKfycbykY05Qo-Qjhq7XnjCymcdHzMAdxnBJ4l7YXUYeWvqHIqHlgdmcJfG0LLbETn89SQQ/exec";
+        const API = "https://script.google.com/macros/s/AKfycbykY05Qo-Qjhq7XnjCymcdHzMAdxnBJ4l7YXUYeWvqHIqHlgdmcJfG0LLbETn89SQQ/exec";
 
         async function buscarExpediente() {
-            const expInput = document.getElementById('userExp').value.trim();
-            const birthInput = document.getElementById('userBirth').value.trim();
             const btn = document.getElementById('btnSearch');
+            const expVal = document.getElementById('userExp').value.trim();
+            const birthVal = document.getElementById('userBirth').value.trim();
 
-            if(!expInput || !birthInput) { alert("Completa ambos campos"); return; }
+            if(!expVal || !birthVal) { alert("Introduce expediente y fecha"); return; }
 
             btn.innerText = "BUSCANDO...";
             btn.disabled = true;
-
+            
             try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
+                const res = await fetch(API);
+                const data = await res.json();
+                const item = data.find(i => String(i.n_exp) === expVal && String(i.fecha_nac).trim() === birthVal);
 
-                // FILTRADO: Buscamos en la lista el que coincida
-                const cliente = data.find(c => 
-                    String(c.n_exp) === expInput && 
-                    String(c.fecha_nac).trim() === birthInput
-                );
-
-                if(cliente) {
-                    mostrarResultados(cliente);
-                } else {
-                    alert("No se encontró el expediente. Revisa que el número y la fecha (DD/MM/AAAA) sean correctos.");
-                }
-            } catch (error) {
-                alert("Error al conectar. Inténtalo de nuevo.");
-            } finally {
-                btn.innerText = "CONSULTAR ESTADO";
-                btn.disabled = false;
-            }
+                if (item) { mostrarTodo(item); } else { alert("Datos no coinciden."); }
+            } catch (e) { alert("Error de conexión"); }
+            finally { btn.innerText = "CONSULTAR ESTADO"; btn.disabled = false; }
         }
 
-        function mostrarResultados(c) {
+        function mostrarTodo(item) {
             document.getElementById('searchPanel').style.display = 'none';
             document.getElementById('resultBox').style.display = 'block';
-            document.getElementById('cName').innerText = c.nombre;
-            document.getElementById('cExpInfo').innerText = "EXPEDIENTE: " + c.n_exp + " | NACIMIENTO: " + c.fecha_nac;
+            document.getElementById('cName').innerText = item.nombre;
+            document.getElementById('cExp').innerText = "EXP: " + item.n_exp + " | " + item.fecha_nac;
+            
+            // --- LÓGICA DE MENSAJES AUTOMÁTICOS ---
+            const est = String(item.estado_penales || "").toUpperCase();
+            let htmlFinal = "";
 
-            const docs = [
-                { n: "Ant. Penales", v: c.estado_penales },
-                { n: "Pago Tasas", v: c.pagado },
-                { n: "Contratos", v: c.contratos },
-                { n: "Pasaporte", v: c.pasaporte_esc }
+            if (est === "INCIDENCIA") {
+                htmlFinal = `<div class="incidencia-box">
+                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px;"></i>
+                    <div class="step-text" style="color:#f87171">ATENCIÓN: INCIDENCIA DETECTADA</div>
+                    <div style="font-size: 11px; color: #fff;">CONTACTE CON LA OFICINA.</div>
+                </div>`;
+            } else {
+                let txt = est;
+                if (est === "LO HA TRAIDO EL") txt = "DOCUMENTACIÓN APORTADA";
+                if (est === "TRAMITADO") { txt = "ENVIADO A TRADUCIR"; confetti(); }
+                if (est === "NO TIENE") txt = "NO TIENE PENALES";
+                if (est === "RECIBIDO") txt = "RECIBIDO CON TRADUCCIÓN";
+
+                htmlFinal = `<div class="step"><div class="dot"></div><div class="step-text">${txt}</div></div>`;
+            }
+            document.getElementById('timelineContent').innerHTML = htmlFinal;
+
+            // --- CHECKLIST FIJO (Pasaporte, Contratos, Tasa Pago) ---
+            const docsArr = [
+                { n: "Pasaporte", v: item.pasaporte_esc },
+                { n: "Contratos", v: item.contratos },
+                { n: "Tasa Pago", v: item.pagado }
             ];
 
-            document.getElementById('docsContent').innerHTML = docs.map(d => {
+            document.getElementById('docsContent').innerHTML = docsArr.map(d => {
                 const val = String(d.v || "PENDIENTE").toUpperCase();
-                const ok = ["SI", "PAGADO", "OK", "TRAMITADO", "ESCANEADO", "RECIBIDO"].includes(val);
-                return `
-                    <div class="doc-row">
-                        <div class="status-badge ${ok ? 'bg-ok' : 'bg-no'}"><i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i></div>
-                        <div>
-                            <p style="font-size: 9px; color: #94a3b8;">${d.n}</p>
-                            <p style="font-size: 14px; font-weight: 900;">${val}</p>
-                        </div>
-                    </div>`;
+                // Solo check blanco si es: ESCANEADO, PAGADO, TIENE, SI, OK
+                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(val);
+                return `<div class="doc-row">
+                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
+                    <div>
+                        <p style="font-size: 7px; color: #94a3b8; font-weight: 900; margin:0;">${d.n}</p>
+                        <p style="font-size: 13px; font-weight: 900; margin:0;">${val}</p>
+                    </div>
+                </div>`;
             }).join('');
 
-            if(c.nota_cliente && c.nota_cliente !== "NADA") {
-                document.getElementById('noteBox').style.display = 'block';
-                document.getElementById('cNote').innerText = c.nota_cliente;
+            if(item.nota_cliente && item.nota_cliente !== "NADA") {
+                document.getElementById('notesCard').style.display = 'block';
+                document.getElementById('cNotes').innerText = item.nota_cliente;
             }
-            if(String(c.estado_penales).toUpperCase() === "TRAMITADO") confetti();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function generarPDF() {
             const element = document.getElementById('captureArea');
             html2pdf().from(element).set({
-                margin: 10,
-                filename: 'Justificante_Lexilias.pdf',
+                margin: 10, filename: 'Justificante.pdf',
                 html2canvas: { scale: 2, backgroundColor: '#020617' },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             }).save();
