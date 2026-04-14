@@ -28,18 +28,20 @@
 
         header { text-align: center; margin-bottom: 30px; width: 100%; }
 
+        /* Contenedor del Logo */
+        .logo-container { width: 100%; display: flex; justify-content: center; margin-bottom: 10px; }
         .logo-img { 
-            height: 150px; width: auto; margin-bottom: 5px; 
-            display: block; margin-left: auto; margin-right: auto;
-            filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
+            width: 280px; 
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.5));
         }
 
         .sub-text { 
             font-size: 11px; letter-spacing: 0.3em; color: #60a5fa; 
-            text-transform: uppercase; font-weight: bold; 
+            text-transform: uppercase; font-weight: bold; margin-top: 5px;
         }
 
-        /* Tarjeta con efecto de cristal y engranajes */
+        /* Tarjetas con efecto cristal (Glassmorphism) */
         .glass-card { 
             background-color: #1e293b !important; 
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -50,15 +52,13 @@
             position: relative; overflow: hidden;
         }
 
+        /* Engranajes Animados de fondo */
         @keyframes gear-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes gear-rotate-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-
-        .glass-card::before, .glass-card::after {
+        .glass-card::before {
             content: "\f085"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
+            position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0;
+            font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite;
         }
-        .glass-card::before { font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite; }
-        .glass-card::after { font-size: 80px; top: -15px; left: -15px; animation: gear-rotate-reverse 10s linear infinite; }
         .glass-card > * { position: relative; z-index: 1; }
 
         .section-header {
@@ -89,12 +89,12 @@
             text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; 
         }
         
-        @keyframes spin-blue { to { transform: rotate(360deg); } }
         .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
         .dot { 
             width: 14px; height: 14px; border-radius: 50%; border: 2px dashed #60a5fa; 
             flex-shrink: 0; animation: spin-blue 2s linear infinite; box-shadow: 0 0 10px #60a5fa;
         }
+        @keyframes spin-blue { to { transform: rotate(360deg); } }
 
         .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
         
@@ -124,7 +124,9 @@
     </a>
 
     <header>
-        <img src="https://i.ibb.co/6R0yYfM/Logo.png" alt="Lexilias" class="logo-img">
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/9FmS7m8m/Logo.png" alt="Lexilias" class="logo-img">
+        </div>
         <p class="sub-text">Servicio jurídico Extranjería</p>
     </header>
 
@@ -165,15 +167,16 @@
     </div>
 
     <script>
-        // Enlace de tu Google Script (El que termina en amQ/exec)
-         const API_URL = "https://script.google.com/macros/s/AKfycbykY05Qo-Qjhq7XnjCymcdHzMAdxnBJ4l7YXUYeWvqHIqHlgdmcJfG0LLbETn89SQQ/exec";
+        // Tu URL de Google Apps Script
+        const API_URL = "https://script.google.com/macros/s/AKfycbykY05Qo-Qjhq7XnjCymcdHzMAdxnBJ4l7YXUYeWvqHIqHlgdmcJfG0LLbETn89SQQ/exec";
+        
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
             const exp = document.getElementById('userExp').value.trim();
             const birth = document.getElementById('userBirth').value.trim();
             
             if(!exp || !birth) {
-                alert("Por favor, rellena los dos campos");
+                alert("Por favor, rellena los dos campos.");
                 return;
             }
 
@@ -181,20 +184,20 @@
             btn.disabled = true;
             
             try {
-                // nocache para evitar datos viejos
+                // Añadimos random para evitar caché del navegador
                 const res = await fetch(API + "?v=" + Math.random());
                 const data = await res.json();
                 
-                // Buscamos coincidencia
+                // Buscar cliente por expediente y fecha de nacimiento
                 const item = data.find(i => i.n_exp === exp && i.fecha_nac === birth);
 
                 if (item) {
                     mostrarTodo(item);
                 } else { 
-                    alert("No encontrado. Verifica el número de expediente y la fecha."); 
+                    alert("No se encontró ningún expediente con esos datos. Revisa el número y la fecha."); 
                 }
             } catch (e) { 
-                alert("Error al conectar con la base de datos"); 
+                alert("Error de conexión con la base de datos."); 
             } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
@@ -208,12 +211,12 @@
             
             const est = String(item.estado_penales || "").toUpperCase();
             
-            // Estado Principal
+            // Estado principal con efecto confetti si está tramitado
             let htmlStatus = `<div class="step"><div class="dot"></div><div class="step-text">${est}</div></div>`;
             if (est === "TRAMITADO") confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             document.getElementById('timelineContent').innerHTML = htmlStatus;
 
-            // Documentos
+            // Listado de documentos basado en tu tabla
             const docsArr = [
                 { n: "Ant. Penales", v: item.estado_penales },
                 { n: "Pago Tasas", v: item.pagado },
@@ -233,7 +236,7 @@
                 </div>`;
             }).join('');
 
-            // Notas
+            // Notas personalizadas (Columna L del Excel)
             if(item.nota_cliente && item.nota_cliente !== "NADA") {
                 document.getElementById('noteBox').style.display = 'block';
                 document.getElementById('cNote').innerText = item.nota_cliente;
@@ -250,7 +253,7 @@
             btn.style.display = 'none';
             const opt = {
                 margin: [10, 5, 10, 5],
-                filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
+                filename: `Justificante_Lexilias_${document.getElementById('cName').innerText}.pdf`,
                 html2canvas: { scale: 2, backgroundColor: '#020617' },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
