@@ -39,7 +39,6 @@
             text-transform: uppercase; font-weight: bold; 
         }
 
-        /* Tarjeta con efecto Cristal y Engranajes */
         .glass-card { 
             background-color: #1e293b !important; 
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -202,6 +201,7 @@
                 </div>`;
             } else {
                 let mensaje = est;
+                // Cambio solicitado: "LO HA TRAIDO EL" solo muestra "DOCUMENTACIÓN APORTADA"
                 if (est === "LO HA TRAIDO EL") mensaje = "DOCUMENTACIÓN APORTADA";
                 if (est === "TRAMITADO") { 
                     mensaje = "ENVIADO A TRADUCIR"; 
@@ -214,7 +214,7 @@
             }
             document.getElementById('timelineContent').innerHTML = htmlFinal;
 
-            // --- CHECKLIST DOCUMENTOS (Fijo) ---
+            // --- CHECKLIST DOCUMENTOS (Fijo: Pasaporte, Contratos, Tasa Pago) ---
             const docsArr = [
                 { n: "Pasaporte", v: item.pasaporte_esc },
                 { n: "Contratos", v: item.contratos },
@@ -223,6 +223,7 @@
 
             document.getElementById('docsContent').innerHTML = docsArr.map(d => {
                 const val = String(d.v || "PENDIENTE").toUpperCase();
+                // Solo check blanco si es: ESCANEADO, PAGADO, TIENE, SI, OK
                 const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(val);
                 return `<div class="doc-row">
                     <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
@@ -234,7 +235,7 @@
             }).join('');
 
             // --- SECCIÓN DE NOTAS ---
-            if(item.nota_cliente && item.nota_cliente !== "NADA") {
+            if(item.nota_cliente && item.nota_cliente.trim() !== "" && item.nota_cliente.toUpperCase() !== "NADA") {
                 document.getElementById('notesCard').style.display = 'block';
                 document.getElementById('cNotes').innerText = item.nota_cliente;
             } else {
