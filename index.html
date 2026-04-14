@@ -151,6 +151,7 @@
     </div>
 
     <script>
+        // Actualizado con tu enlace real
         const API = "https://script.google.com/macros/s/AKfycbw79sOLgVgN1i6VcXPKqUm_DcMpWCK_DsF2Dery7xKQThT90afqI3zI7txbOib0LmM/exec";
 
         async function buscarExpediente() {
@@ -170,6 +171,7 @@
                 const res = await fetch(API);
                 const data = await res.json();
                 
+                // Buscamos coincidencia exacta de expediente y pasaporte
                 const item = data.find(i => 
                     (i.n_exp && String(i.n_exp).toUpperCase() === expVal) && 
                     (i.num_pasaporte && String(i.num_pasaporte).toUpperCase() === passVal)
@@ -181,7 +183,7 @@
                     alert("Datos no coinciden. Verifique el número de expediente y pasaporte."); 
                 }
             } catch (e) { 
-                alert("Error de conexión"); 
+                alert("Error de conexión con la base de datos."); 
             } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
@@ -228,16 +230,15 @@
 
             document.getElementById('timelineContent').innerHTML = htmlFinal;
 
-            // Checklist con Pasaporte Escaneado (Columna J) y Número (Columna C)
+            // Checklist actualizado
             const docsArr = [
-                { n: "Nº Pasaporte", v: String(item.num_pasaporte || "---") },
-                { n: "Pasaporte Escaneado", v: String(item.pasaporte_esc || "NO") },
+                { n: "Estado Pasaporte", v: String(item.pasaporte_esc || "PENDIENTE") },
                 { n: "Contratos", v: String(item.contratos || "PENDIENTE") },
                 { n: "Tasa Pago", v: String(item.pagado_ap || "PENDIENTE") }
             ];
 
             document.getElementById('docsContent').innerHTML = docsArr.map(d => {
-                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK", "TRAMITADO"].includes(d.v.toUpperCase()) || (d.n === "Nº Pasaporte" && d.v !== "---");
+                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK", "TRAMITADO"].includes(d.v.toUpperCase());
                 return `<div class="doc-row">
                     <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
                     <div>
@@ -247,7 +248,7 @@
                 </div>`;
             }).join('');
 
-            // Notas del cliente (Columna K)
+            // Notas del cliente
             if(item.notas && item.notas.trim() !== "") {
                 document.getElementById('notesCard').style.display = 'block';
                 document.getElementById('cNotes').innerText = item.notas;
