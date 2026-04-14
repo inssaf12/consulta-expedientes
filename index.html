@@ -11,99 +11,36 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background-color: #020617 !important; 
-            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%) !important;
-            color: #ffffff; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
+            color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
-
         header { text-align: center; margin-bottom: 30px; width: 100%; }
-
-        .logo-img { 
-            height: 180px; width: auto; margin-bottom: 5px; 
-            display: block; margin-left: auto; margin-right: auto;
-            filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
-        }
-
-        .sub-text { 
-            font-size: 11px; letter-spacing: 0.3em; color: #60a5fa; 
-            text-transform: uppercase; font-weight: bold; 
-        }
-
+        .logo-img { height: 150px; filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4)); margin-bottom: 10px; }
         .glass-card { 
-            background-color: #1e293b !important; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px; padding: 25px;
-            width: 100%; max-width: 380px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-            position: relative; overflow: hidden;
+            background-color: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px; padding: 25px; width: 100%; max-width: 380px; margin-bottom: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
-
-        .section-header {
-            text-align: center; font-size: 16px !important; font-weight: 900; 
-            border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 15px; margin-bottom: 25px; 
-            color: #94a3b8; letter-spacing: 2px; text-transform: uppercase;
-        }
-
         input {
             width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 18px; border-radius: 15px; color: white; text-align: center; font-size: 18px;
-            font-weight: bold; margin-bottom: 15px; text-transform: uppercase; outline: none;
+            padding: 18px; border-radius: 15px; color: white; text-align: center; font-size: 18px; margin-bottom: 15px; text-transform: uppercase; outline: none;
         }
-
+        input:focus { border-color: #60a5fa; }
         button {
             width: 100%; background-color: #ffffff; color: #000000; padding: 18px; 
-            border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase;
-            cursor: pointer; font-size: 12px; transition: 0.2s;
+            border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s;
         }
-
+        button:hover { background-color: #e2e8f0; }
         #resultBox { width: 100%; max-width: 380px; display: none; }
-        .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
-        
-        @keyframes spin-blue { to { transform: rotate(360deg); } }
-        .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
-        .dot { 
-            width: 14px; height: 14px; border-radius: 50%; border: 2px dashed #2563eb; 
-            flex-shrink: 0; animation: spin-blue 2s linear infinite; box-shadow: 0 0 10px #2563eb;
-        }
-
-        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
-        
-        .fecha-label { 
-            color: #fbbf24; font-size: 12px; display: block; margin-top: 6px; font-weight: 900; 
-            background: rgba(251, 191, 36, 0.15); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(251, 191, 36, 0.3); width: fit-content;
-        }
-
-        .incidencia-box {
-            background: rgba(239, 68, 68, 0.2) !important; border: 2px solid #ef4444 !important;
-            padding: 20px; border-radius: 15px; text-align: center;
-        }
-
-        .doc-row { 
-            display: flex; align-items: center; gap: 15px; padding: 12px; 
-            background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
-        }
-
+        .doc-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
         .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .bg-ok { background: #ffffff; color: #000; }
         .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-
-        .whatsapp-btn {
-            position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; 
-            padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; 
-            font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
-        }
+        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 9999; display: flex; align-items: center; gap: 8px; font-size: 12px;}
+        .section-title { text-align: center; font-size: 12px; font-weight: 900; color: #94a3b8; margin-bottom: 15px; letter-spacing: 2px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -111,165 +48,134 @@
     <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR OFICINA</a>
 
     <header>
-        <img src="Logo.png" alt="Lexilias" class="logo-img">
-        <p class="sub-text">Servicio jurídico Extranjería</p>
+        <img src="https://i.ibb.co/6R0yYfM/Logo.png" alt="Lexilias" class="logo-img">
+        <p style="color: #60a5fa; letter-spacing: 3px; font-size: 10px; font-weight: bold; text-transform: uppercase;">Servicio jurídico Extranjería</p>
     </header>
 
     <div class="glass-card">
         <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
         <input type="text" id="userPass" placeholder="Nº DE PASAPORTE">
-        <button id="btnSearch" onclick="buscarExpediente()">Consultar Estado</button>
+        <button id="btnSearch" onclick="buscar()">CONSULTAR ESTADO</button>
     </div>
 
     <div id="resultBox">
         <div id="captureArea">
-            <div class="client-info">
-                <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</span>
-                <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic;"></h2>
-                <p id="cExp" style="color: #475569; font-size: 10px; font-weight: bold;"></p>
+            <div class="glass-card" style="text-align: center;">
+                <span style="font-size: 9px; color: #60a5fa; font-weight: 900; letter-spacing: 1px;">EXPEDIENTE LOCALIZADO</span>
+                <h2 id="cName" style="font-style: italic; font-size: 24px; margin: 10px 0; font-weight: 900;"></h2>
+                <p id="cExp" style="color: #94a3b8; font-size: 11px; font-weight: bold;"></p>
             </div>
 
             <div class="glass-card">
-                <p class="section-header">EVOLUCIÓN DEL TRÁMITE</p>
-                <div id="timelineContent"></div>
-            </div>
-
-            <div class="glass-card">
-                <p class="section-header">ESTADO DE DOCUMENTOS</p>
+                <p class="section-title">ESTADO DEL TRÁMITE</p>
                 <div id="docsContent"></div>
             </div>
 
-            <div id="notesCard" class="glass-card" style="display:none; background: rgba(96, 165, 250, 0.05) !important;">
-                <p class="section-header" style="color: #60a5fa;">NOTAS DEL EXPEDIENTE</p>
-                <p id="cNotes" style="font-size: 13px; text-align: center; color: #cbd5e1; font-style: italic; line-height: 1.5;"></p>
+            <div id="notesCard" class="glass-card" style="display:none; background:rgba(96,165,250,0.05) !important;">
+                <p class="section-title" style="color:#60a5fa;">NOTAS IMPORTANTES</p>
+                <p id="cNotes" style="text-align:center; font-size:14px; color: #cbd5e1; line-height: 1.6; font-style: italic;"></p>
             </div>
         </div>
         
-        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px;">
-            <i class="fas fa-file-pdf"></i> DESCARGAR JUSTIFICANTE (PDF)
+        <button id="btnPDF" onclick="generarPDF()" style="background:#2563eb; color:white; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <i class="fas fa-file-pdf"></i> DESCARGAR JUSTIFICANTE
         </button>
     </div>
 
     <script>
-        // Actualizado con tu enlace real
-        const API = "https://script.google.com/macros/s/AKfycbwsyymDUqIOJ9K7m2GpGvLa6_Guw2dfneXqvpIEV2IbPAp2VLocNN_E0A94KJYSAsk/exec";
-
-        async function buscarExpediente() {
+        function buscar() {
             const btn = document.getElementById('btnSearch');
             const expVal = document.getElementById('userExp').value.trim().toUpperCase();
             const passVal = document.getElementById('userPass').value.trim().toUpperCase();
 
             if(!expVal || !passVal) {
-                alert("Por favor, introduce el Nº de expediente y el pasaporte.");
+                alert("Por favor, introduce el número de expediente y pasaporte.");
                 return;
             }
 
-            btn.innerText = "BUSCANDO...";
+            btn.innerText = "CONECTANDO CON BASE DE DATOS...";
             btn.disabled = true;
-            
-            try {
-                const res = await fetch(API);
-                const data = await res.json();
-                
-                // Buscamos coincidencia exacta de expediente y pasaporte
-                const item = data.find(i => 
-                    (i.n_exp && String(i.n_exp).toUpperCase() === expVal) && 
-                    (i.num_pasaporte && String(i.num_pasaporte).toUpperCase() === passVal)
-                );
 
-                if (item) {
-                    mostrarTodo(item);
-                } else { 
-                    alert("Datos no coinciden. Verifique el número de expediente y pasaporte."); 
-                }
-            } catch (e) { 
-                alert("Error de conexión con la base de datos."); 
-            } finally {
-                btn.innerText = "CONSULTAR ESTADO";
-                btn.disabled = false;
-            }
+            // LLAMADA INTERNA DE GOOGLE (Evita el Error de Conexión)
+            google.script.run
+                .withSuccessHandler(function(data) {
+                    const item = data.find(i => 
+                        String(i.n_exp).toUpperCase() === expVal && 
+                        String(i.num_pasaporte).toUpperCase() === passVal
+                    );
+
+                    if(item) {
+                        mostrarResultado(item);
+                        // Efecto fiesta si está Tramitado
+                        if(String(item.estado_ap).toUpperCase().includes("TRAMITADO")) {
+                            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                        }
+                    } else {
+                        alert("No coinciden los datos. Por favor, verifícalos.");
+                    }
+                    btn.innerText = "CONSULTAR ESTADO";
+                    btn.disabled = false;
+                })
+                .withFailureHandler(function(err) {
+                    alert("Error en el servidor de Google: " + err);
+                    btn.innerText = "CONSULTAR ESTADO";
+                    btn.disabled = false;
+                })
+                .getData(); // Esta función debe existir en tu Código.gs
         }
 
-        function mostrarTodo(item) {
+        function mostrarResultado(item) {
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('cName').innerText = item.nombre;
             document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | PAS: " + item.num_pasaporte;
             
-            const est = String(item.estado_ap || "").toUpperCase();
-            let fT = "--/--/--";
-            if (item.fecha_cad) {
-                let d = new Date(item.fecha_cad);
-                if (!isNaN(d.getTime())) {
-                    fT = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-                } else { fT = item.fecha_cad; }
-            }
-
-            let htmlFinal = "";
-            if (est === "INCIDENCIA") {
-                htmlFinal = `<div class="incidencia-box">
-                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
-                    <div class="step-text" style="color:#f87171">ATENCIÓN: INCIDENCIA DETECTADA</div>
-                    <div style="font-size: 11px; margin-top: 5px; color: #fff;">POR FAVOR, CONTACTE CON LA OFICINA.</div>
-                </div>`;
-            } else {
-                let mensajeTexto = "";
-                if (est === "LO HA TRAIDO EL") {
-                    mensajeTexto = `DOCUMENTACIÓN APORTADA <span class="fecha-label">CADUCIDAD: ${fT}</span>`;
-                } else if (est === "TRAMITADO") {
-                    mensajeTexto = `ENVIADO A TRADUCIR <span class="fecha-label">FECHA: ${fT}</span>`;
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                } else if (est === "NO TIENE") {
-                    mensajeTexto = "NO TIENE PENALES";
-                } else if (est === "RECIBIDO") {
-                    mensajeTexto = `RECIBIDO CON TRADUCCIÓN <span class="fecha-label">CADUCIDAD: ${fT}</span>`;
-                } else {
-                    mensajeTexto = est + (fT !== "--/--/--" ? ` <span class="fecha-label">FECHA: ${fT}</span>` : "");
-                }
-                htmlFinal = `<div class="step"><div class="dot"></div><div class="step-text">${mensajeTexto}</div></div>`;
-            }
-
-            document.getElementById('timelineContent').innerHTML = htmlFinal;
-
-            // Checklist actualizado
-            const docsArr = [
-                { n: "Estado Pasaporte", v: String(item.pasaporte_esc || "PENDIENTE") },
-                { n: "Contratos", v: String(item.contratos || "PENDIENTE") },
-                { n: "Tasa Pago", v: String(item.pagado_ap || "PENDIENTE") }
+            const docs = [
+                {n: "PASAPORTE", v: item.pasaporte_esc},
+                {n: "CONTRATOS", v: item.contratos},
+                {n: "PAGO DE TASAS", v: item.pagado_ap},
+                {n: "ESTADO ACTUAL", v: item.estado_ap}
             ];
 
-            document.getElementById('docsContent').innerHTML = docsArr.map(d => {
-                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK", "TRAMITADO"].includes(d.v.toUpperCase());
-                return `<div class="doc-row">
-                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
+            document.getElementById('docsContent').innerHTML = docs.map(d => {
+                const val = String(d.v || "PENDIENTE").toUpperCase();
+                const ok = ["SI", "OK", "PAGADO", "ESCANEADO", "TIENE", "TRAMITADO", "RECIBIDO"].includes(val);
+                return `
+                <div class="doc-row">
+                    <div class="status-badge ${ok ? 'bg-ok' : 'bg-no'}">
+                        <i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i>
+                    </div>
                     <div>
-                        <p style="font-size: 7px; color: #475569; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
-                        <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${d.v || 'PENDIENTE'}</p>
+                        <p style="font-size:8px; color:#94a3b8; font-weight:900; margin:0; text-transform: uppercase;">${d.n}</p>
+                        <p style="font-weight:900; font-size: 14px; margin:0; color: ${ok ? '#fff' : '#f87171'}">${val}</p>
                     </div>
                 </div>`;
             }).join('');
 
-            // Notas del cliente
             if(item.notas && item.notas.trim() !== "") {
                 document.getElementById('notesCard').style.display = 'block';
                 document.getElementById('cNotes').innerText = item.notas;
             } else {
                 document.getElementById('notesCard').style.display = 'none';
             }
-
+            
             window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
         }
 
         function generarPDF() {
             const element = document.getElementById('captureArea');
-            const btn = document.getElementById('downloadBtn');
+            const btn = document.getElementById('btnPDF');
             btn.style.display = 'none';
+            
             const opt = {
-                margin: [10, 5, 10, 5],
-                filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
+                margin: 10,
+                filename: 'Justificante_Lexilias.pdf',
                 html2canvas: { scale: 2, backgroundColor: '#020617' },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-            html2pdf().set(opt).from(element).save().then(() => { btn.style.display = 'flex'; });
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.style.display = 'flex';
+            });
         }
     </script>
 </body>
