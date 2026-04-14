@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lexilias Jurídicos | Seguimiento</title>
+    <title>Lexilias Jurídicos | Seguimiento de Expedientes</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -39,6 +39,7 @@
             text-transform: uppercase; font-weight: bold; 
         }
 
+        /* Tarjeta con efecto de cristal y engranajes */
         .glass-card { 
             background-color: #1e293b !important; 
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -49,7 +50,6 @@
             position: relative; overflow: hidden;
         }
 
-        /* Engranajes Animados */
         @keyframes gear-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes gear-rotate-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 
@@ -80,8 +80,14 @@
             cursor: pointer; font-size: 13px; transition: 0.2s;
         }
 
+        button:active { transform: scale(0.98); }
+
         #resultBox { width: 100%; max-width: 380px; display: none; }
-        .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
+        
+        .client-info { 
+            background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; 
+            text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; 
+        }
         
         @keyframes spin-blue { to { transform: rotate(360deg); } }
         .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
@@ -92,16 +98,6 @@
 
         .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
         
-        .fecha-label { 
-            color: #fbbf24; font-size: 11px; display: block; margin-top: 6px; font-weight: 900; 
-            background: rgba(251, 191, 36, 0.15); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(251, 191, 36, 0.3); width: fit-content;
-        }
-
-        .incidencia-box {
-            background: rgba(239, 68, 68, 0.2) !important; border: 2px solid #ef4444 !important;
-            padding: 20px; border-radius: 15px; text-align: center;
-        }
-
         .doc-row { 
             display: flex; align-items: center; gap: 15px; padding: 12px; 
             background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
@@ -115,6 +111,7 @@
             position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; 
             padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; 
             font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
         
         .note-card { background: rgba(96, 165, 250, 0.1) !important; border: 1px dashed #60a5fa !important; }
@@ -122,7 +119,9 @@
 </head>
 <body>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR OFICINA</a>
+    <a href="https://wa.me/34621188515" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i> CONTACTAR OFICINA
+    </a>
 
     <header>
         <img src="https://i.ibb.co/6R0yYfM/Logo.png" alt="Lexilias" class="logo-img">
@@ -166,7 +165,7 @@
     </div>
 
     <script>
-        // TU ENLACE ACTUALIZADO
+        // Enlace de tu Google Script (El que termina en amQ/exec)
          const API_URL = "https://script.google.com/macros/s/AKfycbykY05Qo-Qjhq7XnjCymcdHzMAdxnBJ4l7YXUYeWvqHIqHlgdmcJfG0LLbETn89SQQ/exec";
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
@@ -182,19 +181,20 @@
             btn.disabled = true;
             
             try {
+                // nocache para evitar datos viejos
                 const res = await fetch(API + "?v=" + Math.random());
                 const data = await res.json();
                 
-                // Buscamos coincidencia exacta de expediente y fecha
+                // Buscamos coincidencia
                 const item = data.find(i => i.n_exp === exp && i.fecha_nac === birth);
 
                 if (item) {
                     mostrarTodo(item);
                 } else { 
-                    alert("No se encontró ningún expediente con esos datos. Revisa el número y la fecha (DD/MM/AAAA)"); 
+                    alert("No encontrado. Verifica el número de expediente y la fecha."); 
                 }
             } catch (e) { 
-                alert("Error de conexión con la base de datos"); 
+                alert("Error al conectar con la base de datos"); 
             } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
@@ -208,21 +208,12 @@
             
             const est = String(item.estado_penales || "").toUpperCase();
             
-            // Evolución del trámite (Estado de Penales)
-            let htmlStatus = "";
-            if (est.includes("INCIDENCIA")) {
-                htmlStatus = `<div class="incidencia-box">
-                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
-                    <div class="step-text" style="color:#f87171">INCIDENCIA DETECTADA</div>
-                    <div style="font-size: 11px; margin-top: 5px; color: #fff;">POR FAVOR, CONTACTE CON NUESTRA OFICINA.</div>
-                </div>`;
-            } else {
-                if (est === "TRAMITADO") confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                htmlStatus = `<div class="step"><div class="dot"></div><div class="step-text">${est}</div></div>`;
-            }
+            // Estado Principal
+            let htmlStatus = `<div class="step"><div class="dot"></div><div class="step-text">${est}</div></div>`;
+            if (est === "TRAMITADO") confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             document.getElementById('timelineContent').innerHTML = htmlStatus;
 
-            // Documentación (Tabla de jefe)
+            // Documentos
             const docsArr = [
                 { n: "Ant. Penales", v: item.estado_penales },
                 { n: "Pago Tasas", v: item.pagado },
@@ -242,7 +233,7 @@
                 </div>`;
             }).join('');
 
-            // Notas para el cliente
+            // Notas
             if(item.nota_cliente && item.nota_cliente !== "NADA") {
                 document.getElementById('noteBox').style.display = 'block';
                 document.getElementById('cNote').innerText = item.nota_cliente;
@@ -259,7 +250,7 @@
             btn.style.display = 'none';
             const opt = {
                 margin: [10, 5, 10, 5],
-                filename: `Lexilias_Justificante_${document.getElementById('cName').innerText}.pdf`,
+                filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
                 html2canvas: { scale: 2, backgroundColor: '#020617' },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
