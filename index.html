@@ -2,49 +2,25 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lexilias Jurídicos | Seguimiento</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexilias | Consulta</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
-            color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
-        }
-        .logo-img { height: 120px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3)); }
-        .glass-card { 
-            background-color: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; padding: 20px; width: 100%; max-width: 380px; margin-bottom: 20px;
-        }
-        input {
-            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 15px; border-radius: 12px; color: white; text-align: center; font-size: 16px; margin-bottom: 12px; text-transform: uppercase;
-        }
-        button {
-            width: 100%; background-color: #ffffff; color: #000000; padding: 15px; 
-            border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase;
-        }
-        #resultBox { width: 100%; max-width: 380px; display: none; }
-        .doc-row { display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.05); }
-        .status-badge { width: 25px; height: 25px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-        .bg-ok { background: #ffffff; color: #000; }
-        .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 10px 18px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 8px; }
+        body { font-family: 'Montserrat', sans-serif; background: #020617; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 20px; min-height: 100vh; }
+        .glass-card { background: #1e293b; border-radius: 20px; padding: 25px; width: 100%; max-width: 380px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        input { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #334155; text-align: center; background: #000; color: #fff; font-size: 16px; text-transform: uppercase; }
+        button { width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: 900; cursor: pointer; background: #fff; color: #000; text-transform: uppercase; }
+        #resultBox { display: none; width: 100%; max-width: 380px; margin-top: 20px; }
+        .doc-row { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #fff; color: #000; }
+        .error-badge { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR</a>
-
-    <header style="text-align:center; margin-bottom: 20px;">
-        <img src="https://i.ibb.co/6R0yYfM/Logo.png" alt="Lexilias" class="logo-img">
-        <p style="color: #60a5fa; letter-spacing: 2px; font-size: 9px; font-weight: bold; text-transform: uppercase;">Servicio jurídico Extranjería</p>
-    </header>
+    <img src="https://i.ibb.co/6R0yYfM/Logo.png" style="height: 120px; margin-bottom: 10px;">
+    <p style="color: #60a5fa; letter-spacing: 2px; font-size: 10px; font-weight: bold;">SERVICIO JURÍDICO EXTRANJERÍA</p>
 
     <div class="glass-card">
         <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
@@ -54,23 +30,16 @@
 
     <div id="resultBox">
         <div class="glass-card" style="text-align: center;">
-            <h2 id="cName" style="font-style: italic; font-size: 20px; font-weight: 900;"></h2>
-            <p id="cExp" style="color: #94a3b8; font-size: 11px; margin-top: 5px;"></p>
+            <h2 id="cName" style="font-style: italic; font-weight: 900;"></h2>
+            <p id="cExp" style="font-size: 11px; color: #94a3b8; margin-top: 5px;"></p>
         </div>
-
         <div class="glass-card">
-            <p style="text-align:center; font-size:11px; font-weight:900; color:#94a3b8; margin-bottom:15px; letter-spacing:1px;">DOCUMENTACIÓN</p>
             <div id="docsContent"></div>
-        </div>
-
-        <div id="notesCard" class="glass-card" style="display:none; background:rgba(96,165,250,0.05);">
-            <p style="text-align:center; font-size:11px; font-weight:900; color:#60a5fa; margin-bottom:10px;">NOTAS</p>
-            <p id="cNotes" style="text-align:center; font-size:13px; color: #cbd5e1; font-style: italic;"></p>
         </div>
     </div>
 
     <script>
-        // TU NUEVO ENLACE DE GOOGLE
+        // USA TU ÚLTIMO ENLACE AQUÍ
         const API_URL = "https://script.google.com/macros/s/AKfycbw4bKsIXIoyWEbIS6bRTy9Goy76yuhsOljvaPCQe61i3L2VQEs_DCC94yPKpx-dczs/exec";
 
         async function buscar() {
@@ -78,71 +47,63 @@
             const exp = document.getElementById('userExp').value.trim().toUpperCase();
             const pass = document.getElementById('userPass').value.trim().toUpperCase();
 
-            if(!exp || !pass) return alert("Introduce datos");
+            if(!exp || !pass) return alert("Por favor, rellena los campos.");
 
             btn.innerText = "BUSCANDO...";
             btn.disabled = true;
 
             try {
-                // Pedimos los datos al script de Google
-                const response = await fetch(API_URL);
+                // EL TRUCO: "mode: 'cors'" y "redirect: 'follow'" para saltar el bloqueo
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    mode: 'cors',
+                    redirect: 'follow'
+                });
+                
                 const data = await response.json();
                 
-                // Buscamos al cliente
                 const item = data.find(i => 
-                    String(i.n_exp) === exp && 
-                    String(i.num_pasaporte) === pass
+                    String(i.n_exp).toUpperCase() === exp && 
+                    String(i.num_pasaporte).toUpperCase() === pass
                 );
 
                 if(item) {
-                    mostrar(item);
-                    if(String(item.estado_ap).toUpperCase().includes("TRAMITADO")) {
-                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                    }
+                    document.getElementById('resultBox').style.display = 'block';
+                    document.getElementById('cName').innerText = item.nombre;
+                    document.getElementById('cExp').innerText = "EXP: " + item.n_exp + " | PAS: " + item.num_pasaporte;
+                    
+                    const list = [
+                        {n: "PASAPORTE", v: item.pasaporte_esc},
+                        {n: "CONTRATOS", v: item.contratos},
+                        {n: "TASAS", v: item.pagado_ap},
+                        {n: "ESTADO", v: item.estado_ap}
+                    ];
+
+                    document.getElementById('docsContent').innerHTML = list.map(d => {
+                        const val = String(d.v || "PENDIENTE").toUpperCase();
+                        const ok = ["SI", "OK", "PAGADO", "ESCANEADO", "TRAMITADO"].includes(val);
+                        return `
+                        <div class="doc-row">
+                            <div class="status-badge ${ok ? '' : 'error-badge'}">
+                                <i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i>
+                            </div>
+                            <div>
+                                <small style="display:block; font-size:9px; color:#94a3b8;">${d.n}</small>
+                                <strong style="font-size:14px;">${val}</strong>
+                            </div>
+                        </div>`;
+                    }).join('');
+                    
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                 } else {
-                    alert("No encontrado. Revisa expediente y pasaporte.");
+                    alert("No encontrado. Verifica los datos.");
                 }
             } catch (e) {
-                alert("Error de conexión con la base de datos.");
-                console.log(e);
+                console.error(e);
+                alert("Error de conexión. Prueba a abrir la web en modo incógnito o limpia el historial.");
             } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
-            }
-        }
-
-        function mostrar(item) {
-            document.getElementById('resultBox').style.display = 'block';
-            document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "EXP: " + item.n_exp + " | PAS: " + item.num_pasaporte;
-            
-            const docs = [
-                {n: "PASAPORTE", v: item.pasaporte_esc},
-                {n: "CONTRATOS", v: item.contratos},
-                {n: "TASAS", v: item.pagado_ap},
-                {n: "ESTADO", v: item.estado_ap}
-            ];
-
-            document.getElementById('docsContent').innerHTML = docs.map(d => {
-                const val = String(d.v || "PENDIENTE").toUpperCase();
-                const ok = ["SI", "OK", "PAGADO", "ESCANEADO", "TIENE", "TRAMITADO"].includes(val);
-                return `
-                <div class="doc-row">
-                    <div class="status-badge ${ok ? 'bg-ok' : 'bg-no'}">
-                        <i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i>
-                    </div>
-                    <div>
-                        <p style="font-size:8px; color:#94a3b8; font-weight:900; margin:0;">${d.n}</p>
-                        <p style="font-weight:900; font-size:13px; margin:0;">${val}</p>
-                    </div>
-                </div>`;
-            }).join('');
-
-            if(item.notas && item.notas.trim() !== "") {
-                document.getElementById('notesCard').style.display = 'block';
-                document.getElementById('cNotes').innerText = item.notas;
-            } else {
-                document.getElementById('notesCard').style.display = 'none';
             }
         }
     </script>
