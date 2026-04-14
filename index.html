@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lexilias Jurídicos | Seguimiento Seguro</title>
+    <title>Lexilias Jurídicos | Seguimiento</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -16,11 +16,10 @@
             background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
             color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
-        .logo-img { height: 130px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3)); }
+        .logo-img { height: 110px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3)); }
         .glass-card { 
             background-color: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px; padding: 25px; width: 100%; max-width: 380px; margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         input {
             width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
@@ -28,15 +27,14 @@
         }
         button {
             width: 100%; background-color: #ffffff; color: #000000; padding: 18px; 
-            border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s;
+            border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase;
         }
-        button:active { transform: scale(0.98); }
         #resultBox { width: 100%; max-width: 380px; display: none; }
         .doc-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
         .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
         .bg-ok { background: #ffffff; color: #000; }
         .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 8px; }
     </style>
 </head>
 <body>
@@ -56,32 +54,25 @@
 
     <div id="resultBox">
         <div class="glass-card" style="text-align: center;">
-            <span style="font-size: 9px; color: #60a5fa; font-weight: 900;">EXPEDIENTE LOCALIZADO</span>
-            <h2 id="cName" style="font-style: italic; font-size: 24px; margin: 10px 0; font-weight: 900;"></h2>
+            <h2 id="cName" style="font-style: italic; font-size: 24px; font-weight: 900;"></h2>
             <p id="cExp" style="color: #94a3b8; font-size: 11px; font-weight: bold;"></p>
         </div>
 
         <div class="glass-card">
-            <p style="text-align:center; font-size:11px; font-weight:900; color:#94a3b8; margin-bottom:15px; letter-spacing:1px;">ESTADO DE DOCUMENTOS</p>
             <div id="docsContent"></div>
-        </div>
-
-        <div id="notesCard" class="glass-card" style="display:none; background:rgba(96,165,250,0.05);">
-            <p style="text-align:center; font-size:11px; font-weight:900; color:#60a5fa; margin-bottom:10px;">NOTAS DEL ASESOR</p>
-            <p id="cNotes" style="text-align:center; font-size:14px; color: #cbd5e1; font-style: italic; line-height: 1.5;"></p>
         </div>
     </div>
 
     <script>
-        // TU NUEVO ENLACE FUNCIONAL
-        const API_URL = "https://script.google.com/macros/s/AKfycbfl5HUKH5XdT5kPSxykaQym1TKyQJcqAJOMkO3WDZLBGhNxtpJATCiRXFn-t6eCg/exec";
+        // TU ENLACE QUE SÍ FUNCIONA (AÑADIMOS ?V=2 PARA LIMPIAR ERRORES)
+        const API_URL = "https://script.google.com/macros/s/AKfycbfl5HUKH5XdT5kPSxykaQym1TKyQJcqAJOMkO3WDZLBGhNxtpJATCiRXFn-t6eCg/exec?v=2";
 
         async function buscar() {
             const btn = document.getElementById('btnSearch');
             const exp = document.getElementById('userExp').value.trim().toUpperCase();
             const pass = document.getElementById('userPass').value.trim().toUpperCase();
 
-            if(!exp || !pass) return alert("Por favor, rellena ambos campos.");
+            if(!exp || !pass) return alert("Rellena los campos");
 
             btn.innerText = "VERIFICANDO...";
             btn.disabled = true;
@@ -96,56 +87,43 @@
                 );
 
                 if(item) {
-                    mostrar(item);
-                    if(String(item.estado_ap).toUpperCase().includes("TRAMITADO")) {
-                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    }
+                    document.getElementById('resultBox').style.display = 'block';
+                    document.getElementById('cName').innerText = item.nombre;
+                    document.getElementById('cExp').innerText = "EXP: " + item.n_exp + " | PAS: " + item.num_pasaporte;
+                    
+                    const docs = [
+                        {n: "PASAPORTE", v: item.pasaporte_esc},
+                        {n: "CONTRATOS", v: item.contratos},
+                        {n: "TASAS", v: item.pagado_ap},
+                        {n: "ESTADO", v: item.estado_ap}
+                    ];
+
+                    document.getElementById('docsContent').innerHTML = docs.map(d => {
+                        const val = String(d.v || "PENDIENTE").toUpperCase();
+                        const ok = ["SI", "OK", "PAGADO", "ESCANEADO", "TRAMITADO"].includes(val);
+                        return `
+                        <div class="doc-row">
+                            <div class="status-badge ${ok ? 'bg-ok' : 'bg-no'}">
+                                <i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i>
+                            </div>
+                            <div>
+                                <p style="font-size:8px; color:#94a3b8; font-weight:900; margin:0;">${d.n}</p>
+                                <p style="font-weight:900; font-size:14px; margin:0;">${val}</p>
+                            </div>
+                        </div>`;
+                    }).join('');
+                    
+                    if(val.includes("TRAMITADO")) confetti();
+
                 } else {
-                    alert("No se encontró el expediente. Revisa los datos.");
+                    alert("No encontrado. Revisa los datos.");
                 }
             } catch (e) {
-                alert("Error al conectar con la base de datos.");
+                alert("Error de conexión. Prueba a abrir en MODO INCÓGNITO.");
             } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
             }
-        }
-
-        function mostrar(item) {
-            document.getElementById('resultBox').style.display = 'block';
-            document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "EXP: " + item.n_exp + " | PAS: " + item.num_pasaporte;
-            
-            const docs = [
-                {n: "PASAPORTE", v: item.pasaporte_esc},
-                {n: "CONTRATOS", v: item.contratos},
-                {n: "PAGO DE TASAS", v: item.pagado_ap},
-                {n: "ESTADO ACTUAL", v: item.estado_ap}
-            ];
-
-            document.getElementById('docsContent').innerHTML = docs.map(d => {
-                const val = String(d.v || "PENDIENTE").toUpperCase();
-                const ok = ["SI", "OK", "PAGADO", "ESCANEADO", "TIENE", "TRAMITADO", "RECIBIDO"].includes(val);
-                return `
-                <div class="doc-row">
-                    <div class="status-badge ${ok ? 'bg-ok' : 'bg-no'}">
-                        <i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i>
-                    </div>
-                    <div>
-                        <p style="font-size:8px; color:#94a3b8; font-weight:900; margin:0;">${d.n}</p>
-                        <p style="font-weight:900; font-size:14px; margin:0; color: ${ok ? '#ffffff' : '#f87171'}">${val}</p>
-                    </div>
-                </div>`;
-            }).join('');
-
-            if(item.notas && item.notas.trim() !== "") {
-                document.getElementById('notesCard').style.display = 'block';
-                document.getElementById('cNotes').innerText = item.notas;
-            } else {
-                document.getElementById('notesCard').style.display = 'none';
-            }
-            
-            window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
         }
     </script>
 </body>
