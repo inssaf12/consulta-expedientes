@@ -39,9 +39,10 @@
             text-transform: uppercase; font-weight: bold; 
         }
 
-        /* Estilo base de las tarjetas */
+        /* Estilo base de las tarjetas (Web) */
         .glass-card { 
-            background-color: #1e293b !important; 
+            background-color: rgba(30, 41, 59, 0.7) !important; /* Semi-transparente para la web */
+            backdrop-filter: blur(10px); /* Efecto cristal para la web */
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 25px; padding: 25px;
             width: 100%; max-width: 380px;
@@ -79,9 +80,8 @@
 
         #resultBox { width: 100%; max-width: 380px; display: none; }
         
-        /* Ajuste específico para que el PDF no salga gris */
         .client-info { 
-            background: #0f172a !important; 
+            background: rgba(15, 23, 42, 0.5) !important; 
             padding: 25px; border-radius: 20px; text-align: center; 
             border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; 
         }
@@ -96,7 +96,7 @@
         
         .doc-row { 
             display: flex; align-items: center; gap: 15px; padding: 12px; 
-            background: rgba(15, 23, 42, 0.6) !important; border-radius: 15px; 
+            background: rgba(15, 23, 42, 0.3) !important; border-radius: 15px; 
             margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -110,26 +110,63 @@
             font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
         }
 
-        /* CLASE ESPECIAL PARA PDF */
+        /* =========================================
+           CLASES ESPECIALES PARA UN PDF LIMPIO
+           ========================================= */
         .pdf-mode {
-            background: #020617 !important;
+            background-color: #ffffff !important; /* Fondo blanco sólido para el PDF */
+            color: #000000 !important; /* Texto negro para el PDF */
             padding: 20px !important;
         }
+        
         .pdf-mode .glass-card {
-            background-color: #1e293b !important;
-            border: 1px solid #334155 !important;
+            background-color: #f1f5f9 !important; /* Tarjetas gris claro sólido */
+            backdrop-filter: none !important; /* Quitar desenfoque */
+            border: 1px solid #cbd5e1 !important; /* Borde gris claro */
+            color: #000000 !important;
             box-shadow: none !important;
         }
+        
+        .pdf-mode .glass-card::before {
+            display: none !important; /* Quitar engranajes */
+        }
+        
+        .pdf-mode .client-info { 
+            background-color: #e2e8f0 !important; /* Fondo info gris suave */
+            color: #000000 !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+        
+        .pdf-mode #cName { color: #000000 !important; }
+        .pdf-mode #cExp { color: #475569 !important; }
+        .pdf-mode .section-header { color: #475569 !important; border-bottom: 1px solid #cbd5e1 !important;}
+        .pdf-mode .step-text { color: #000000 !important; }
+        .pdf-mode .sub-text { color: #1e3a8a !important; } /* Subtítulo azul oscuro */
+        
+        .pdf-mode .doc-row { 
+            background-color: #ffffff !important; /* Filas blancas sólidas */
+            border: 1px solid #e2e8f0 !important;
+        }
+        
+        .pdf-mode .status-badge {
+            border: 1px solid #cbd5e1 !important;
+        }
+        
+        .pdf-mode .bg-ok { background-color: #16a34a !important; color: #ffffff !important; } /* Check verde */
+        .pdf-mode .bg-no { background-color: #dc2626 !important; color: #ffffff !important; } /* X roja */
+        
+        .pdf-mode .logo-img { filter: none !important; } /* Quitar brillo logo */
+        
+        .pdf-mode .p-nota-doc { color: #475569 !important; }
+        .pdf-mode .p-val-doc-ok { color: #16a34a !important; }
+        .pdf-mode .p-val-doc-no { color: #dc2626 !important; }
+        .pdf-mode #cNotes { color: #1e293b !important; }
+        
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR OFICINA</a>
-
-    <header id="mainHeader">
-        <img src="Logo.png" alt="Lexilias" class="logo-img">
-        <p class="sub-text">Servicio jurídico Extranjería</p>
-    </header>
+    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> AYUDA</a>
 
     <div class="glass-card" id="searchPanel">
         <p class="section-header">ACCESO CLIENTES</p>
@@ -140,6 +177,11 @@
 
     <div id="resultBox">
         <div id="captureArea">
+            <header id="pdfHeader" style="display:none;">
+                <img src="Logo.png" alt="Lexilias" class="logo-img">
+                <p class="sub-text">Servicio jurídico Extranjería</p>
+            </header>
+
             <div class="client-info">
                 <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</span>
                 <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic; color: #ffffff;"></h2>
@@ -157,7 +199,7 @@
             </div>
 
             <div id="notesCard" class="glass-card" style="display:none; border: 1px solid rgba(96, 165, 250, 0.3);">
-                <p class="section-header" style="color: #60a5fa;">NOTAS DEL EXPEDIENTE</p>
+                <p class="section-header" style="color: #60a5fa;">NOTAS</p>
                 <div style="display: flex; gap: 15px; align-items: flex-start;">
                     <i class="fas fa-comment-dots" style="color: #60a5fa; font-size: 20px; margin-top: 5px;"></i>
                     <p id="cNotes" style="font-size: 13px; text-align: left; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
@@ -215,7 +257,7 @@
                     mensaje = "DOCUMENTACIÓN APORTADA";
                     let fechaCad = item["fecha_cad_ant_penales"]; 
                     if (fechaCad) {
-                        subFecha = `<div style="font-size: 11px; color: #94a3b8; margin-top: 4px; font-weight: bold;">CAD: ${fechaCad}</div>`;
+                        subFecha = `<div class="p-nota-doc" style="font-size: 11px; color: #94a3b8; margin-top: 4px; font-weight: bold;">CAD: ${fechaCad}</div>`;
                     }
                 }
                 
@@ -239,8 +281,8 @@
                 return `<div class="doc-row">
                     <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
                     <div>
-                        <p style="font-size: 7px; color: #94a3b8; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
-                        <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${val}</p>
+                        <p class="p-nota-doc" style="font-size: 7px; color: #94a3b8; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
+                        <p class="${isOK ? 'p-val-doc-ok' : 'p-val-doc-no'}" style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${val}</p>
                     </div>
                 </div>`;
             }).join('');
@@ -258,31 +300,40 @@
         function generarPDF() {
             const area = document.getElementById('captureArea');
             const btn = document.getElementById('downloadBtn');
-            const header = document.getElementById('mainHeader');
+            const pdfHeader = document.getElementById('pdfHeader');
+            const name = document.getElementById('cName').innerText;
             
-            // Clonamos el logo para que aparezca dentro del PDF
-            const logoClone = header.cloneNode(true);
-            area.prepend(logoClone);
-            
-            btn.style.display = 'none';
-            area.classList.add('pdf-mode');
+            // Preparar para la captura
+            btn.style.display = 'none'; // Ocultar botón descargar
+            pdfHeader.style.display = 'block'; // Mostrar logo dentro del área de captura
+            area.classList.add('pdf-mode'); // Activar modo PDF sólido
 
             const opt = {
-                margin: [15, 10, 15, 10],
-                filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
+                margin: [15, 10, 15, 10], // Márgenes [arriba, izq, abajo, der]
+                filename: `Justificante_Lexilias_${name}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
-                    scale: 3, 
+                    scale: 3, // Alta resolución
                     letterRendering: true,
-                    backgroundColor: '#020617',
+                    backgroundColor: '#ffffff', // Forzar fondo blanco de página
                     useCORS: true
                 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
+            // Ejecutar captura y descarga
             html2pdf().set(opt).from(area).save().then(() => {
+                // Restaurar estado web original
                 area.classList.remove('pdf-mode');
-                area.removeChild(logoClone);
+                pdfHeader.style.display = 'none';
+                btn.style.display = 'flex';
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.7 } }); // Celebrar descarga
+            }).catch(err => {
+                console.error("Error generando PDF:", err);
+                alert("Hubo un error al generar el PDF. Por favor, inténtalo de nuevo.");
+                // Restaurar en caso de error
+                area.classList.remove('pdf-mode');
+                pdfHeader.style.display = 'none';
                 btn.style.display = 'flex';
             });
         }
