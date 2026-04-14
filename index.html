@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lexilias Jurídicos | Seguimiento</title>
+    <title>Lexilias Jurídicos | Seguimiento Seguro</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -49,19 +49,6 @@
             position: relative; overflow: hidden;
         }
 
-        /* Engranajes Animados */
-        @keyframes gear-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes gear-rotate-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-
-        .glass-card::before, .glass-card::after {
-            content: "\f085"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
-        }
-        .glass-card::before { font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite; }
-        .glass-card::after { font-size: 80px; top: -15px; left: -15px; animation: gear-rotate-reverse 10s linear infinite; }
-        .glass-card > * { position: relative; z-index: 1; }
-
-        /* Títulos de sección más visibles */
         .section-header {
             text-align: center; font-size: 16px !important; font-weight: 900; 
             border-bottom: 1px solid rgba(255,255,255,0.1); 
@@ -129,7 +116,8 @@
     </header>
 
     <div class="glass-card">
-        <input type="text" id="userInput" placeholder="Nº EXP O PASAPORTE">
+        <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
+        <input type="text" id="userPass" placeholder="Nº DE PASAPORTE">
         <button id="btnSearch" onclick="buscarExpediente()">Consultar Estado</button>
     </div>
 
@@ -158,11 +146,17 @@
     </div>
 
     <script>
-           const API = "https://script.google.com/macros/s/AKfycbwaEyc1H2bBh3u0u9o_Op8S-spuTufFH4S9K9KBr55VndBwQm37tBfokR7-KDsDS7s/exec";
+        const API = "https://script.google.com/macros/s/AKfycbwaEyc1H2bBh3u0u9o_Op8S-spuTufFH4S9K9KBr55VndBwQm37tBfokR7-KDsDS7s/exec";
+
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
-            const val = document.getElementById('userInput').value.trim().toUpperCase();
-            if(!val) return;
+            const expVal = document.getElementById('userExp').value.trim().toUpperCase();
+            const passVal = document.getElementById('userPass').value.trim().toUpperCase();
+
+            if(!expVal || !passVal) {
+                alert("Por favor, introduce el Nº de expediente y el pasaporte.");
+                return;
+            }
 
             btn.innerText = "BUSCANDO...";
             btn.disabled = true;
@@ -170,13 +164,21 @@
             try {
                 const res = await fetch(API);
                 const data = await res.json();
-                const item = data.find(i => (i.n_exp && String(i.n_exp).toUpperCase() === val) || (i.pasaporte && String(i.pasaporte).toUpperCase() === val));
+                
+                // البحث يتأكد أن رقم الملف والباسبور متطابقان معاً في نفس السطر
+                const item = data.find(i => 
+                    (i.n_exp && String(i.n_exp).toUpperCase() === expVal) && 
+                    (i.pasaporte && String(i.pasaporte).toUpperCase() === passVal)
+                );
 
                 if (item) {
                     mostrarTodo(item);
-                } else { alert("No encontrado"); }
-            } catch (e) { alert("Error de conexión"); }
-            finally {
+                } else { 
+                    alert("Datos no coinciden. Verifique el número de expediente y pasaporte."); 
+                }
+            } catch (e) { 
+                alert("Error de conexión"); 
+            } finally {
                 btn.innerText = "CONSULTAR ESTADO";
                 btn.disabled = false;
             }
@@ -185,7 +187,7 @@
         function mostrarTodo(item) {
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "REG: " + item.n_exp;
+            document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | PAS: " + item.pasaporte;
             
             const est = String(item.estado_ap || "").toUpperCase();
             let fT = "--/--/--";
@@ -229,7 +231,7 @@
             ];
 
             document.getElementById('docsContent').innerHTML = docsArr.map(d => {
-                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(d.v.toUpperCase());
+                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK", "TRAMITADO"].includes(d.v.toUpperCase());
                 return `<div class="doc-row">
                     <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
                     <div>
