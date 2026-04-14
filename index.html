@@ -29,7 +29,7 @@
         header { text-align: center; margin-bottom: 30px; width: 100%; }
 
         .logo-img { 
-            height: 180px; width: auto; margin-bottom: 5px; 
+            height: 150px; width: auto; margin-bottom: 5px; 
             display: block; margin-left: auto; margin-right: auto;
             filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
         }
@@ -39,6 +39,7 @@
             text-transform: uppercase; font-weight: bold; 
         }
 
+        /* Estilo base de las tarjetas */
         .glass-card { 
             background-color: #1e293b !important; 
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -49,66 +50,75 @@
             position: relative; overflow: hidden;
         }
 
+        /* Animaciones solo para la web */
         @keyframes gear-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes gear-rotate-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-
-        .glass-card::before, .glass-card::after {
+        .glass-card::before {
             content: "\f085"; font-family: "Font Awesome 6 Free"; font-weight: 900;
             position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
+            font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite;
         }
-        .glass-card::before { font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite; }
-        .glass-card::after { font-size: 80px; top: -15px; left: -15px; animation: gear-rotate-reverse 10s linear infinite; }
-        .glass-card > * { position: relative; z-index: 1; }
 
         .section-header {
-            text-align: center; font-size: 16px !important; font-weight: 900; 
+            text-align: center; font-size: 14px !important; font-weight: 900; 
             border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 15px; margin-bottom: 25px; 
+            padding-bottom: 12px; margin-bottom: 20px; 
             color: #94a3b8; letter-spacing: 2px; text-transform: uppercase;
         }
 
         input {
             width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 18px; border-radius: 15px; color: white; text-align: center; font-size: 18px;
-            font-weight: bold; margin-bottom: 15px; text-transform: uppercase; outline: none;
+            font-weight: bold; margin-bottom: 15px; outline: none;
         }
 
-        button {
+        #btnSearch {
             width: 100%; background-color: #ffffff; color: #000000; padding: 18px; 
             border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase;
-            cursor: pointer; font-size: 12px; transition: 0.2s;
+            cursor: pointer; font-size: 12px;
         }
 
         #resultBox { width: 100%; max-width: 380px; display: none; }
-        .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
-        @keyframes spin-blue { to { transform: rotate(360deg); } }
+        /* Ajuste específico para que el PDF no salga gris */
+        .client-info { 
+            background: #0f172a !important; 
+            padding: 25px; border-radius: 20px; text-align: center; 
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; 
+        }
+
         .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
         .dot { 
-            width: 14px; height: 14px; border-radius: 50%; border: 2px dashed #2563eb; 
-            flex-shrink: 0; animation: spin-blue 2s linear infinite; box-shadow: 0 0 10px #2563eb;
+            width: 14px; height: 14px; border-radius: 50%; 
+            background: #2563eb; flex-shrink: 0; box-shadow: 0 0 10px #2563eb;
         }
 
-        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; }
         
-        .incidencia-box {
-            background: rgba(239, 68, 68, 0.2) !important; border: 2px solid #ef4444 !important;
-            padding: 20px; border-radius: 15px; text-align: center;
-        }
-
         .doc-row { 
             display: flex; align-items: center; gap: 15px; padding: 12px; 
-            background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(15, 23, 42, 0.6) !important; border-radius: 15px; 
+            margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
         }
 
         .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .bg-ok { background: #ffffff; color: #000; }
-        .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .bg-ok { background: #ffffff !important; color: #000 !important; }
+        .bg-no { background: #ef4444 !important; color: #fff !important; }
 
         .whatsapp-btn {
             position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; 
             padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; 
             font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
+        }
+
+        /* CLASE ESPECIAL PARA PDF */
+        .pdf-mode {
+            background: #020617 !important;
+            padding: 20px !important;
+        }
+        .pdf-mode .glass-card {
+            background-color: #1e293b !important;
+            border: 1px solid #334155 !important;
+            box-shadow: none !important;
         }
     </style>
 </head>
@@ -116,7 +126,7 @@
 
     <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR OFICINA</a>
 
-    <header>
+    <header id="mainHeader">
         <img src="Logo.png" alt="Lexilias" class="logo-img">
         <p class="sub-text">Servicio jurídico Extranjería</p>
     </header>
@@ -132,7 +142,7 @@
         <div id="captureArea">
             <div class="client-info">
                 <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</span>
-                <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic;"></h2>
+                <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic; color: #ffffff;"></h2>
                 <p id="cExp" style="color: #94a3b8; font-size: 10px; font-weight: bold;"></p>
             </div>
 
@@ -150,12 +160,12 @@
                 <p class="section-header" style="color: #60a5fa;">NOTAS DEL EXPEDIENTE</p>
                 <div style="display: flex; gap: 15px; align-items: flex-start;">
                     <i class="fas fa-comment-dots" style="color: #60a5fa; font-size: 20px; margin-top: 5px;"></i>
-                    <p id="cNotes" style="font-size: 14px; text-align: left; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
+                    <p id="cNotes" style="font-size: 13px; text-align: left; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
                 </div>
             </div>
         </div>
         
-        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px; margin-bottom: 40px;">
+        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px; margin-bottom: 40px; cursor: pointer;">
             <i class="fas fa-file-pdf"></i> DESCARGAR JUSTIFICANTE (PDF)
         </button>
     </div>
@@ -194,7 +204,6 @@
 
             if (est === "INCIDENCIA") {
                 htmlFinal = `<div class="incidencia-box">
-                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
                     <div class="step-text" style="color:#f87171">ATENCIÓN: INCIDENCIA DETECTADA</div>
                     <div style="font-size: 11px; margin-top: 5px; color: #fff;">POR FAVOR, CONTACTE CON LA OFICINA.</div>
                 </div>`;
@@ -204,28 +213,17 @@
 
                 if (est === "LO HA TRAIDO EL") {
                     mensaje = "DOCUMENTACIÓN APORTADA";
-                    // Se busca la columna de tu tabla: FECHA CAD. ANT. PENALES
                     let fechaCad = item["fecha_cad_ant_penales"]; 
                     if (fechaCad) {
                         subFecha = `<div style="font-size: 11px; color: #94a3b8; margin-top: 4px; font-weight: bold;">CAD: ${fechaCad}</div>`;
                     }
                 }
                 
-                if (est === "TRAMITADO") { 
-                    mensaje = "ENVIADO A TRADUCIR"; 
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                }
+                if (est === "TRAMITADO") mensaje = "ENVIADO A TRADUCIR";
                 if (est === "NO TIENE") mensaje = "NO TIENE PENALES";
                 if (est === "RECIBIDO") mensaje = "RECIBIDO CON TRADUCCIÓN";
 
-                htmlFinal = `
-                    <div class="step">
-                        <div class="dot"></div>
-                        <div>
-                            <div class="step-text">${mensaje}</div>
-                            ${subFecha}
-                        </div>
-                    </div>`;
+                htmlFinal = `<div class="step"><div class="dot"></div><div><div class="step-text">${mensaje}</div>${subFecha}</div></div>`;
             }
             document.getElementById('timelineContent').innerHTML = htmlFinal;
 
@@ -258,16 +256,35 @@
         }
 
         function generarPDF() {
-            const element = document.getElementById('captureArea');
+            const area = document.getElementById('captureArea');
             const btn = document.getElementById('downloadBtn');
+            const header = document.getElementById('mainHeader');
+            
+            // Clonamos el logo para que aparezca dentro del PDF
+            const logoClone = header.cloneNode(true);
+            area.prepend(logoClone);
+            
             btn.style.display = 'none';
+            area.classList.add('pdf-mode');
+
             const opt = {
-                margin: [10, 5, 10, 5],
+                margin: [15, 10, 15, 10],
                 filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
-                html2canvas: { scale: 2, backgroundColor: '#020617' },
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 3, 
+                    letterRendering: true,
+                    backgroundColor: '#020617',
+                    useCORS: true
+                },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-            html2pdf().set(opt).from(element).save().then(() => { btn.style.display = 'flex'; });
+
+            html2pdf().set(opt).from(area).save().then(() => {
+                area.classList.remove('pdf-mode');
+                area.removeChild(logoClone);
+                btn.style.display = 'flex';
+            });
         }
     </script>
 </body>
