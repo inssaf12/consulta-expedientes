@@ -18,75 +18,127 @@
             font-family: 'Montserrat', sans-serif; 
             background-color: #020617 !important; 
             background: radial-gradient(circle at top, #0f172a 0%, #000000 100%) !important;
-            color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+            color: #ffffff; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        /* Área de captura para el PDF */
-        #captureArea { width: 100%; max-width: 400px; padding: 10px; }
+        header { text-align: center; margin-bottom: 30px; width: 100%; }
 
-        .logo-container { text-align: center; margin-bottom: 25px; }
-        .logo-img { height: 130px; width: auto; margin: 0 auto 5px; display: block; }
-        .sub-text { font-size: 10px; letter-spacing: 3px; color: #60a5fa; text-transform: uppercase; font-weight: 900; }
+        .logo-img { 
+            height: 180px; width: auto; margin-bottom: 5px; 
+            display: block; margin-left: auto; margin-right: auto;
+            filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
+        }
+
+        .sub-text { 
+            font-size: 11px; letter-spacing: 0.3em; color: #60a5fa; 
+            text-transform: uppercase; font-weight: bold; 
+        }
 
         .glass-card { 
-            background: #1e293b !important; 
+            background-color: #1e293b !important; 
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; padding: 20px; margin-bottom: 15px; position: relative;
+            border-radius: 25px; padding: 25px;
+            width: 100%; max-width: 380px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            position: relative; overflow: hidden;
         }
+
+        @keyframes gear-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes gear-rotate-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+        .glass-card::before, .glass-card::after {
+            content: "\f085"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
+        }
+        .glass-card::before { font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite; }
+        .glass-card::after { font-size: 80px; top: -15px; left: -15px; animation: gear-rotate-reverse 10s linear infinite; }
+        .glass-card > * { position: relative; z-index: 1; }
 
         .section-header {
-            text-align: center; font-size: 13px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 10px; margin-bottom: 15px; color: #94a3b8; text-transform: uppercase;
+            text-align: center; font-size: 16px !important; font-weight: 900; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            padding-bottom: 15px; margin-bottom: 25px; 
+            color: #94a3b8; letter-spacing: 2px; text-transform: uppercase;
         }
 
-        .client-info { background: #0f172a; padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 15px; border: 1px solid #1e293b; }
+        input {
+            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 18px; border-radius: 15px; color: white; text-align: center; font-size: 18px;
+            font-weight: bold; margin-bottom: 15px; text-transform: uppercase; outline: none;
+        }
+
+        button {
+            width: 100%; background-color: #ffffff; color: #000000; padding: 18px; 
+            border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase;
+            cursor: pointer; font-size: 12px; transition: 0.2s;
+        }
+
+        #resultBox { width: 100%; max-width: 380px; display: none; }
+        .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         
-        .step { display: flex; align-items: center; gap: 12px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; background: #2563eb; flex-shrink: 0; box-shadow: 0 0 8px #2563eb; }
-        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #fff; }
+        @keyframes spin-blue { to { transform: rotate(360deg); } }
+        .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .dot { 
+            width: 14px; height: 14px; border-radius: 50%; border: 2px dashed #2563eb; 
+            flex-shrink: 0; animation: spin-blue 2s linear infinite; box-shadow: 0 0 10px #2563eb;
+        }
+
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
+        
+        .incidencia-box {
+            background: rgba(239, 68, 68, 0.2) !important; border: 2px solid #ef4444 !important;
+            padding: 20px; border-radius: 15px; text-align: center;
+        }
 
         .doc-row { 
-            display: flex; align-items: center; gap: 12px; padding: 10px; 
-            background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 15px; padding: 12px; 
+            background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .status-badge { width: 25px; height: 25px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .bg-ok { background: #ffffff; color: #000; }
-        .bg-no { background: #ef4444; color: #fff; }
+        .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
 
-        #searchPanel input {
-            width: 100%; background: #000; border: 1px solid #334155;
-            padding: 15px; border-radius: 12px; color: white; text-align: center; margin-bottom: 10px;
-        }
-        #searchPanel button {
-            width: 100%; background: white; color: black; padding: 15px; border-radius: 12px; font-weight: 900; cursor: pointer;
+        .whatsapp-btn {
+            position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; 
+            padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; 
+            font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
         }
 
-        #downloadBtn {
-            background: #2563eb; color: white; width: 100%; max-width: 380px; padding: 18px; border-radius: 15px; 
-            font-weight: 900; border: none; margin-bottom: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
+        /* Clase auxiliar para forzar fondo negro en PDF */
+        .pdf-fix { background-color: #020617 !important; color: white !important; }
     </style>
 </head>
 <body>
 
-    <div class="glass-card" id="searchPanel" style="margin-top: 50px;">
-        <p class="section-header">ACCESO SEGURO</p>
-        <input type="text" id="userExp" placeholder="Nº EXPEDIENTE">
-        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO">
-        <button onclick="buscarExpediente()">CONSULTAR</button>
+    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR OFICINA</a>
+
+    <header id="mainHeader">
+        <img src="Logo.png" alt="Lexilias" class="logo-img">
+        <p class="sub-text">Servicio jurídico Extranjería</p>
+    </header>
+
+    <div class="glass-card" id="searchPanel">
+        <p class="section-header">ACCESO CLIENTES</p>
+        <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
+        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO (DD/MM/AAAA)">
+        <button id="btnSearch" onclick="buscarExpediente()">Consultar Estado</button>
     </div>
 
-    <div id="resultBox" style="display:none;">
+    <div id="resultBox">
         <div id="captureArea">
-            <div class="logo-container">
-                <img src="Logo.png" alt="Lexilias" class="logo-img">
-                <p class="sub-text">Servicio Jurídico Extranjería</p>
-            </div>
+            <div id="pdfHeaderPlaceholder"></div>
 
             <div class="client-info">
-                <h2 id="cName" style="font-size: 22px; font-weight: 900; color: #fff;"></h2>
-                <p id="cExp" style="color: #94a3b8; font-size: 11px; margin-top: 5px;"></p>
+                <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</span>
+                <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic;"></h2>
+                <p id="cExp" style="color: #94a3b8; font-size: 10px; font-weight: bold;"></p>
             </div>
 
             <div class="glass-card">
@@ -95,18 +147,21 @@
             </div>
 
             <div class="glass-card">
-                <p class="section-header">ESTADO DOCUMENTAL</p>
+                <p class="section-header">ESTADO DE DOCUMENTOS</p>
                 <div id="docsContent"></div>
             </div>
 
-            <div id="notesCard" class="glass-card" style="display:none;">
-                <p class="section-header">NOTAS</p>
-                <p id="cNotes" style="font-size: 13px; color: #cbd5e1; line-height: 1.5;"></p>
+            <div id="notesCard" class="glass-card" style="display:none; border: 1px solid rgba(96, 165, 250, 0.3);">
+                <p class="section-header" style="color: #60a5fa;">NOTAS DEL EXPEDIENTE</p>
+                <div style="display: flex; gap: 15px; align-items: flex-start;">
+                    <i class="fas fa-comment-dots" style="color: #60a5fa; font-size: 20px; margin-top: 5px;"></i>
+                    <p id="cNotes" style="font-size: 14px; text-align: left; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
+                </div>
             </div>
         </div>
         
-        <button id="downloadBtn" onclick="generarPDF()">
-            <i class="fas fa-file-pdf"></i> DESCARGAR PDF
+        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px; margin-bottom: 40px;">
+            <i class="fas fa-file-pdf"></i> DESCARGAR JUSTIFICANTE (PDF)
         </button>
     </div>
 
@@ -114,75 +169,109 @@
         const API = "https://script.google.com/macros/s/AKfycbykY05Qo-Qjhq7XnjCymcdHzMAdxnBJ4l7YXUYeWvqHIqHlgdmcJfG0LLbETn89SQQ/exec";
 
         async function buscarExpediente() {
-            const exp = document.getElementById('userExp').value.trim();
-            const birth = document.getElementById('userBirth').value.trim();
-            if(!exp || !birth) return alert("Faltan datos");
+            const btn = document.getElementById('btnSearch');
+            const expVal = document.getElementById('userExp').value.trim();
+            const birthVal = document.getElementById('userBirth').value.trim();
 
+            if(!expVal || !birthVal) { alert("Completa los datos"); return; }
+
+            btn.innerText = "BUSCANDO...";
+            btn.disabled = true;
+            
             try {
                 const res = await fetch(API);
                 const data = await res.json();
-                const item = data.find(i => String(i.n_exp) === exp && String(i.fecha_nac).trim() === birth);
-                if (item) { mostrarTodo(item); } else { alert("No encontrado"); }
-            } catch (e) { alert("Error"); }
+                const item = data.find(i => String(i.n_exp) === expVal && String(i.fecha_nac).trim() === birthVal);
+
+                if (item) { mostrarTodo(item); } else { alert("Datos incorrectos."); }
+            } catch (e) { alert("Error de conexión"); }
+            finally { btn.innerText = "CONSULTAR ESTADO"; btn.disabled = false; }
         }
 
         function mostrarTodo(item) {
             document.getElementById('searchPanel').style.display = 'none';
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | " + item.fecha_nac;
+            document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | NACIMIENTO: " + item.fecha_nac;
             
             const est = String(item.estado_penales || "").toUpperCase();
-            let mensaje = est;
-            let sub = "";
+            let htmlFinal = "";
 
-            if (est === "LO HA TRAIDO EL") {
-                mensaje = "DOCUMENTACIÓN APORTADA";
-                if(item["fecha_cad_ant_penales"]) sub = `<div style="font-size:11px; color:#94a3b8; margin-top:4px;">CAD: ${item["fecha_cad_ant_penales"]}</div>`;
-            } else if (est === "TRAMITADO") { 
-                mensaje = "ENVIADO A TRADUCIR"; 
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            }
-            
-            document.getElementById('timelineContent').innerHTML = `
-                <div class="step">
-                    <div class="dot"></div>
-                    <div><div class="step-text">${mensaje}</div>${sub}</div>
+            if (est === "INCIDENCIA") {
+                htmlFinal = `<div class="incidencia-box">
+                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
+                    <div class="step-text" style="color:#f87171">ATENCIÓN: INCIDENCIA DETECTADA</div>
+                    <div style="font-size: 11px; margin-top: 5px; color: #fff;">POR FAVOR, CONTACTE CON LA OFICINA.</div>
                 </div>`;
+            } else {
+                let mensaje = est;
+                if (est === "LO HA TRAIDO EL") mensaje = "DOCUMENTACIÓN APORTADA";
+                if (est === "TRAMITADO") { 
+                    mensaje = "ENVIADO A TRADUCIR"; 
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                }
+                if (est === "NO TIENE") mensaje = "NO TIENE PENALES";
+                if (est === "RECIBIDO") mensaje = "RECIBIDO CON TRADUCCIÓN";
 
-            const dList = [
-                {n: "Pasaporte", v: item.pasaporte_esc},
-                {n: "Contratos", v: item.contratos},
-                {n: "Tasas", v: item.pagado}
+                htmlFinal = `<div class="step"><div class="dot"></div><div class="step-text">${mensaje}</div></div>`;
+            }
+            document.getElementById('timelineContent').innerHTML = htmlFinal;
+
+            const docsArr = [
+                { n: "Pasaporte", v: item.pasaporte_esc },
+                { n: "Contratos", v: item.contratos },
+                { n: "Tasa Pago", v: item.pagado }
             ];
-            document.getElementById('docsContent').innerHTML = dList.map(d => {
-                const ok = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(String(d.v).toUpperCase());
+
+            document.getElementById('docsContent').innerHTML = docsArr.map(d => {
+                const val = String(d.v || "PENDIENTE").toUpperCase();
+                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(val);
                 return `<div class="doc-row">
-                    <div class="status-badge ${ok ? 'bg-ok' : 'bg-no'}"><i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i></div>
-                    <div style="font-size:12px; font-weight:900; color:#fff;">${d.n}: ${d.v || 'PENDIENTE'}</div>
+                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
+                    <div>
+                        <p style="font-size: 7px; color: #94a3b8; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
+                        <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${val}</p>
+                    </div>
                 </div>`;
             }).join('');
 
-            if(item.nota_cliente && item.nota_cliente !== "NADA") {
+            if(item.nota_cliente && item.nota_cliente.trim() !== "" && item.nota_cliente.toUpperCase() !== "NADA") {
                 document.getElementById('notesCard').style.display = 'block';
                 document.getElementById('cNotes').innerText = item.nota_cliente;
+            } else {
+                document.getElementById('notesCard').style.display = 'none';
             }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function generarPDF() {
-            const element = document.getElementById('captureArea');
+            const area = document.getElementById('captureArea');
+            const btn = document.getElementById('downloadBtn');
+            const header = document.getElementById('mainHeader');
+            const placeholder = document.getElementById('pdfHeaderPlaceholder');
+            const body = document.body;
+
+            // 1. Preparar: Meter el logo dentro del área y forzar fondo
+            placeholder.appendChild(header);
+            btn.style.display = 'none';
+            area.classList.add('pdf-fix');
+
             const opt = {
-                margin: 10,
-                filename: 'Justificante_Lexilias.pdf',
+                margin: [5, 5, 5, 5],
+                filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 3, 
-                    backgroundColor: '#020617',
-                    useCORS: true 
-                },
+                html2canvas: { scale: 3, backgroundColor: '#020617', useCORS: true },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-            html2pdf().set(opt).from(element).save();
+
+            // 2. Ejecutar y limpiar
+            html2pdf().set(opt).from(area).save().then(() => {
+                // Devolver logo a su sitio original arriba de todo
+                body.insertBefore(header, body.firstChild);
+                btn.style.display = 'flex';
+                area.classList.remove('pdf-fix');
+            });
         }
     </script>
 </body>
