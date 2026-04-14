@@ -189,7 +189,6 @@
             document.getElementById('cName').innerText = item.nombre;
             document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | NACIMIENTO: " + item.fecha_nac;
             
-            // --- TRADUCCIÓN DE ESTADOS AUTOMÁTICOS ---
             const est = String(item.estado_penales || "").toUpperCase();
             let htmlFinal = "";
 
@@ -201,8 +200,17 @@
                 </div>`;
             } else {
                 let mensaje = est;
-                // Cambio solicitado: "LO HA TRAIDO EL" solo muestra "DOCUMENTACIÓN APORTADA"
-                if (est === "LO HA TRAIDO EL") mensaje = "DOCUMENTACIÓN APORTADA";
+                let subFecha = ""; 
+
+                if (est === "LO HA TRAIDO EL") {
+                    mensaje = "DOCUMENTACIÓN APORTADA";
+                    // Se busca la columna de tu tabla: FECHA CAD. ANT. PENALES
+                    let fechaCad = item["fecha_cad_ant_penales"]; 
+                    if (fechaCad) {
+                        subFecha = `<div style="font-size: 11px; color: #94a3b8; margin-top: 4px; font-weight: bold;">CAD: ${fechaCad}</div>`;
+                    }
+                }
+                
                 if (est === "TRAMITADO") { 
                     mensaje = "ENVIADO A TRADUCIR"; 
                     confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
@@ -210,11 +218,17 @@
                 if (est === "NO TIENE") mensaje = "NO TIENE PENALES";
                 if (est === "RECIBIDO") mensaje = "RECIBIDO CON TRADUCCIÓN";
 
-                htmlFinal = `<div class="step"><div class="dot"></div><div class="step-text">${mensaje}</div></div>`;
+                htmlFinal = `
+                    <div class="step">
+                        <div class="dot"></div>
+                        <div>
+                            <div class="step-text">${mensaje}</div>
+                            ${subFecha}
+                        </div>
+                    </div>`;
             }
             document.getElementById('timelineContent').innerHTML = htmlFinal;
 
-            // --- CHECKLIST DOCUMENTOS (Fijo: Pasaporte, Contratos, Tasa Pago) ---
             const docsArr = [
                 { n: "Pasaporte", v: item.pasaporte_esc },
                 { n: "Contratos", v: item.contratos },
@@ -223,7 +237,6 @@
 
             document.getElementById('docsContent').innerHTML = docsArr.map(d => {
                 const val = String(d.v || "PENDIENTE").toUpperCase();
-                // Solo check blanco si es: ESCANEADO, PAGADO, TIENE, SI, OK
                 const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(val);
                 return `<div class="doc-row">
                     <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
@@ -234,7 +247,6 @@
                 </div>`;
             }).join('');
 
-            // --- SECCIÓN DE NOTAS ---
             if(item.nota_cliente && item.nota_cliente.trim() !== "" && item.nota_cliente.toUpperCase() !== "NADA") {
                 document.getElementById('notesCard').style.display = 'block';
                 document.getElementById('cNotes').innerText = item.nota_cliente;
