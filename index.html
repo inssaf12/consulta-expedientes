@@ -138,9 +138,14 @@
                 <p class="section-header">ESTADO DE DOCUMENTOS</p>
                 <div id="docsContent"></div>
             </div>
+
+            <div id="notesCard" class="glass-card" style="display:none; background: rgba(96, 165, 250, 0.05) !important;">
+                <p class="section-header" style="color: #60a5fa;">NOTAS DEL EXPEDIENTE</p>
+                <p id="cNotes" style="font-size: 13px; text-align: center; color: #cbd5e1; font-style: italic; line-height: 1.5;"></p>
+            </div>
         </div>
         
-        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px;">
+        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px;">
             <i class="fas fa-file-pdf"></i> DESCARGAR JUSTIFICANTE (PDF)
         </button>
     </div>
@@ -165,10 +170,9 @@
                 const res = await fetch(API);
                 const data = await res.json();
                 
-                // البحث يتأكد أن رقم الملف والباسبور متطابقان معاً في نفس السطر
                 const item = data.find(i => 
                     (i.n_exp && String(i.n_exp).toUpperCase() === expVal) && 
-                    (i.pasaporte && String(i.pasaporte).toUpperCase() === passVal)
+                    (i.num_pasaporte && String(i.num_pasaporte).toUpperCase() === passVal)
                 );
 
                 if (item) {
@@ -187,7 +191,7 @@
         function mostrarTodo(item) {
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | PAS: " + item.pasaporte;
+            document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | PAS: " + item.num_pasaporte;
             
             const est = String(item.estado_ap || "").toUpperCase();
             let fT = "--/--/--";
@@ -224,14 +228,16 @@
 
             document.getElementById('timelineContent').innerHTML = htmlFinal;
 
+            // Checklist con Pasaporte Escaneado (Columna J) y Número (Columna C)
             const docsArr = [
-                { n: "Pasaporte", v: String(item.pasaporte || "") },
-                { n: "Contratos", v: String(item.contratos || "") },
-                { n: "Tasa Pago", v: String(item.pagado_ap || "") }
+                { n: "Nº Pasaporte", v: String(item.num_pasaporte || "---") },
+                { n: "Pasaporte Escaneado", v: String(item.pasaporte_esc || "NO") },
+                { n: "Contratos", v: String(item.contratos || "PENDIENTE") },
+                { n: "Tasa Pago", v: String(item.pagado_ap || "PENDIENTE") }
             ];
 
             document.getElementById('docsContent').innerHTML = docsArr.map(d => {
-                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK", "TRAMITADO"].includes(d.v.toUpperCase());
+                const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK", "TRAMITADO"].includes(d.v.toUpperCase()) || (d.n === "Nº Pasaporte" && d.v !== "---");
                 return `<div class="doc-row">
                     <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
                     <div>
@@ -240,6 +246,14 @@
                     </div>
                 </div>`;
             }).join('');
+
+            // Notas del cliente (Columna K)
+            if(item.notas && item.notas.trim() !== "") {
+                document.getElementById('notesCard').style.display = 'block';
+                document.getElementById('cNotes').innerText = item.notas;
+            } else {
+                document.getElementById('notesCard').style.display = 'none';
+            }
 
             window.scrollTo({ top: document.getElementById('resultBox').offsetTop - 20, behavior: 'smooth' });
         }
