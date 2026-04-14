@@ -2,126 +2,101 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lexilias Jurídicos | Seguimiento</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexilias | Consulta de Estado</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
-            color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
-        }
-        .logo-img { height: 110px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3)); }
-        .glass-card { 
-            background-color: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px; padding: 25px; width: 100%; max-width: 380px; margin-bottom: 20px;
-        }
-        input {
-            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 18px; border-radius: 12px; color: white; text-align: center; font-size: 16px; margin-bottom: 15px; text-transform: uppercase;
-        }
-        button {
-            width: 100%; background-color: #ffffff; color: #000000; padding: 18px; 
-            border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase;
-        }
-        #resultBox { width: 100%; max-width: 380px; display: none; }
-        .doc-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
-        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-        .bg-ok { background: #ffffff; color: #000; }
-        .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 8px; }
+        body { font-family: 'Montserrat', sans-serif; background: #020617; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 20px; min-height: 100vh; }
+        .logo-img { height: 100px; margin-bottom: 20px; }
+        .glass-card { background: #1e293b; border-radius: 20px; padding: 25px; width: 100%; max-width: 380px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        input { width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; border: none; text-align: center; background: #000; color: #fff; font-size: 16px; }
+        button { width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: 900; cursor: pointer; background: #fff; color: #000; text-transform: uppercase; }
+        #resultBox { display: none; width: 100%; max-width: 380px; }
+        .doc-row { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid #60a5fa; }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn"><i class="fab fa-whatsapp"></i> CONTACTAR OFICINA</a>
-
-    <header style="text-align:center; margin-bottom: 20px;">
-        <img src="https://i.ibb.co/6R0yYfM/Logo.png" alt="Lexilias" class="logo-img">
-        <p style="color: #60a5fa; letter-spacing: 2px; font-size: 9px; font-weight: bold; text-transform: uppercase;">Servicio jurídico Extranjería</p>
-    </header>
+    <img src="https://i.ibb.co/6R0yYfM/Logo.png" class="logo-img">
 
     <div class="glass-card">
         <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
-        <input type="text" id="userPass" placeholder="Nº DE PASAPORTE">
-        <button id="btnSearch" onclick="buscar()">CONSULTAR ESTADO</button>
+        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO (DD/MM/AAAA)">
+        <button id="btnSearch" onclick="buscar()">CONSULTAR MI ESTADO</button>
     </div>
 
     <div id="resultBox">
         <div class="glass-card" style="text-align: center;">
-            <h2 id="cName" style="font-style: italic; font-size: 24px; font-weight: 900;"></h2>
-            <p id="cExp" style="color: #94a3b8; font-size: 11px; font-weight: bold;"></p>
+            <h2 id="cName" style="font-style: italic; font-weight: 900;"></h2>
+            <p style="color: #60a5fa; font-size: 10px; font-weight: 900; margin-top: 5px;">CLIENTE VERIFICADO</p>
         </div>
 
         <div class="glass-card">
             <div id="docsContent"></div>
         </div>
+
+        <div id="noteBox" class="glass-card" style="background: rgba(96,165,250,0.1); display:none;">
+            <p style="font-size: 10px; color: #60a5fa; font-weight: 900; margin-bottom: 5px;">NOTAS ADICIONALES:</p>
+            <p id="cNote" style="font-size: 14px; font-style: italic;"></p>
+        </div>
     </div>
 
     <script>
-        // TU ENLACE QUE SÍ FUNCIONA (AÑADIMOS ?V=2 PARA LIMPIAR ERRORES)
-        const API_URL = "https://script.google.com/macros/s/AKfycbfl5HUKH5XdT5kPSxykaQym1TKyQJcqAJOMkO3WDZLBGhNxtpJATCiRXFn-t6eCg/exec?v=2";
+        // TU ENLACE QUE YA FUNCIONA
+        const API_URL = "https://script.google.com/macros/s/AKfycbzd9O_IOQD5khXIaC_1AViTcQOmrTaQ-7W884EUVD9uh4fyv_gP5v4gYKBhc4U_amQ/exec";
 
         async function buscar() {
             const btn = document.getElementById('btnSearch');
-            const exp = document.getElementById('userExp').value.trim().toUpperCase();
-            const pass = document.getElementById('userPass').value.trim().toUpperCase();
+            const exp = document.getElementById('userExp').value.trim();
+            const birth = document.getElementById('userBirth').value.trim();
 
-            if(!exp || !pass) return alert("Rellena los campos");
+            if(!exp || !birth) return alert("Por favor, introduce ambos datos.");
 
-            btn.innerText = "VERIFICANDO...";
+            btn.innerText = "CONECTANDO...";
             btn.disabled = true;
 
             try {
-                const response = await fetch(API_URL);
+                // El "?v=" ayuda a que no se carguen datos viejos
+                const response = await fetch(API_URL + "?v=" + Math.random());
                 const data = await response.json();
                 
-                const item = data.find(i => 
-                    String(i.n_exp).toUpperCase() === exp && 
-                    String(i.num_pasaporte).toUpperCase() === pass
-                );
+                // Buscamos por n_exp y fecha_nac según tu nueva tabla
+                const item = data.find(i => i.n_exp === exp && i.fecha_nac === birth);
 
                 if(item) {
                     document.getElementById('resultBox').style.display = 'block';
                     document.getElementById('cName').innerText = item.nombre;
-                    document.getElementById('cExp').innerText = "EXP: " + item.n_exp + " | PAS: " + item.num_pasaporte;
                     
-                    const docs = [
-                        {n: "PASAPORTE", v: item.pasaporte_esc},
+                    const list = [
+                        {n: "ESTADO PENALES", v: item.estado_penales},
+                        {n: "PAGO DE TASAS", v: item.pagado},
                         {n: "CONTRATOS", v: item.contratos},
-                        {n: "TASAS", v: item.pagado_ap},
-                        {n: "ESTADO", v: item.estado_ap}
+                        {n: "PASAPORTE", v: item.pasaporte_esc}
                     ];
 
-                    document.getElementById('docsContent').innerHTML = docs.map(d => {
-                        const val = String(d.v || "PENDIENTE").toUpperCase();
-                        const ok = ["SI", "OK", "PAGADO", "ESCANEADO", "TRAMITADO"].includes(val);
-                        return `
+                    document.getElementById('docsContent').innerHTML = list.map(d => `
                         <div class="doc-row">
-                            <div class="status-badge ${ok ? 'bg-ok' : 'bg-no'}">
-                                <i class="fas ${ok ? 'fa-check' : 'fa-times'}"></i>
-                            </div>
+                            <i class="fas fa-check-circle" style="color:#60a5fa"></i>
                             <div>
-                                <p style="font-size:8px; color:#94a3b8; font-weight:900; margin:0;">${d.n}</p>
-                                <p style="font-weight:900; font-size:14px; margin:0;">${val}</p>
+                                <small style="display:block; font-size:9px; color:#94a3b8; font-weight:900;">${d.n}</small>
+                                <strong style="font-size:14px;">${d.v || 'PENDIENTE'}</strong>
                             </div>
-                        </div>`;
-                    }).join('');
-                    
-                    if(val.includes("TRAMITADO")) confetti();
+                        </div>`).join('');
 
+                    if(item.nota_cliente && item.nota_cliente !== "NADA") {
+                        document.getElementById('noteBox').style.display = 'block';
+                        document.getElementById('cNote').innerText = item.nota_cliente;
+                    } else {
+                        document.getElementById('noteBox').style.display = 'none';
+                    }
                 } else {
-                    alert("No encontrado. Revisa los datos.");
+                    alert("No se encontró el expediente. Revisa que el número y la fecha coincidan con el Excel.");
                 }
             } catch (e) {
-                alert("Error de conexión. Prueba a abrir en MODO INCÓGNITO.");
+                alert("Error de conexión. Inténtalo de nuevo en unos segundos.");
             } finally {
-                btn.innerText = "CONSULTAR ESTADO";
+                btn.innerText = "CONSULTAR MI ESTADO";
                 btn.disabled = false;
             }
         }
