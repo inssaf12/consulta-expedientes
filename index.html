@@ -111,8 +111,9 @@
             font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
         }
 
-        /* تنسيق خاص للـ PDF فقط */
-        #pdfHeader { display: none; text-align: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        /* Estilos específicos para el PDF */
+        #pdfHeader { display: none; text-align: center; padding-bottom: 20px; }
+        #pdfFooter { display: none; text-align: center; color: #64748b; font-size: 10px; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -132,10 +133,11 @@
     </div>
 
     <div id="resultBox">
-        <div id="captureArea" style="padding: 15px;">
+        <div id="captureArea" style="width: 100%; max-width: 380px; margin: 0 auto;">
+            
             <div id="pdfHeader">
-                <img src="Logo.png" style="height: 80px; margin-bottom: 10px;">
-                <p style="color: #60a5fa; font-size: 10px; letter-spacing: 3px; font-weight: bold;">JUSTIFICANTE DE EXPEDIENTE</p>
+                <img src="Logo.png" style="height: 100px; margin-bottom: 10px;">
+                <p style="color: #60a5fa; font-size: 12px; letter-spacing: 4px; font-weight: 900; text-transform: uppercase;">Justificante Oficial</p>
             </div>
 
             <div class="client-info">
@@ -161,10 +163,10 @@
                     <p id="cNotes" style="font-size: 14px; text-align: left; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
                 </div>
             </div>
-            
-            <p id="pdfFooter" style="display:none; text-align: center; color: #475569; font-size: 8px; margin-top: 15px;">
-                Documento informativo generado automáticamente por el sistema Lexilias Jurídicos.
-            </p>
+
+            <div id="pdfFooter">
+                <p>Generado por Lexilias Jurídicos • Documento para fines informativos.</p>
+            </div>
         </div>
         
         <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px; margin-bottom: 40px;">
@@ -258,28 +260,34 @@
             const pdfHeader = document.getElementById('pdfHeader');
             const pdfFooter = document.getElementById('pdfFooter');
 
-            // إظهار اللوغو المخفي وتعديل الشكل للـ PDF
+            // Preparar para la captura: mostramos lo oculto y ocultamos el botón
             btn.style.display = 'none';
             pdfHeader.style.display = 'block';
             pdfFooter.style.display = 'block';
             
+            // Forzamos un ancho controlado para que encaje perfecto en A4
+            element.style.width = "400px";
+            
             const opt = {
-                margin: [15, 10, 15, 10],
+                margin: [10, 5, 10, 5],
                 filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
+                image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
-                    backgroundColor: '#020617', // توحيد لون الخلفية باش ميبقاش البياض
+                    backgroundColor: '#020617', // Color oscuro para evitar bordes blancos
                     useCORS: true,
-                    letterRendering: true
+                    width: 400
                 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: 'avoid-all' } // Evita cortes a mitad de una tarjeta
             };
             
             html2pdf().set(opt).from(element).save().then(() => { 
+                // Al finalizar, restauramos todo al estado web original
                 btn.style.display = 'flex'; 
-                pdfHeader.style.display = 'none'; // نرجعو نخبّيو اللوغو فـ الشاشة
+                pdfHeader.style.display = 'none';
                 pdfFooter.style.display = 'none';
+                element.style.width = "100%";
             });
         }
     </script>
