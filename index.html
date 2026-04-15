@@ -147,7 +147,7 @@
             </div>
 
             <div class="glass-card">
-                <p class="section-header">CONTROL DE DOCUMENTACIÓN</p>
+                <p class="section-header">ESTADO DE DOCUMENTOS</p>
                 <div id="docsContent"></div>
             </div>
 
@@ -166,7 +166,7 @@
     </div>
 
     <script>
-        const API = "https://script.google.com/macros/s/AKfycbz4x2C9MuzBNv1qDrH4_-KqUdS5h10BBZrCpkCrkSfIqhkyl-ndvBD0_ZiDWY4slg/exec";
+        const API = "https://script.google.com/macros/s/AKfycbykY05Qo-Qjhq7XnjCymcdHzMAdxnBJ4l7YXUYeWvqHIqHlgdmcJfG0LLbETn89SQQ/exec";
 
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
@@ -179,14 +179,12 @@
             btn.disabled = true;
             
             try {
-                const res = await fetch(API, { redirect: 'follow' });
+                const res = await fetch(API);
                 const data = await res.json();
-                const item = data.find(i => String(i.n_exp).toLowerCase() === expVal.toLowerCase() && String(i.fecha_nac).trim() === birthVal);
+                const item = data.find(i => String(i.n_exp) === expVal && String(i.fecha_nac).trim() === birthVal);
 
                 if (item) { mostrarTodo(item); } else { alert("Datos incorrectos."); }
-            } catch (e) { 
-                alert("Error de conexión"); 
-            }
+            } catch (e) { alert("Error de conexión"); }
             finally { btn.innerText = "CONSULTAR ESTADO"; btn.disabled = false; }
         }
 
@@ -215,45 +213,17 @@
                 if (est === "NO TIENE") mensaje = "NO TIENE PENALES";
                 if (est === "RECIBIDO") mensaje = "RECIBIDO CON TRADUCCIÓN";
 
-                htmlFinal = `<div class="step"><div class="dot"></div><div class="step-text">${mensaje || "EN PROCESO"}</div></div>`;
+                htmlFinal = `<div class="step"><div class="dot"></div><div class="step-text">${mensaje}</div></div>`;
             }
             document.getElementById('timelineContent').innerHTML = htmlFinal;
 
-            // --- LÓGICA DE MESES CORREGIDA (P MAYÚSCULA/MINÚSCULA Y ESPACIOS) ---
-            const mesesPruebas = [
-                { id: 'SEP', nombre: 'Septiembre' },
-                { id: 'ENE', nombre: 'Enero' },
-                { id: 'FEB', nombre: 'Febrero' },
-                { id: 'MAR', nombre: 'Marzo' },
-                { id: 'ABR', nombre: 'Abril' }
-            ];
-
-            // Busca tanto 'Pruebas' como 'pruebas' y elimina espacios
-            const textoPruebas = item.Pruebas || item.pruebas || "";
-            const entregadas = String(textoPruebas).toUpperCase().replace(/\s/g, ""); 
-            let htmlDocs = "";
-
-            mesesPruebas.forEach(mes => {
-                const isOK = entregadas.includes(mes.id);
-                htmlDocs += `
-                    <div class="doc-row" style="border-left: 4px solid ${isOK ? '#ffffff' : '#ef4444'}">
-                        <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}">
-                            <i class="fas ${isOK ? 'fa-check' : 'fa-clock'}"></i>
-                        </div>
-                        <div>
-                            <p style="font-size: 7px; color: #94a3b8; font-weight: 900; margin:0; text-transform:uppercase;">PRUEBA MENSUAL</p>
-                            <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${mes.nombre}: ${isOK ? 'RECIBIDA' : 'PENDIENTE'}</p>
-                        </div>
-                    </div>`;
-            });
-
-            const docsExtra = [
+            const docsArr = [
                 { n: "Pasaporte", v: item.pasaporte_esc },
                 { n: "Contratos", v: item.contratos },
                 { n: "Tasa Pago", v: item.pagado }
             ];
 
-            htmlDocs += docsExtra.map(d => {
+            document.getElementById('docsContent').innerHTML = docsArr.map(d => {
                 const val = String(d.v || "PENDIENTE").toUpperCase();
                 const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(val);
                 return `<div class="doc-row">
@@ -264,8 +234,6 @@
                     </div>
                 </div>`;
             }).join('');
-
-            document.getElementById('docsContent').innerHTML = htmlDocs;
 
             if(item.nota_cliente && item.nota_cliente.trim() !== "" && item.nota_cliente.toUpperCase() !== "NADA") {
                 document.getElementById('notesCard').style.display = 'block';
@@ -281,6 +249,7 @@
             const element = document.getElementById('captureArea');
             const btn = document.getElementById('downloadBtn');
             btn.style.display = 'none';
+            
             const opt = {
                 margin: [10, 5, 10, 5],
                 filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
@@ -288,6 +257,7 @@
                 html2canvas: { scale: 3, backgroundColor: '#020617', useCORS: true },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
+            
             html2pdf().set(opt).from(element).save().then(() => { 
                 btn.style.display = 'flex'; 
             });
