@@ -29,7 +29,7 @@
         header { text-align: center; margin-bottom: 30px; width: 100%; }
 
         .logo-img { 
-            height: 180px; width: auto; margin-bottom: 5px; 
+            height: 150px; width: auto; margin-bottom: 5px; 
             display: block; margin-left: auto; margin-right: auto;
             filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
         }
@@ -50,20 +50,16 @@
         }
 
         @keyframes gear-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes gear-rotate-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-
-        .glass-card::before, .glass-card::after {
+        .glass-card::before {
             content: "\f085"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0; pointer-events: none;
+            position: absolute; color: rgba(255, 255, 255, 0.03); z-index: 0;
+            font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite;
         }
-        .glass-card::before { font-size: 150px; bottom: -30px; right: -20px; animation: gear-rotate 15s linear infinite; }
-        .glass-card::after { font-size: 80px; top: -15px; left: -15px; animation: gear-rotate-reverse 10s linear infinite; }
-        .glass-card > * { position: relative; z-index: 1; }
 
         .section-header {
-            text-align: center; font-size: 16px !important; font-weight: 900; 
+            text-align: center; font-size: 14px !important; font-weight: 900; 
             border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 15px; margin-bottom: 25px; 
+            padding-bottom: 15px; margin-bottom: 20px; 
             color: #94a3b8; letter-spacing: 2px; text-transform: uppercase;
         }
 
@@ -79,36 +75,31 @@
             cursor: pointer; font-size: 12px; transition: 0.2s;
         }
 
-        #resultBox { width: 100%; max-width: 380px; display: none; }
-        .client-info { background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
+        #resultBox { width: 100%; max-width: 450px; display: none; }
+        
+        .client-info { 
+            background: rgba(0,0,0,0.4); padding: 25px; border-radius: 20px; 
+            text-align: center; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; 
+        }
         
         @keyframes spin-blue { to { transform: rotate(360deg); } }
-        .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
         .dot { 
             width: 14px; height: 14px; border-radius: 50%; border: 2px dashed #2563eb; 
-            flex-shrink: 0; animation: spin-blue 2s linear infinite; box-shadow: 0 0 10px #2563eb;
+            animation: spin-blue 2s linear infinite; box-shadow: 0 0 10px #2563eb;
         }
 
-        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; line-height: 1.4; }
-        
-        .incidencia-box {
-            background: rgba(239, 68, 68, 0.2) !important; border: 2px solid #ef4444 !important;
-            padding: 20px; border-radius: 15px; text-align: center;
-        }
+        .step { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .step-text { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #ffffff; }
 
         .doc-row { 
-            display: flex; align-items: center; gap: 15px; padding: 12px; 
-            background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
+            display: flex; justify-content: space-between; align-items: center; padding: 12px; 
+            background: rgba(0,0,0,0.2); border-radius: 15px; margin-bottom: 8px;
         }
-
-        .status-badge { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .bg-ok { background: #ffffff; color: #000; }
-        .bg-no { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
 
         .whatsapp-btn {
             position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; 
             padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; 
-            font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
+            font-size: 11px; z-index: 9999;
         }
     </style>
 </head>
@@ -129,11 +120,17 @@
     </div>
 
     <div id="resultBox">
-        <div id="captureArea">
+        <div id="captureArea" style="padding: 25px; background-color: #020617; border-radius: 20px;">
+            
+            <div style="text-align: center; margin-bottom: 25px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 20px;">
+                <img src="Logo.png" style="height: 60px;">
+                <p style="color: #60a5fa; font-size: 10px; margin-top: 10px;">JUSTIFICANTE DE TRÁMITE</p>
+            </div>
+
             <div class="client-info">
-                <span style="color: #60a5fa; font-size: 9px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</span>
-                <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900; font-style: italic;"></h2>
-                <p id="cExp" style="color: #94a3b8; font-size: 10px; font-weight: bold;"></p>
+                <span style="color: #60a5fa; font-size: 9px; font-weight: 900;">EXPEDIENTE LOCALIZADO</span>
+                <h2 id="cName" style="margin: 10px 0; font-size: 24px; font-weight: 900;"></h2>
+                <p id="cExp" style="color: #94a3b8; font-size: 11px; font-weight: bold;"></p>
             </div>
 
             <div class="glass-card">
@@ -146,22 +143,22 @@
                 <div id="docsContent"></div>
             </div>
 
-            <div id="notesCard" class="glass-card" style="display:none; border: 1px solid rgba(96, 165, 250, 0.3);">
+            <div id="notesCard" class="glass-card">
                 <p class="section-header" style="color: #60a5fa;">NOTAS DEL EXPEDIENTE</p>
-                <div style="display: flex; gap: 15px; align-items: flex-start;">
-                    <i class="fas fa-comment-dots" style="color: #60a5fa; font-size: 20px; margin-top: 5px;"></i>
-                    <p id="cNotes" style="font-size: 14px; text-align: left; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
-                </div>
+                <p id="cNotes" style="font-size: 13px; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
             </div>
+            
+            <p style="text-align: center; color: #475569; font-size: 9px; margin-top: 20px;">
+                Documento informativo generado el <span id="pdfDate"></span>
+            </p>
         </div>
         
-        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px; margin-bottom: 40px;">
-            <i class="fas fa-file-pdf"></i> DESCARGAR JUSTIFICANTE (PDF)
+        <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; margin-top: 20px; margin-bottom: 50px;">
+            <i class="fas fa-file-pdf"></i> DESCARGAR PDF COMPLETO
         </button>
     </div>
 
     <script>
-        // Asegúrate de que esta URL es la correcta de tu implementación actual
         const API = "https://script.google.com/macros/s/AKfycbxeeq2bxZ4XaHS8qkvZx96rf8iO0hvm6A6uU7l2OgPRhYhTy9qgMu8HbGAd2_uDmOo/exec";
 
         async function buscarExpediente() {
@@ -189,29 +186,10 @@
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('cName').innerText = item.nombre;
             document.getElementById('cExp').innerText = "REG: " + item.n_exp + " | NACIMIENTO: " + item.fecha_nac;
+            document.getElementById('pdfDate').innerText = new Date().toLocaleDateString();
             
             const est = String(item.estado_penales || "").toUpperCase();
-            let htmlFinal = "";
-
-            if (est === "INCIDENCIA") {
-                htmlFinal = `<div class="incidencia-box">
-                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 24px; margin-bottom: 10px;"></i>
-                    <div class="step-text" style="color:#f87171">ATENCIÓN: INCIDENCIA DETECTADA</div>
-                    <div style="font-size: 11px; margin-top: 5px; color: #fff;">POR FAVOR, CONTACTE CON LA OFICINA.</div>
-                </div>`;
-            } else {
-                let mensaje = est;
-                if (est === "LO HA TRAIDO EL") mensaje = "DOCUMENTACIÓN APORTADA";
-                if (est === "TRAMITADO") { 
-                    mensaje = "ENVIADO A TRADUCIR"; 
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                }
-                if (est === "NO TIENE") mensaje = "NO TIENE PENALES";
-                if (est === "RECIBIDO") mensaje = "RECIBIDO CON TRADUCCIÓN";
-
-                htmlFinal = `<div class="step"><div class="dot"></div><div class="step-text">${mensaje}</div></div>`;
-            }
-            document.getElementById('timelineContent').innerHTML = htmlFinal;
+            document.getElementById('timelineContent').innerHTML = `<div class="step"><div class="dot"></div><div class="step-text">${est}</div></div>`;
 
             const docsArr = [
                 { n: "Pasaporte", v: item.pasaporte_esc },
@@ -223,22 +201,17 @@
                 const val = String(d.v || "PENDIENTE").toUpperCase();
                 const isOK = ["ESCANEADO", "PAGADO", "TIENE", "SI", "OK"].includes(val);
                 return `<div class="doc-row">
-                    <div class="status-badge ${isOK ? 'bg-ok' : 'bg-no'}"><i class="fas ${isOK ? 'fa-check' : 'fa-times'}"></i></div>
-                    <div>
-                        <p style="font-size: 7px; color: #94a3b8; font-weight: 900; margin:0; text-transform:uppercase;">${d.n}</p>
-                        <p style="font-size: 13px; font-weight: 900; margin:0; color: ${isOK ? '#fff' : '#ef4444'}; text-transform:uppercase;">${val}</p>
-                    </div>
+                    <span style="font-size: 11px; color: #94a3b8;">${d.n}</span>
+                    <span style="font-size: 11px; font-weight: 900; color: ${isOK ? '#fff' : '#ef4444'}">${val}</span>
                 </div>`;
             }).join('');
 
-            if(item.nota_cliente && item.nota_cliente.trim() !== "" && item.nota_cliente.toUpperCase() !== "NADA") {
+            if(item.nota_cliente && item.nota_cliente !== "NADA") {
                 document.getElementById('notesCard').style.display = 'block';
                 document.getElementById('cNotes').innerText = item.nota_cliente;
             } else {
                 document.getElementById('notesCard').style.display = 'none';
             }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function generarPDF() {
@@ -247,15 +220,15 @@
             btn.style.display = 'none';
             
             const opt = {
-                margin: [10, 5, 10, 5],
-                filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
+                margin: [10, 10, 10, 10],
+                filename: `Expediente_${document.getElementById('cName').innerText}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 3, backgroundColor: '#020617', useCORS: true },
+                html2canvas: { scale: 2, backgroundColor: '#020617', useCORS: true },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
             html2pdf().set(opt).from(element).save().then(() => { 
-                btn.style.display = 'flex'; 
+                btn.style.display = 'block'; 
             });
         }
     </script>
