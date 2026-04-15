@@ -111,9 +111,9 @@
             font-size: 11px; display: flex; align-items: center; gap: 8px; z-index: 9999;
         }
 
-        /* Estilos específicos para el PDF */
-        #pdfHeader { display: none; text-align: center; padding-bottom: 20px; }
-        #pdfFooter { display: none; text-align: center; color: #64748b; font-size: 10px; margin-top: 20px; }
+        /* Estilos para que el PDF se vea bien */
+        #pdfHeader { display: none; text-align: center; margin-bottom: 20px; }
+        .pdf-only { display: none; }
     </style>
 </head>
 <body>
@@ -133,11 +133,10 @@
     </div>
 
     <div id="resultBox">
-        <div id="captureArea" style="width: 100%; max-width: 380px; margin: 0 auto;">
-            
+        <div id="captureArea" style="background: transparent; padding: 10px; width: 380px; margin: 0 auto;">
             <div id="pdfHeader">
-                <img src="Logo.png" style="height: 100px; margin-bottom: 10px;">
-                <p style="color: #60a5fa; font-size: 12px; letter-spacing: 4px; font-weight: 900; text-transform: uppercase;">Justificante Oficial</p>
+                <img src="Logo.png" style="height: 100px; width: auto; margin-bottom: 10px;">
+                <p style="color: #60a5fa; font-size: 12px; letter-spacing: 3px; font-weight: bold; text-transform: uppercase;">Justificante de Estado</p>
             </div>
 
             <div class="client-info">
@@ -163,10 +162,6 @@
                     <p id="cNotes" style="font-size: 14px; text-align: left; color: #cbd5e1; font-style: italic; line-height: 1.6;"></p>
                 </div>
             </div>
-
-            <div id="pdfFooter">
-                <p>Generado por Lexilias Jurídicos • Documento para fines informativos.</p>
-            </div>
         </div>
         
         <button id="downloadBtn" onclick="generarPDF()" style="background:#2563eb; color:white; width:100%; border:none; padding:18px; border-radius:15px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 10px; margin-bottom: 40px;">
@@ -183,7 +178,6 @@
             const birthVal = document.getElementById('userBirth').value.trim();
 
             if(!expVal || !birthVal) { alert("Completa los datos"); return; }
-
             btn.innerText = "BUSCANDO...";
             btn.disabled = true;
             
@@ -191,7 +185,6 @@
                 const res = await fetch(API);
                 const data = await res.json();
                 const item = data.find(i => String(i.n_exp) === expVal && String(i.fecha_nac).trim() === birthVal);
-
                 if (item) { mostrarTodo(item); } else { alert("Datos incorrectos."); }
             } catch (e) { alert("Error de conexión"); }
             finally { btn.innerText = "CONSULTAR ESTADO"; btn.disabled = false; }
@@ -221,7 +214,6 @@
                 }
                 if (est === "NO TIENE") mensaje = "NO TIENE PENALES";
                 if (est === "RECIBIDO") mensaje = "RECIBIDO CON TRADUCCIÓN";
-
                 htmlFinal = `<div class="step"><div class="dot"></div><div class="step-text">${mensaje}</div></div>`;
             }
             document.getElementById('timelineContent').innerHTML = htmlFinal;
@@ -250,7 +242,6 @@
             } else {
                 document.getElementById('notesCard').style.display = 'none';
             }
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -258,36 +249,35 @@
             const element = document.getElementById('captureArea');
             const btn = document.getElementById('downloadBtn');
             const pdfHeader = document.getElementById('pdfHeader');
-            const pdfFooter = document.getElementById('pdfFooter');
 
-            // Preparar para la captura: mostramos lo oculto y ocultamos el botón
+            // 1. Preparamos vista para PDF
             btn.style.display = 'none';
             pdfHeader.style.display = 'block';
-            pdfFooter.style.display = 'block';
             
-            // Forzamos un ancho controlado para que encaje perfecto en A4
-            element.style.width = "400px";
-            
+            // 2. Ajuste CRÍTICO: Forzamos el ancho a un tamaño que quepa en el folio
+            const originalWidth = element.style.width;
+            element.style.width = '380px'; 
+
             const opt = {
-                margin: [10, 5, 10, 5],
+                margin: [10, 10, 10, 10],
                 filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
-                    scale: 2, 
-                    backgroundColor: '#020617', // Color oscuro para evitar bordes blancos
+                    scale: 3, 
+                    backgroundColor: '#020617', 
                     useCORS: true,
-                    width: 400
+                    letterRendering: true,
+                    scrollX: 0,
+                    scrollY: 0
                 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak: { mode: 'avoid-all' } // Evita cortes a mitad de una tarjeta
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
             html2pdf().set(opt).from(element).save().then(() => { 
-                // Al finalizar, restauramos todo al estado web original
+                // 3. Restauramos vista original
                 btn.style.display = 'flex'; 
                 pdfHeader.style.display = 'none';
-                pdfFooter.style.display = 'none';
-                element.style.width = "100%";
+                element.style.width = originalWidth;
             });
         }
     </script>
