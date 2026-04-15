@@ -166,7 +166,6 @@
     </div>
 
     <script>
-        // URL ACTUALIZADA
         const API = "https://script.google.com/macros/s/AKfycbz4x2C9MuzBNv1qDrH4_-KqUdS5h10BBZrCpkCrkSfIqhkyl-ndvBD0_ZiDWY4slg/exec";
 
         async function buscarExpediente() {
@@ -220,7 +219,7 @@
             }
             document.getElementById('timelineContent').innerHTML = htmlFinal;
 
-            // --- NUEVO: LÓGICA DE PRUEBAS (COLUMNA M) ---
+            // --- LÓGICA DE MESES CORREGIDA (P MAYÚSCULA/MINÚSCULA Y ESPACIOS) ---
             const mesesPruebas = [
                 { id: 'SEP', nombre: 'Septiembre' },
                 { id: 'ENE', nombre: 'Enero' },
@@ -229,10 +228,11 @@
                 { id: 'ABR', nombre: 'Abril' }
             ];
 
-            const entregadas = String(item.pruebas || "").toUpperCase();
+            // Busca tanto 'Pruebas' como 'pruebas' y elimina espacios
+            const textoPruebas = item.Pruebas || item.pruebas || "";
+            const entregadas = String(textoPruebas).toUpperCase().replace(/\s/g, ""); 
             let htmlDocs = "";
 
-            // Generar filas para cada mes
             mesesPruebas.forEach(mes => {
                 const isOK = entregadas.includes(mes.id);
                 htmlDocs += `
@@ -247,7 +247,6 @@
                     </div>`;
             });
 
-            // Documentos generales (Pasaporte, Tasas...)
             const docsExtra = [
                 { n: "Pasaporte", v: item.pasaporte_esc },
                 { n: "Contratos", v: item.contratos },
@@ -268,7 +267,6 @@
 
             document.getElementById('docsContent').innerHTML = htmlDocs;
 
-            // Notas
             if(item.nota_cliente && item.nota_cliente.trim() !== "" && item.nota_cliente.toUpperCase() !== "NADA") {
                 document.getElementById('notesCard').style.display = 'block';
                 document.getElementById('cNotes').innerText = item.nota_cliente;
@@ -283,7 +281,6 @@
             const element = document.getElementById('captureArea');
             const btn = document.getElementById('downloadBtn');
             btn.style.display = 'none';
-            
             const opt = {
                 margin: [10, 5, 10, 5],
                 filename: `Justificante_${document.getElementById('cName').innerText}.pdf`,
@@ -291,7 +288,6 @@
                 html2canvas: { scale: 3, backgroundColor: '#020617', useCORS: true },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-            
             html2pdf().set(opt).from(element).save().then(() => { 
                 btn.style.display = 'flex'; 
             });
