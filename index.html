@@ -254,7 +254,7 @@
             btn.style.display = 'none';
             pdfHeader.style.display = 'block';
             
-            // 2. Ajuste CRÍTICO: Forzamos el ancho a un tamaño que quepa en el folio
+            // Forzamos el ancho para que no haya márgenes raros
             const originalWidth = element.style.width;
             element.style.width = '380px'; 
 
@@ -266,11 +266,11 @@
                     scale: 3, 
                     backgroundColor: '#020617', 
                     useCORS: true,
-                    letterRendering: true,
-                    scrollX: 0,
-                    scrollY: 0
+                    letterRendering: true
                 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                // ESTO ES LO QUE FALTA: evita que se corten las cajas por la mitad
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
             };
             
             html2pdf().set(opt).from(element).save().then(() => { 
