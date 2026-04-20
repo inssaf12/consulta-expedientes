@@ -15,113 +15,102 @@
             color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
 
+        /* Encabezado solicitado */
+        header { text-align: center; margin-bottom: 35px; }
+        .logo-img { height: 110px; filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3)); }
+        .sub-text { font-size: 11px; letter-spacing: 0.3em; color: #60a5fa; text-transform: uppercase; font-weight: 900; margin-top: 10px; }
+
         .glass-card { 
             background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px;
-            padding: 30px; width: 100%; max-width: 420px; margin-bottom: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px;
+            padding: 25px; width: 100%; max-width: 420px; margin-bottom: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        /* Botón WhatsApp Flotante */
+        /* WhatsApp Flotante */
         .whatsapp-btn {
-            position: fixed; bottom: 30px; right: 30px;
-            background-color: #25d366; color: white; width: 65px; height: 65px;
+            position: fixed; bottom: 25px; right: 25px;
+            background-color: #25d366; color: white; width: 60px; height: 60px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 35px; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3); z-index: 1000;
-            text-decoration: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 32px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 1000;
+            text-decoration: none; transition: 0.3s;
         }
-        .whatsapp-btn:hover { transform: scale(1.15) rotate(10deg); }
 
-        /* Estilos de Filas de Estado */
+        /* Filas de Estado */
         .status-row { 
             display: flex; align-items: center; gap: 15px; padding: 18px; 
             background: rgba(0,0,0,0.3); border-radius: 20px; margin-bottom: 12px;
-            border-left: 8px solid #444; transition: 0.3s;
+            border-left: 7px solid #444;
         }
         .border-red { border-left-color: #ef4444 !important; }
         .border-green { border-left-color: #22c55e !important; }
-        .bg-red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-        .bg-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .bg-red { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .bg-green { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
 
         .icon-box { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
 
-        .nota-alerta {
+        .nota-box {
             background: rgba(239, 68, 68, 0.1); border: 1px dashed #ef4444;
-            padding: 20px; border-radius: 20px; margin-top: 15px;
+            padding: 15px; border-radius: 18px; margin-top: 15px;
         }
 
-        input, button { width: 100%; padding: 20px; border-radius: 18px; margin-bottom: 15px; font-weight: 700; border: none; outline: none; }
-        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; text-align: center; font-size: 16px; }
-        input:focus { border-color: #60a5fa; background: rgba(255,255,255,0.1); }
-        button { background: #ffffff; color: #000; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-        button:hover { background: #60a5fa; color: white; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-        .searching { animation: pulse 1s infinite; }
+        input, button { width: 100%; padding: 18px; border-radius: 15px; margin-bottom: 15px; font-weight: 700; border: none; font-size: 15px; }
+        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; text-align: center; }
+        button { background: #ffffff; color: #000000; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-    <header style="text-align:center; margin-bottom: 30px;">
-        <img src="Logo.png" alt="Lexilias" style="height: 120px; filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));">
-        <p style="font-size: 11px; letter-spacing: 4px; color: #60a5fa; font-weight: 900; margin-top: 10px; text-transform: uppercase;">Portal de Seguimiento</p>
+    <header>
+        <img src="Logo.png" alt="Lexilias" class="logo-img">
+        <p class="sub-text">SERVICIO JURÍDICO EXTRANJERÍA</p>
     </header>
 
     <div class="glass-card" id="searchPanel">
+        <p style="text-align:center; font-size: 12px; color: #94a3b8; font-weight: 900; margin-bottom: 20px; letter-spacing: 2px;">CONSULTA DE EXPEDIENTE</p>
         <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
-        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO (DD/MM/AAAA)" maxlength="10" inputmode="numeric">
-        <button id="mainBtn" onclick="buscarExpediente()">Consultar Mi Estado</button>
+        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO (DD/MM/AAAA)" maxlength="10">
+        <button onclick="buscarExpediente()">Consultar</button>
     </div>
 
     <div id="resultBox" style="display:none; width: 100%; max-width: 420px;">
-        <div class="glass-card" style="text-align: center; border-top: 4px solid #60a5fa;">
-            <h2 id="cName" style="font-weight: 900; text-transform: uppercase; font-size: 24px; letter-spacing: -0.5px;"></h2>
+        <div class="glass-card" style="text-align: center;">
+            <h2 id="cName" style="font-weight: 900; text-transform: uppercase; font-size: 22px;"></h2>
             <p id="cExp" style="font-size: 12px; color: #94a3b8; font-weight: 700; margin-top: 5px;"></p>
         </div>
 
         <div class="glass-card">
-            <p style="font-size: 10px; font-weight: 900; color: #94a3b8; text-align: center; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase;">Estado de sus trámites</p>
-            
             <div id="rowPenales" class="status-row">
                 <div id="iconPenales" class="icon-box"><i class="fas fa-file-shield"></i></div>
-                <div>
-                    <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO A. PENALES</p>
-                    <p id="txtPenales" style="font-weight: 900; font-size: 17px;"></p>
-                </div>
+                <div><p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO A. PENALES</p><p id="txtPenales" style="font-weight: 900;"></p></div>
             </div>
 
             <div id="rowPago" class="status-row">
-                <div id="iconPago" class="icon-box"><i class="fas fa-money-bill-transfer"></i></div>
-                <div>
-                    <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">PAGO DE SERVICIOS</p>
-                    <p id="txtPago" style="font-weight: 900; font-size: 17px;"></p>
-                </div>
+                <div id="iconPago" class="icon-box"><i class="fas fa-hand-holding-dollar"></i></div>
+                <div><p style="font-size: 10px; color: #94a3b8; font-weight: 900;">PAGO DE SERVICIOS</p><p id="txtPago" style="font-weight: 900;"></p></div>
             </div>
 
             <div id="rowPasaporte" class="status-row">
                 <div id="iconPasaporte" class="icon-box"><i class="fas fa-passport"></i></div>
-                <div>
-                    <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO DE PASAPORTE</p>
-                    <p id="txtPasaporte" style="font-weight: 900; font-size: 17px;"></p>
-                </div>
+                <div><p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO DE PASAPORTE</p><p id="txtPasaporte" style="font-weight: 900;"></p></div>
             </div>
 
-            <div id="boxNota" class="nota-alerta" style="display:none;">
-                <p style="color: #ef4444; font-size: 11px; font-weight: 900; margin-bottom: 8px; text-transform: uppercase;">
-                    <i class="fas fa-triangle-exclamation"></i> Atención - Mensaje de Lexilias:
+            <div id="boxNota" class="nota-box" style="display:none;">
+                <p style="color: #ef4444; font-size: 11px; font-weight: 900; margin-bottom: 5px;">
+                    <i class="fas fa-triangle-exclamation"></i> MENSAJE DE LEXILIAS:
                 </p>
-                <p id="txtNota" style="font-size: 14px; font-weight: 700; line-height: 1.5; color: #e2e8f0;"></p>
+                <p id="txtNota" style="font-size: 14px; font-weight: 700; color: #cbd5e1;"></p>
             </div>
         </div>
-        <button onclick="location.reload()" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:white;">Realizar otra consulta</button>
+        <button onclick="location.reload()" style="background:transparent; border:1px solid white; color:white;">Nueva Consulta</button>
     </div>
 
-    <a href="https://wa.me/34621188515" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
+    <a href="https://wa.me/34600000000" class="whatsapp-btn" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <script>
-        // Formateador automático de fecha
+        // Auto-formato de fecha
         document.getElementById('userBirth').addEventListener('input', function (e) {
             let v = e.target.value.replace(/\D/g, '');
             if (v.length > 2 && v.length <= 4) v = v.slice(0, 2) + '/' + v.slice(2);
@@ -129,19 +118,12 @@
             e.target.value = v;
         });
 
-        // TU NUEVA URL DE API
         const API = "https://script.google.com/macros/s/AKfycbwdnK9DUUJ9Sw_FSg75TJXla-KUkOqt_ZFhL_hTI5W-1Ei3R1viDilFCgee2iqkIoM/exec";
 
         async function buscarExpediente() {
-            const btn = document.getElementById('mainBtn');
             const expVal = document.getElementById('userExp').value.trim();
             const birthVal = document.getElementById('userBirth').value.trim();
-            
-            if(!expVal || !birthVal) { alert("Por favor complete los datos"); return; }
-
-            btn.innerText = "VERIFICANDO...";
-            btn.classList.add('searching');
-            btn.disabled = true;
+            if(!expVal || !birthVal) return;
 
             try {
                 const res = await fetch(API);
@@ -154,39 +136,30 @@
                     document.getElementById('cName').innerText = item.nombre;
                     document.getElementById('cExp').innerText = "REF: " + item.n_exp;
 
-                    // Lógica de colores Dinámica
-                    const updateStatus = (idRow, idIcon, idTxt, value, isPositive) => {
-                        const row = document.getElementById(idRow);
-                        const icon = document.getElementById(idIcon);
-                        const txt = document.getElementById(idTxt);
-                        txt.innerText = value.toUpperCase();
-                        row.className = "status-row " + (isPositive ? "border-green" : "border-red");
-                        icon.className = "icon-box " + (isPositive ? "bg-green" : "bg-red");
+                    const update = (idRow, idIcon, idTxt, value, positive) => {
+                        document.getElementById(idTxt).innerText = value.toUpperCase();
+                        document.getElementById(idRow).className = "status-row " + (positive ? "border-green" : "border-red");
+                        document.getElementById(idIcon).className = "icon-box " + (positive ? "bg-green" : "bg-red");
                     };
 
-                    updateStatus('rowPenales', 'iconPenales', 'txtPenales', item.penales, !item.penales.toUpperCase().includes("INCIDENCIA") && !item.penales.toUpperCase().includes("NO TIENE"));
-                    updateStatus('rowPago', 'iconPago', 'txtPago', item.pago_servicios, item.pago_servicios.toUpperCase().includes("PAGADO"));
-                    updateStatus('rowPasaporte', 'iconPasaporte', 'txtPasaporte', item.pasaporte_est, item.pasaporte_est.toUpperCase().includes("ESCANEADO"));
+                    // Estado Penales (Rojo si hay Incidencia)
+                    update('rowPenales', 'iconPenales', 'txtPenales', item.penales, !item.penales.toUpperCase().includes("INCIDENCIA"));
+                    
+                    // Pago de Servicios
+                    update('rowPago', 'iconPago', 'txtPago', item.pago_servicios, item.pago_servicios.toUpperCase().includes("PAGADO"));
+                    
+                    // PASAPORTE (ROJO SI DICE "NO")
+                    const pasVal = item.pasaporte_est.toUpperCase();
+                    const esEscaneado = pasVal.includes("ESCANEADO") && !pasVal.includes("NO");
+                    update('rowPasaporte', 'iconPasaporte', 'txtPasaporte', item.pasaporte_est, esEscaneado);
 
-                    if(item.nota_cliente && item.nota_cliente !== "") {
+                    if(item.nota_cliente) {
                         document.getElementById('boxNota').style.display = 'block';
                         document.getElementById('txtNota').innerText = item.nota_cliente;
                     }
-
-                    if(item.pago_servicios.toUpperCase().includes("PAGADO")) confetti();
-
-                } else {
-                    alert("No se encontró ningún expediente con esos datos.");
-                    btn.innerText = "Consultar Mi Estado";
-                    btn.classList.remove('searching');
-                    btn.disabled = false;
-                }
-            } catch(e) {
-                alert("Error de conexión. Inténtelo más tarde.");
-                btn.innerText = "Consultar Mi Estado";
-                btn.classList.remove('searching');
-                btn.disabled = false;
-            }
+                    if(esEscaneado && item.pago_servicios.toUpperCase().includes("PAGADO")) confetti();
+                } else { alert("Expediente no encontrado."); }
+            } catch(e) { alert("Error de conexión."); }
         }
     </script>
 </body>
