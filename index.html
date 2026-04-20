@@ -3,87 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lexilias Jurídicos | Seguimiento</title>
+    <title>Lexilias Jurídicos | Portal de Seguimiento</title>
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
-            color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+            background: #000;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.5) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(30, 58, 138, 0.3) 0px, transparent 50%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
         }
-        header { text-align: center; margin-bottom: 30px; }
-        .logo-img { height: 120px; filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4)); }
-        .sub-text { font-size: 11px; letter-spacing: 0.3em; color: #60a5fa; text-transform: uppercase; font-weight: bold; }
+
+        /* Encabezado elegante */
+        header { text-align: center; margin-bottom: 40px; }
+        .logo-img { 
+            height: 140px; 
+            filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.5));
+            transition: transform 0.5s ease;
+        }
+        .logo-img:hover { transform: scale(1.05); }
+        .sub-text { font-size: 10px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; font-weight: 900; margin-top: 10px; }
+
+        /* Tarjeta de Cristal */
         .glass-card { 
-            background-color: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px; padding: 25px; width: 100%; max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 20px;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 35px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
         }
-        .section-header {
-            text-align: center; font-size: 13px; font-weight: 900; 
-            border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 15px; margin-bottom: 25px; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase;
+
+        .section-title {
+            text-align: center; font-size: 12px; font-weight: 900; 
+            color: #94a3b8; letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 30px; display: block;
         }
+
+        /* Inputs Modernos */
+        .input-group { position: relative; margin-bottom: 20px; }
         input {
-            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 18px; border-radius: 15px; color: white; text-align: center; font-size: 16px;
-            font-weight: bold; margin-bottom: 15px; outline: none; transition: 0.3s;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 18px;
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            outline: none;
+            transition: all 0.3s ease;
         }
-        input:focus { border-color: #60a5fa; box-shadow: 0 0 15px rgba(96, 165, 250, 0.2); }
+        input:focus {
+            border-color: #60a5fa;
+            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+        }
+
+        /* Botón Premium */
         button {
-            width: 100%; background-color: #ffffff; color: #000000; padding: 18px; 
-            border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase;
-            cursor: pointer; font-size: 14px;
+            width: 100%;
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border: none;
+            border-radius: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        #resultBox { width: 100%; max-width: 400px; display: none; animation: fadeIn 0.5s ease-in-out; }
-        .status-row { 
-            display: flex; align-items: center; gap: 15px; padding: 18px; 
-            background: rgba(0,0,0,0.3); border-radius: 20px; margin-bottom: 15px;
-            border-left: 6px solid #ccc;
+        button:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255,255,255,0.1); }
+        button:active { transform: translateY(0); }
+
+        /* Resultados */
+        #resultBox { width: 100%; max-width: 420px; display: none; animation: slideUp 0.6s ease-out; }
+        
+        .status-pill {
+            display: flex; align-items: center; gap: 20px;
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 22px;
+            margin-bottom: 15px;
+            border-left: 8px solid #334155;
         }
-        .icon-circle { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-        .bg-ok { background: #22c55e; color: white; }
-        .bg-no { background: #ef4444; color: white; }
-        .nota-box { background: rgba(96, 165, 250, 0.1); border: 1px dashed #60a5fa; border-radius: 15px; padding: 15px; margin-top: 10px; font-size: 13px; color: #e2e8f0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .icon-box {
+            width: 50px; height: 50px; border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+        }
+
+        .ok { border-left-color: #22c55e !important; color: #22c55e; }
+        .no { border-left-color: #ef4444 !important; color: #ef4444; }
+        .bg-ok { background: rgba(34, 197, 94, 0.15); }
+        .bg-no { background: rgba(239, 68, 68, 0.15); }
+
+        .nota-premium {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, transparent 100%);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 20px;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header>
         <img src="Logo.png" alt="Lexilias" class="logo-img">
-        <p class="sub-text">Servicio Jurídico Extranjería</p>
+        <p class="sub-text">Servicio Jurídico Profesional</p>
     </header>
 
     <div class="glass-card" id="searchPanel">
-        <p class="section-header">Consulta de Expediente</p>
-        <input type="text" id="userExp" placeholder="Nº PASAPORTE / EXPEDIENTE">
-        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO (DD/MM/AAAA)" maxlength="10" inputmode="numeric">
-        <button id="btnSearch" onclick="buscarExpediente()">Consultar</button>
+        <span class="section-title">Consulta de Estado</span>
+        <div class="input-group">
+            <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
+        </div>
+        <div class="input-group">
+            <input type="text" id="userBirth" placeholder="FECHA DE NACIMIENTO" maxlength="10" inputmode="numeric">
+        </div>
+        <button id="btnSearch" onclick="buscarExpediente()">Ver mi Trámite</button>
     </div>
 
     <div id="resultBox">
-        <div class="glass-card" style="text-align: center;">
-            <p style="color: #60a5fa; font-size: 10px; font-weight: 900; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</p>
-            <h2 id="cName" style="margin: 10px 0; font-size: 20px; font-weight: 900;"></h2>
-            <p id="cExp" style="color: #94a3b8; font-size: 11px; font-weight: bold;"></p>
+        <div class="glass-card" style="text-align: center; border-bottom: 4px solid #60a5fa;">
+            <p style="font-size: 10px; font-weight: 900; color: #60a5fa; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</p>
+            <h2 id="cName" style="margin: 15px 0; font-size: 24px; font-weight: 900; letter-spacing: -0.5px;"></h2>
+            <p id="cExp" style="color: #94a3b8; font-size: 12px; font-weight: 700;"></p>
         </div>
 
         <div class="glass-card">
-            <p class="section-header">Estado Actual</p>
+            <span class="section-title">Seguimiento en Vivo</span>
+            
             <div id="statusExp"></div>
             <div id="statusPago"></div>
             <div id="statusNota"></div>
         </div>
         
-        <button onclick="location.reload()" style="background: transparent; color: white; border: 1px solid white; border-radius: 15px; padding: 15px; width: 100%; font-weight: 900; cursor: pointer;">Nueva Consulta</button>
+        <button onclick="location.reload()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; margin-top: 10px;">Volver a consultar</button>
     </div>
 
     <script>
-        // --- AUTO-FORMATO DE FECHA ---
+        // --- 1. Formato Automático de Fecha ---
         document.getElementById('userBirth').addEventListener('input', function (e) {
             let v = e.target.value.replace(/\D/g, '');
             if (v.length > 2 && v.length <= 4) v = v.slice(0, 2) + '/' + v.slice(2);
@@ -91,36 +175,32 @@
             e.target.value = v;
         });
 
-        // --- TU NUEVA URL DE API ---
-        const API = "https://script.google.com/macros/s/AKfycbwC_iL3ZON6c3qNKWd8yM_yLuzKwivBJHLzBYVsIfG2s7W_5ddBPCsxOeD_DO2JaQM/exec";
+        // --- 2. Tu API Actualizada ---
+        const API = "https://script.google.com/macros/s/AKfycbwBQLlZlwQbYdGDiMmjXE3WlIGlxxhKPeqhpaWbF0kHhUGw9sfCE1Cvpf19y4K-vMo/exec";
 
         async function buscarExpediente() {
             const btn = document.getElementById('btnSearch');
-            const expInput = document.getElementById('userExp').value.trim().toUpperCase();
-            const birthInput = document.getElementById('userBirth').value.trim();
+            const expVal = document.getElementById('userExp').value.trim();
+            const birthVal = document.getElementById('userBirth').value.trim();
 
-            if(!expInput || !birthInput) { alert("Por favor, rellena todos los campos."); return; }
-            btn.innerText = "BUSCANDO...";
+            if(!expVal || !birthVal) { alert("Completa tus datos"); return; }
+            btn.innerText = "ACCEDIENDO...";
             btn.disabled = true;
 
             try {
                 const res = await fetch(API);
                 const data = await res.json();
-                
-                const item = data.find(i => 
-                    i.n_exp.toUpperCase() === expInput && 
-                    i.fecha_nac === birthInput
-                );
+                const item = data.find(i => i.n_exp === expVal && i.fecha_nac === birthVal);
 
                 if (item) {
                     showResult(item);
                 } else {
-                    alert("No se ha encontrado el expediente. Revisa los datos.");
+                    alert("No se encontró el registro. Revisa el Nº de expediente y la fecha.");
                 }
             } catch (e) {
-                alert("Error de conexión con el servidor.");
+                alert("Error de conexión con Lexilias.");
             } finally {
-                btn.innerText = "Consultar";
+                btn.innerText = "Ver mi Trámite";
                 btn.disabled = false;
             }
         }
@@ -129,36 +209,46 @@
             document.getElementById('searchPanel').style.display = 'none';
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "ID: " + item.n_exp;
+            document.getElementById('cExp').innerText = "REFERENCIA: " + item.n_exp;
 
-            // ESTADO TRÁMITE
+            // Lógica Trámite
             const esTramitado = item.estado.toUpperCase().includes("TRAMITADO");
             document.getElementById('statusExp').innerHTML = `
-                <div class="status-row" style="border-left-color: ${esTramitado ? '#22c55e' : '#ef4444'}">
-                    <div class="icon-circle ${esTramitado ? 'bg-ok' : 'bg-no'}"><i class="fas ${esTramitado ? 'fa-check' : 'fa-times'}"></i></div>
-                    <div><p style="font-size: 10px; color: #94a3b8;">TRÁMITE</p><p style="font-weight:900; color:${esTramitado ? '#22c55e' : '#ef4444'}">${esTramitado ? 'TRAMITADO' : 'NO TRAMITADO'}</p></div>
+                <div class="status-pill ${esTramitado ? 'ok' : 'no'}">
+                    <div class="icon-box ${esTramitado ? 'bg-ok' : 'bg-no'}">
+                        <i class="fas ${esTramitado ? 'fa-check-circle' : 'fa-clock'}"></i>
+                    </div>
+                    <div>
+                        <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO ACTUAL</p>
+                        <p style="font-size: 18px; font-weight: 900;">${esTramitado ? 'TRAMITADO' : 'EN PROCESO'}</p>
+                    </div>
                 </div>`;
 
-            // ESTADO PAGO
+            // Lógica Pago
             const esPagado = item.pago_exp.toUpperCase().includes("PAGADO");
             document.getElementById('statusPago').innerHTML = `
-                <div class="status-row" style="border-left-color: ${esPagado ? '#22c55e' : '#ef4444'}">
-                    <div class="icon-circle ${esPagado ? 'bg-ok' : 'bg-no'}"><i class="fas fa-dollar-sign"></i></div>
-                    <div><p style="font-size: 10px; color: #94a3b8;">PAGO</p><p style="font-weight:900; color:${esPagado ? '#22c55e' : '#ef4444'}">${esPagado ? 'PAGADO' : 'NO PAGADO'}</p></div>
+                <div class="status-pill ${esPagado ? 'ok' : 'no'}">
+                    <div class="icon-box ${esPagado ? 'bg-ok' : 'bg-no'}">
+                        <i class="fas ${esPagado ? 'fa-shield-check' : 'fa-exclamation-circle'}"></i>
+                    </div>
+                    <div>
+                        <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">PAGO DE TASAS</p>
+                        <p style="font-size: 18px; font-weight: 900;">${esPagado ? 'PAGADO' : 'PENDIENTE'}</p>
+                    </div>
                 </div>`;
 
-            // NOTAS DE LEXILIAS
+            // Notas
             if (item.nota_cliente && item.nota_cliente !== "") {
                 document.getElementById('statusNota').innerHTML = `
-                    <div style="margin-top:20px;">
-                        <p style="font-size: 10px; color: #60a5fa; font-weight: bold; margin-left: 5px; text-transform: uppercase;">Aviso Especial:</p>
-                        <div class="nota-box"><i class="fas fa-info-circle"></i> ${item.nota_cliente}</div>
+                    <div class="nota-premium">
+                        <p style="font-size: 10px; color: #60a5fa; font-weight: 900; margin-bottom: 8px;">MENSAJE DE LEXILIAS:</p>
+                        <p style="font-size: 14px; font-weight: 400; color: #cbd5e1; line-height: 1.6;">${item.nota_cliente}</p>
                     </div>`;
-            } else {
-                document.getElementById('statusNota').innerHTML = "";
             }
 
-            if(esTramitado) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            if(esTramitado) {
+                confetti({ particleCount: 200, spread: 80, origin: { y: 0.7 }, colors: ['#60a5fa', '#ffffff', '#22c55e'] });
+            }
         }
     </script>
 </body>
