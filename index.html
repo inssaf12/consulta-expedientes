@@ -3,171 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lexilias Jurídicos | Portal de Seguimiento</title>
-    
+    <title>Lexilias Jurídicos | Seguimiento</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body { 
             font-family: 'Montserrat', sans-serif; 
-            background: #000;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.5) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(30, 58, 138, 0.3) 0px, transparent 50%);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px 20px;
+            background: radial-gradient(circle at top, #0f172a 0%, #000000 100%);
+            color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
 
-        /* Encabezado elegante */
-        header { text-align: center; margin-bottom: 40px; }
-        .logo-img { 
-            height: 140px; 
-            filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.5));
-            transition: transform 0.5s ease;
-        }
-        .logo-img:hover { transform: scale(1.05); }
-        .sub-text { font-size: 10px; letter-spacing: 0.5em; color: #60a5fa; text-transform: uppercase; font-weight: 900; margin-top: 10px; }
-
-        /* Tarjeta de Cristal */
         .glass-card { 
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 35px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            margin-bottom: 20px;
+            background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px;
+            padding: 30px; width: 100%; max-width: 420px; margin-bottom: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .section-title {
-            text-align: center; font-size: 12px; font-weight: 900; 
-            color: #94a3b8; letter-spacing: 3px; text-transform: uppercase;
-            margin-bottom: 30px; display: block;
+        /* Botón WhatsApp Flotante */
+        .whatsapp-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            background-color: #25d366; color: white; width: 65px; height: 65px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 35px; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3); z-index: 1000;
+            text-decoration: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .whatsapp-btn:hover { transform: scale(1.15) rotate(10deg); }
+
+        /* Estilos de Filas de Estado */
+        .status-row { 
+            display: flex; align-items: center; gap: 15px; padding: 18px; 
+            background: rgba(0,0,0,0.3); border-radius: 20px; margin-bottom: 12px;
+            border-left: 8px solid #444; transition: 0.3s;
+        }
+        .border-red { border-left-color: #ef4444 !important; }
+        .border-green { border-left-color: #22c55e !important; }
+        .bg-red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .bg-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+
+        .icon-box { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+
+        .nota-alerta {
+            background: rgba(239, 68, 68, 0.1); border: 1px dashed #ef4444;
+            padding: 20px; border-radius: 20px; margin-top: 15px;
         }
 
-        /* Inputs Modernos */
-        .input-group { position: relative; margin-bottom: 20px; }
-        input {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 18px;
-            color: #fff;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 700;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        input:focus {
-            border-color: #60a5fa;
-            background: rgba(15, 23, 42, 0.9);
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
-        }
+        input, button { width: 100%; padding: 20px; border-radius: 18px; margin-bottom: 15px; font-weight: 700; border: none; outline: none; }
+        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; text-align: center; font-size: 16px; }
+        input:focus { border-color: #60a5fa; background: rgba(255,255,255,0.1); }
+        button { background: #ffffff; color: #000; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        button:hover { background: #60a5fa; color: white; }
 
-        /* Botón Premium */
-        button {
-            width: 100%;
-            background: #fff;
-            color: #000;
-            padding: 20px;
-            border: none;
-            border-radius: 18px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        button:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255,255,255,0.1); }
-        button:active { transform: translateY(0); }
-
-        /* Resultados */
-        #resultBox { width: 100%; max-width: 420px; display: none; animation: slideUp 0.6s ease-out; }
-        
-        .status-pill {
-            display: flex; align-items: center; gap: 20px;
-            background: rgba(0,0,0,0.4);
-            padding: 20px;
-            border-radius: 22px;
-            margin-bottom: 15px;
-            border-left: 8px solid #334155;
-        }
-
-        .icon-box {
-            width: 50px; height: 50px; border-radius: 15px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 22px;
-        }
-
-        .ok { border-left-color: #22c55e !important; color: #22c55e; }
-        .no { border-left-color: #ef4444 !important; color: #ef4444; }
-        .bg-ok { background: rgba(34, 197, 94, 0.15); }
-        .bg-no { background: rgba(239, 68, 68, 0.15); }
-
-        .nota-premium {
-            margin-top: 25px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, transparent 100%);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 20px;
-        }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        .searching { animation: pulse 1s infinite; }
     </style>
 </head>
 <body>
 
-    <header>
-        <img src="Logo.png" alt="Lexilias" class="logo-img">
-        <p class="sub-text">Servicio Jurídico Profesional</p>
+    <header style="text-align:center; margin-bottom: 30px;">
+        <img src="Logo.png" alt="Lexilias" style="height: 120px; filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));">
+        <p style="font-size: 11px; letter-spacing: 4px; color: #60a5fa; font-weight: 900; margin-top: 10px; text-transform: uppercase;">Portal de Seguimiento</p>
     </header>
 
     <div class="glass-card" id="searchPanel">
-        <span class="section-title">Consulta de Estado</span>
-        <div class="input-group">
-            <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
-        </div>
-        <div class="input-group">
-            <input type="text" id="userBirth" placeholder="FECHA DE NACIMIENTO" maxlength="10" inputmode="numeric">
-        </div>
-        <button id="btnSearch" onclick="buscarExpediente()">Ver mi Trámite</button>
+        <input type="text" id="userExp" placeholder="Nº DE EXPEDIENTE">
+        <input type="text" id="userBirth" placeholder="FECHA NACIMIENTO (DD/MM/AAAA)" maxlength="10" inputmode="numeric">
+        <button id="mainBtn" onclick="buscarExpediente()">Consultar Mi Estado</button>
     </div>
 
-    <div id="resultBox">
-        <div class="glass-card" style="text-align: center; border-bottom: 4px solid #60a5fa;">
-            <p style="font-size: 10px; font-weight: 900; color: #60a5fa; letter-spacing: 2px;">EXPEDIENTE LOCALIZADO</p>
-            <h2 id="cName" style="margin: 15px 0; font-size: 24px; font-weight: 900; letter-spacing: -0.5px;"></h2>
-            <p id="cExp" style="color: #94a3b8; font-size: 12px; font-weight: 700;"></p>
+    <div id="resultBox" style="display:none; width: 100%; max-width: 420px;">
+        <div class="glass-card" style="text-align: center; border-top: 4px solid #60a5fa;">
+            <h2 id="cName" style="font-weight: 900; text-transform: uppercase; font-size: 24px; letter-spacing: -0.5px;"></h2>
+            <p id="cExp" style="font-size: 12px; color: #94a3b8; font-weight: 700; margin-top: 5px;"></p>
         </div>
 
         <div class="glass-card">
-            <span class="section-title">Seguimiento en Vivo</span>
+            <p style="font-size: 10px; font-weight: 900; color: #94a3b8; text-align: center; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase;">Estado de sus trámites</p>
             
-            <div id="statusExp"></div>
-            <div id="statusPago"></div>
-            <div id="statusNota"></div>
+            <div id="rowPenales" class="status-row">
+                <div id="iconPenales" class="icon-box"><i class="fas fa-file-shield"></i></div>
+                <div>
+                    <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO A. PENALES</p>
+                    <p id="txtPenales" style="font-weight: 900; font-size: 17px;"></p>
+                </div>
+            </div>
+
+            <div id="rowPago" class="status-row">
+                <div id="iconPago" class="icon-box"><i class="fas fa-money-bill-transfer"></i></div>
+                <div>
+                    <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">PAGO DE SERVICIOS</p>
+                    <p id="txtPago" style="font-weight: 900; font-size: 17px;"></p>
+                </div>
+            </div>
+
+            <div id="rowPasaporte" class="status-row">
+                <div id="iconPasaporte" class="icon-box"><i class="fas fa-passport"></i></div>
+                <div>
+                    <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO DE PASAPORTE</p>
+                    <p id="txtPasaporte" style="font-weight: 900; font-size: 17px;"></p>
+                </div>
+            </div>
+
+            <div id="boxNota" class="nota-alerta" style="display:none;">
+                <p style="color: #ef4444; font-size: 11px; font-weight: 900; margin-bottom: 8px; text-transform: uppercase;">
+                    <i class="fas fa-triangle-exclamation"></i> Atención - Mensaje de Lexilias:
+                </p>
+                <p id="txtNota" style="font-size: 14px; font-weight: 700; line-height: 1.5; color: #e2e8f0;"></p>
+            </div>
         </div>
-        
-        <button onclick="location.reload()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; margin-top: 10px;">Volver a consultar</button>
+        <button onclick="location.reload()" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:white;">Realizar otra consulta</button>
     </div>
 
+    <a href="https://wa.me/34600000000" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script>
-        // --- 1. Formato Automático de Fecha ---
+        // Formateador automático de fecha
         document.getElementById('userBirth').addEventListener('input', function (e) {
             let v = e.target.value.replace(/\D/g, '');
             if (v.length > 2 && v.length <= 4) v = v.slice(0, 2) + '/' + v.slice(2);
@@ -175,16 +129,18 @@
             e.target.value = v;
         });
 
-        // --- 2. Tu API Actualizada ---
-        const API = "https://script.google.com/macros/s/AKfycbwBQLlZlwQbYdGDiMmjXE3WlIGlxxhKPeqhpaWbF0kHhUGw9sfCE1Cvpf19y4K-vMo/exec";
+        // TU NUEVA URL DE API
+        const API = "https://script.google.com/macros/s/AKfycbwdnK9DUUJ9Sw_FSg75TJXla-KUkOqt_ZFhL_hTI5W-1Ei3R1viDilFCgee2iqkIoM/exec";
 
         async function buscarExpediente() {
-            const btn = document.getElementById('btnSearch');
+            const btn = document.getElementById('mainBtn');
             const expVal = document.getElementById('userExp').value.trim();
             const birthVal = document.getElementById('userBirth').value.trim();
+            
+            if(!expVal || !birthVal) { alert("Por favor complete los datos"); return; }
 
-            if(!expVal || !birthVal) { alert("Completa tus datos"); return; }
-            btn.innerText = "ACCEDIENDO...";
+            btn.innerText = "VERIFICANDO...";
+            btn.classList.add('searching');
             btn.disabled = true;
 
             try {
@@ -192,62 +148,44 @@
                 const data = await res.json();
                 const item = data.find(i => i.n_exp === expVal && i.fecha_nac === birthVal);
 
-                if (item) {
-                    showResult(item);
+                if(item) {
+                    document.getElementById('searchPanel').style.display = 'none';
+                    document.getElementById('resultBox').style.display = 'block';
+                    document.getElementById('cName').innerText = item.nombre;
+                    document.getElementById('cExp').innerText = "REF: " + item.n_exp;
+
+                    // Lógica de colores Dinámica
+                    const updateStatus = (idRow, idIcon, idTxt, value, isPositive) => {
+                        const row = document.getElementById(idRow);
+                        const icon = document.getElementById(idIcon);
+                        const txt = document.getElementById(idTxt);
+                        txt.innerText = value.toUpperCase();
+                        row.className = "status-row " + (isPositive ? "border-green" : "border-red");
+                        icon.className = "icon-box " + (isPositive ? "bg-green" : "bg-red");
+                    };
+
+                    updateStatus('rowPenales', 'iconPenales', 'txtPenales', item.penales, !item.penales.toUpperCase().includes("INCIDENCIA") && !item.penales.toUpperCase().includes("NO TIENE"));
+                    updateStatus('rowPago', 'iconPago', 'txtPago', item.pago_servicios, item.pago_servicios.toUpperCase().includes("PAGADO"));
+                    updateStatus('rowPasaporte', 'iconPasaporte', 'txtPasaporte', item.pasaporte_est, item.pasaporte_est.toUpperCase().includes("ESCANEADO"));
+
+                    if(item.nota_cliente && item.nota_cliente !== "") {
+                        document.getElementById('boxNota').style.display = 'block';
+                        document.getElementById('txtNota').innerText = item.nota_cliente;
+                    }
+
+                    if(item.pago_servicios.toUpperCase().includes("PAGADO")) confetti();
+
                 } else {
-                    alert("No se encontró el registro. Revisa el Nº de expediente y la fecha.");
+                    alert("No se encontró ningún expediente con esos datos.");
+                    btn.innerText = "Consultar Mi Estado";
+                    btn.classList.remove('searching');
+                    btn.disabled = false;
                 }
-            } catch (e) {
-                alert("Error de conexión con Lexilias.");
-            } finally {
-                btn.innerText = "Ver mi Trámite";
+            } catch(e) {
+                alert("Error de conexión. Inténtelo más tarde.");
+                btn.innerText = "Consultar Mi Estado";
+                btn.classList.remove('searching');
                 btn.disabled = false;
-            }
-        }
-
-        function showResult(item) {
-            document.getElementById('searchPanel').style.display = 'none';
-            document.getElementById('resultBox').style.display = 'block';
-            document.getElementById('cName').innerText = item.nombre;
-            document.getElementById('cExp').innerText = "REFERENCIA: " + item.n_exp;
-
-            // Lógica Trámite
-            const esTramitado = item.estado.toUpperCase().includes("TRAMITADO");
-            document.getElementById('statusExp').innerHTML = `
-                <div class="status-pill ${esTramitado ? 'ok' : 'no'}">
-                    <div class="icon-box ${esTramitado ? 'bg-ok' : 'bg-no'}">
-                        <i class="fas ${esTramitado ? 'fa-check-circle' : 'fa-clock'}"></i>
-                    </div>
-                    <div>
-                        <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO ACTUAL</p>
-                        <p style="font-size: 18px; font-weight: 900;">${esTramitado ? 'TRAMITADO' : 'EN PROCESO'}</p>
-                    </div>
-                </div>`;
-
-            // Lógica Pago
-            const esPagado = item.pago_exp.toUpperCase().includes("PAGADO");
-            document.getElementById('statusPago').innerHTML = `
-                <div class="status-pill ${esPagado ? 'ok' : 'no'}">
-                    <div class="icon-box ${esPagado ? 'bg-ok' : 'bg-no'}">
-                        <i class="fas ${esPagado ? 'fa-shield-check' : 'fa-exclamation-circle'}"></i>
-                    </div>
-                    <div>
-                        <p style="font-size: 10px; color: #94a3b8; font-weight: 900;">PAGO DE TASAS</p>
-                        <p style="font-size: 18px; font-weight: 900;">${esPagado ? 'PAGADO' : 'PENDIENTE'}</p>
-                    </div>
-                </div>`;
-
-            // Notas
-            if (item.nota_cliente && item.nota_cliente !== "") {
-                document.getElementById('statusNota').innerHTML = `
-                    <div class="nota-premium">
-                        <p style="font-size: 10px; color: #60a5fa; font-weight: 900; margin-bottom: 8px;">MENSAJE DE LEXILIAS:</p>
-                        <p style="font-size: 14px; font-weight: 400; color: #cbd5e1; line-height: 1.6;">${item.nota_cliente}</p>
-                    </div>`;
-            }
-
-            if(esTramitado) {
-                confetti({ particleCount: 200, spread: 80, origin: { y: 0.7 }, colors: ['#60a5fa', '#ffffff', '#22c55e'] });
             }
         }
     </script>
