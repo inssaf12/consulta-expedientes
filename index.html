@@ -95,6 +95,11 @@
                 <div><p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO DE PASAPORTE</p><p id="txtPasaporte" style="font-weight: 900;"></p></div>
             </div>
 
+            <div id="rowEstadoExp" class="status-row">
+                <div id="iconEstadoExp" class="icon-box"><i class="fas fa-file-signature"></i></div>
+                <div><p style="font-size: 10px; color: #94a3b8; font-weight: 900;">ESTADO DE EXPEDIENTE</p><p id="txtEstadoExp" style="font-weight: 900;"></p></div>
+            </div>
+
             <div id="boxNota" class="nota-box" style="display:none;">
                 <p style="color: #ef4444; font-size: 11px; font-weight: 900; margin-bottom: 5px;">
                     <i class="fas fa-triangle-exclamation"></i> MENSAJE DE LEXILIAS:
@@ -118,7 +123,8 @@
             e.target.value = v;
         });
 
-        const API = "https://script.google.com/macros/s/AKfycbwdnK9DUUJ9Sw_FSg75TJXla-KUkOqt_ZFhL_hTI5W-1Ei3R1viDilFCgee2iqkIoM/exec";
+        // URL ACTUALIZADA
+        const API = "https://script.google.com/macros/s/AKfycbwwzDquPnStP-imfBYmw9k8aKBtq0n_y-D6IDN_9Dfg86xjLCIyigvcBnCm87nj5Sg/exec";
 
         async function buscarExpediente() {
             const expVal = document.getElementById('userExp').value.trim();
@@ -142,22 +148,31 @@
                         document.getElementById(idIcon).className = "icon-box " + (positive ? "bg-green" : "bg-red");
                     };
 
-                    // Estado Penales (Rojo si hay Incidencia)
+                    // Estado Penales
                     update('rowPenales', 'iconPenales', 'txtPenales', item.penales, !item.penales.toUpperCase().includes("INCIDENCIA"));
                     
                     // Pago de Servicios
                     update('rowPago', 'iconPago', 'txtPago', item.pago_servicios, item.pago_servicios.toUpperCase().includes("PAGADO"));
                     
-                    // PASAPORTE (ROJO SI DICE "NO")
+                    // Pasaporte
                     const pasVal = item.pasaporte_est.toUpperCase();
                     const esEscaneado = pasVal.includes("ESCANEADO") && !pasVal.includes("NO");
                     update('rowPasaporte', 'iconPasaporte', 'txtPasaporte', item.pasaporte_est, esEscaneado);
+
+                    // LOGICA ESTADO EXPEDIENTE (TRAMITADO O PENDIENTE)
+                    const estadoExpVal = item.estado_exp.toUpperCase();
+                    const esTramitado = estadoExpVal.includes("TRAMITADO");
+                    update('rowEstadoExp', 'iconEstadoExp', 'txtEstadoExp', item.estado_exp, esTramitado);
 
                     if(item.nota_cliente) {
                         document.getElementById('boxNota').style.display = 'block';
                         document.getElementById('txtNota').innerText = item.nota_cliente;
                     }
-                    if(esEscaneado && item.pago_servicios.toUpperCase().includes("PAGADO")) confetti();
+
+                    // Confetti si todo está OK
+                    if(esEscaneado && item.pago_servicios.toUpperCase().includes("PAGADO") && esTramitado) {
+                        confetti();
+                    }
                 } else { alert("Expediente no encontrado."); }
             } catch(e) { alert("Error de conexión."); }
         }
